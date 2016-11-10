@@ -1,22 +1,27 @@
 {
   "variables": {
     "aws_access_key": "",
-    "aws_secret_key": ""
+    "aws_secret_key": "",
+    "REGION": "",
+    "VPC_ID": "",
+    "SUBNET_ID": "",
+    "SOURCE_AMI": "test",
+    "SECURITY_GROUP_ID": ""
   },
   "builders": [
     {
       "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
-      "region": "us-east-1",
-      "vpc_id": "vpc-266f3241",
-      "subnet_id": "subnet-6df12f24",
+      "region": "{{user `REGION`}}",
+      "vpc_id": "{{user `VPC_ID`}}",
+      "subnet_id": "{{user `SUBNET_ID`}}",
       "associate_public_ip_address": true,
-      "security_group_id": "sg-f634518c",
-      "source_ami": "ami-925802f7",
+      "security_group_id": "{{user `SECURITY_GROUP_ID`}}",
+      "source_ami": "{{user `SOURCE_AMI`}}",
       "instance_type": "t2.small",
       "ssh_username": "ubuntu",
-      "ami_name": "base-ami {{isotime \"2006-01-02\"}}",
+      "ami_name": "base-ami {{isotime \"2006-01-02-1504\"}}",
       "ami_groups": "all",
       "launch_block_device_mappings": [
         {
