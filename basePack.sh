@@ -69,7 +69,7 @@ build_ami() {
 
   echo "validating AMI template"
   echo "-----------------------------------"
-  packer validate testAMI.json
+  packer validate baseAMI.json
   echo "building AMI"
   echo "-----------------------------------"
 
@@ -80,7 +80,7 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'SOURCE_AMI='$SOURCE_AMI \
-    testAMI.json > output.txt
+    baseAMI.json > output.txt
 
     cat output.txt
     #this is to get the ami from output
