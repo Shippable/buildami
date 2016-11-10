@@ -35,11 +35,11 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "init.sh"
+      "script": "baseInit.sh"
     },
     {
       "type": "shell",
-      "script": "pull.sh"
+      "script": "basePull.sh"
     }
   ]
 }
