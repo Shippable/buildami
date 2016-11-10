@@ -80,7 +80,8 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'SOURCE_AMI='$SOURCE_AMI \
-    testAMI.json | awk -F, '$0 ~/artifact,0,id/ {print $6}'
+    testAMI.json | awk -F, '$0 ~/artifact,0,id/ {print $6}' > foo.txt
+    cat foo.txt
   popd
 }
 
