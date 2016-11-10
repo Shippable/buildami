@@ -87,6 +87,7 @@ build_ami() {
 main() {
   setup_ssh
   setup_keys
+  setup_params
   install_packer
   build_ami
 }
