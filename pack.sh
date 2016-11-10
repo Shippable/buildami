@@ -28,11 +28,11 @@ setup_keys() {
 
 setup_params(){
   pushd ./IN/$RES_PARAMS
-  export $(jq -r '.version.propertyBag.params.REGION' version.json)
-  export $(jq -r '.version.propertyBag.params.VPC_ID' version.json)
-  export $(jq -r '.version.propertyBag.params.SUBNET_ID' version.json)
-  export $(jq -r '.version.propertyBag.params.SECURITY_GROUP_ID' version.json)
-  export $(jq -r '.version.propertyBag.params.SOURCE_AMI' version.json)
+  export REGION=$(jq -r '.version.propertyBag.params.REGION' version.json)
+  export VPC_ID=$(jq -r '.version.propertyBag.params.VPC_ID' version.json)
+  export SUBNET_ID=$(jq -r '.version.propertyBag.params.SUBNET_ID' version.json)
+  export SECURITY_GROUP_ID=$(jq -r '.version.propertyBag.params.SECURITY_GROUP_ID' version.json)
+  export SOURCE_AMI=$(jq -r '.version.propertyBag.params.SOURCE_AMI' version.json)
 
   echo "SOURCE_AMI=$SOURCE_AMI"
   echo "VPC_ID=$VPC_ID"
