@@ -84,7 +84,7 @@ build_ami() {
 
     cat output.txt
     #this is to get the ami from output
-    echo AMI_ID=$(cat tmp.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
     | cut -d':' -f 2) > /build/state/AMI_ID.txt
     cat /build/state/AMI_ID.txt
   popd
