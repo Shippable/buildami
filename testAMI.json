@@ -6,7 +6,8 @@
     "VPC_ID": "",
     "SUBNET_ID": "",
     "SOURCE_AMI": "test",
-    "SECURITY_GROUP_ID": ""
+    "SECURITY_GROUP_ID": "",
+    "BLAH":"Blah Blah Blah"
   },
   "builders": [
     {
@@ -29,6 +30,15 @@
           "volume_type": "gp2",
           "volume_size": "8"
         }
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "test.sh",
+      "environment_vars": [
+        "BLAH={{user `BLAH`}}"
       ]
     }
   ]
