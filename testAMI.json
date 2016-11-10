@@ -5,8 +5,9 @@
     "REGION": "",
     "VPC_ID": "",
     "SUBNET_ID": "",
-    "SECURITY_GROUP_ID": "",
-    "SOURCE_AMI": ""
+    "SOURCE_AMI": "test",
+    "SECURITY_GROUP_ID": ""
+
   },
   "builders": [
     {
