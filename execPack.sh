@@ -100,6 +100,8 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'AMI_ID='$AMI_ID \
+    -var 'REL_VER='$REL_VER \
+    -var 'REL_DASH_VER='$REL_DASH_VER \
     execAMI.json
 
 #    cat output.txt
