@@ -41,7 +41,7 @@ setup_params(){
 
   pushd ./IN/$RES_REL_VER/runSh
   . rel_ver.txt #to set REL_VER
-  readonly REL_DASH_VER=$(REL_VER//./-)
+  readonly REL_DASH_VER=${REL_VER//./-}
   popd
 
   echo "AMI_ID=$AMI_ID"
