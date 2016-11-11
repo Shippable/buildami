@@ -21,7 +21,7 @@
       "associate_public_ip_address": true,
       "security_group_id": "{{user `SECURITY_GROUP_ID`}}",
       "source_ami": "{{user `AMI_ID`}}",
-      "instance_type": "t2.small",
+      "instance_type": "t2.micro",
       "ssh_username": "ubuntu",
       "ami_name": "exec-ami-{{user `REL_DASH_VER`}}",
       "ami_groups": "all",
