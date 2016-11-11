@@ -21,7 +21,7 @@
       "source_ami": "{{user `SOURCE_AMI`}}",
       "instance_type": "t2.micro",
       "ssh_username": "ubuntu",
-      "ami_name": "base-ami {{isotime \"2006-01-02-1504\"}}",
+      "ami_name": "base-ami-{{isotime \"2006-01-02-1504\"}}",
       "ami_groups": "all",
       "launch_block_device_mappings": [
         {
