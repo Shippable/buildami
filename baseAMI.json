@@ -37,6 +37,10 @@
     {
       "type": "shell",
       "script": "baseInit.sh"
+    },
+    {
+      "type": "shell",
+      "script": "basePull.sh"
     }
   ]
 }
