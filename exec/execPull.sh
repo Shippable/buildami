@@ -58,7 +58,7 @@ install_prereqs() {
   is_success=true
 }
 
-parse_releasae_version() {
+parse_release_version() {
   echo "Most recent release version is : $REL_VER"
   readonly MEXEC_IMAGE_NAME_WITH_TAG="$MEXEC_IMAGE_NAME:$REL_VER"
   readonly EXEC_IMAGE_NAME_WITH_TAG="$EXEC_IMAGE_NAME:$REL_VER"
@@ -104,7 +104,7 @@ main() {
   exec_grp "install_prereqs"
 
   trap before_exit EXIT
-  exec_grp "parse_releasae_version"
+  exec_grp "parse_release_version"
 
   trap before_exit EXIT
   exec_grp "cleanCEXEC"

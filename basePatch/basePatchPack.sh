@@ -7,7 +7,6 @@ export RES_AWS_CREDS="aws-bits-access"
 export REPO_RESOURCE_NAME="bldami-repo"
 export RES_BUILD_BASEAMI="build-baseami"
 export RES_PARAMS=$1
-export RES_REL_VER=$2
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -39,18 +38,11 @@ setup_params(){
   . AMI_ID.txt #to set AMI_ID
   popd
 
-  pushd ./IN/$RES_REL_VER/runSh
-  . rel_ver.txt #to set REL_VER
-  readonly REL_DASH_VER=${REL_VER//./-}
-  popd
-
   echo "AMI_ID=$AMI_ID"
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
   echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
-  echo "REL_VER=$REL_VER"
-  echo "REL_DASH_VER=$REL_DASH_VER"
 }
 
 install_packer() {
@@ -74,7 +66,7 @@ install_packer() {
 }
 
 build_ami() {
-  pushd /build/IN/$REPO_RESOURCE_NAME/gitRepo
+  pushd /build/IN/$REPO_RESOURCE_NAME/gitRepo/exec
   echo "-----------------------------------"
 
   echo "validating AMI template"
@@ -90,8 +82,6 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'AMI_ID='$AMI_ID \
-    -var 'REL_VER='$REL_VER \
-    -var 'REL_DASH_VER='$REL_DASH_VER \
     execAMI.json > output.txt
 
     cat output.txt
