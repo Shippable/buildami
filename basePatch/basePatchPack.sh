@@ -66,12 +66,12 @@ install_packer() {
 }
 
 build_ami() {
-  pushd /build/IN/$REPO_RESOURCE_NAME/gitRepo/exec
+  pushd /build/IN/$REPO_RESOURCE_NAME/gitRepo/basePatch
   echo "-----------------------------------"
 
   echo "validating AMI template"
   echo "-----------------------------------"
-  packer validate execAMI.json
+  packer validate basePatchAMI.json
   echo "building AMI"
   echo "-----------------------------------"
 
@@ -82,13 +82,13 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'AMI_ID='$AMI_ID \
-    execAMI.json > output.txt
+    basePatchAMI.json > output.txt
 
     cat output.txt
     #this is to get the ami from output
-    echo EXEC_AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > /build/state/EXEC_AMI_ID.txt
-    cat /build/state/EXEC_AMI_ID.txt
+    echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2) > /build/state/AMI_ID.txt
+    cat /build/state/AMI_ID.txt
   popd
 }
 
