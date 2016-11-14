@@ -5,7 +5,7 @@ export PK_VERSION=0.11.0
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
 export RES_AWS_CREDS="aws-bits-access"
 export REPO_RESOURCE_NAME="bldami-repo"
-export RES_BUILD_BASEAMI="patch-baseami"
+export RES_PATCH_BASEAMI="patch-baseami"
 export RES_PARAMS=$1
 export RES_REL_VER=$2
 
@@ -35,7 +35,7 @@ setup_params(){
   export SECURITY_GROUP_ID=$(jq -r '.version.propertyBag.params.SECURITY_GROUP_ID' version.json)
   popd
 
-  pushd ./IN/$RES_BUILD_BASEAMI/runSh
+  pushd ./IN/$RES_PATCH_BASEAMI/runSh
   . AMI_ID.txt #to set AMI_ID
   popd
 
@@ -96,9 +96,9 @@ build_ami() {
 
     cat output.txt
     #this is to get the ami from output
-    echo EXEC_AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > /build/state/EXEC_AMI_ID.txt
-    cat /build/state/EXEC_AMI_ID.txt
+    echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2) > /build/state/AMI_ID.txt
+    cat /build/state/AMI_ID.txt
   popd
 }
 
