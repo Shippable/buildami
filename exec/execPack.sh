@@ -5,9 +5,9 @@ export PK_VERSION=0.11.0
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
 export RES_AWS_CREDS="aws-bits-access"
 export REPO_RESOURCE_NAME="bldami-repo"
-export RES_PATCH_BASEAMI="patch-baseami"
 export RES_PARAMS=$1
 export RES_REL_VER=$2
+export RES_AMI=$3
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -35,7 +35,7 @@ setup_params(){
   export SECURITY_GROUP_ID=$(jq -r '.version.propertyBag.params.SECURITY_GROUP_ID' version.json)
   popd
 
-  pushd ./IN/$RES_PATCH_BASEAMI/runSh
+  pushd ./IN/$RES_AMI/runSh
   . AMI_ID.txt #to set AMI_ID
   popd
 
