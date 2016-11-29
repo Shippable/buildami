@@ -7,6 +7,7 @@ export RES_AWS_CREDS="aws-bits-access"
 export REPO_RESOURCE_NAME="bldami-repo"
 export RES_PARAMS=$1
 export RES_AMI=$2
+export AMI_TYPE=$3
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -43,6 +44,7 @@ setup_params(){
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
   echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
+  echo "AMI_TYPE=$AMI_TYPE"
 }
 
 install_packer() {
@@ -82,6 +84,7 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'AMI_ID='$AMI_ID \
+    -var 'AMI_TYPE='$AMI_TYPE \
     basePatchAMI.json > output.txt
 
     cat output.txt
