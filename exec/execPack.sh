@@ -8,6 +8,7 @@ export REPO_RESOURCE_NAME="bldami-repo"
 export RES_PARAMS=$1
 export RES_REL_VER=$2
 export RES_AMI=$3
+export AMI_TYPE=$4
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -51,6 +52,7 @@ setup_params(){
   echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
   echo "REL_VER=$REL_VER"
   echo "REL_DASH_VER=$REL_DASH_VER"
+  echo "AMI_TYPE=$AMI_TYPE"
 }
 
 install_packer() {
@@ -92,6 +94,7 @@ build_ami() {
     -var 'AMI_ID='$AMI_ID \
     -var 'REL_VER='$REL_VER \
     -var 'REL_DASH_VER='$REL_DASH_VER \
+    -var 'AMI_TYPE='$AMI_TYPE \
     execAMI.json > output.txt
 
     cat output.txt
