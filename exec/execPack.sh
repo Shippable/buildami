@@ -85,7 +85,19 @@ build_ami() {
   echo "building AMI"
   echo "-----------------------------------"
 
-  packer build -machine-readable -var 'aws_access_key='$aws_access_key_id \
+#  packer build -machine-readable -var 'aws_access_key='$aws_access_key_id \
+#    -var 'aws_secret_key='$aws_secret_access_key \
+#    -var 'REGION='$REGION \
+#    -var 'VPC_ID='$VPC_ID \
+#    -var 'SUBNET_ID='$SUBNET_ID \
+#    -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
+#    -var 'AMI_ID='$AMI_ID \
+#    -var 'REL_VER='$REL_VER \
+#    -var 'REL_DASH_VER='$REL_DASH_VER \
+#    -var 'AMI_TYPE='$AMI_TYPE \
+#    execAMI.json > output.txt
+
+  packer -var 'aws_access_key='$aws_access_key_id \
     -var 'aws_secret_key='$aws_secret_access_key \
     -var 'REGION='$REGION \
     -var 'VPC_ID='$VPC_ID \
@@ -95,13 +107,13 @@ build_ami() {
     -var 'REL_VER='$REL_VER \
     -var 'REL_DASH_VER='$REL_DASH_VER \
     -var 'AMI_TYPE='$AMI_TYPE \
-    execAMI.json > output.txt
+    execAMI.json
 
-    cat output.txt
-    #this is to get the ami from output
-    echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > /build/state/AMI_ID.txt
-    cat /build/state/AMI_ID.txt
+#    cat output.txt
+#    #this is to get the ami from output
+#    echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+#    | cut -d':' -f 2) > /build/state/AMI_ID.txt
+#    cat /build/state/AMI_ID.txt
   popd
 }
 
