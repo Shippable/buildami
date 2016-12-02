@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 exec_patch() {
-  pwd
+  sudo docker pull shippable/minv2:latest
 }
 
 exec_patch
