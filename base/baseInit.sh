@@ -148,6 +148,24 @@ restart_docker_service() {
   is_success=true
 }
 
+install_ntp() {
+  is_success=false
+  {
+    check_ntp=$(sudo service --status-all 2>&1 | grep ntp)
+  } || {
+    true
+  }
+
+  if [ ! -z "$check_ntp" ]; then
+    echo "NTP already installed, skipping."
+  else
+    echo "Installing NTP"
+    exec_cmd "sudo apt-get install -y ntp"
+    exec_cmd "sudo service ntp restart"
+  fi
+  is_success=true
+}
+
 before_exit() {
   if [ "$is_success" == true ]; then
     echo "__SH__SCRIPT_END_SUCCESS__";
@@ -177,6 +195,9 @@ main() {
 
   trap before_exit EXIT
   exec_grp "restart_docker_service"
+
+  trap before_exit EXIT
+  exec_grp "install_ntp"
 }
 
 main
