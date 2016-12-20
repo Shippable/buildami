@@ -95,9 +95,8 @@ build_ami() {
     -var 'REL_VER='$REL_VER \
     -var 'REL_DASH_VER='$REL_DASH_VER \
     -var 'AMI_TYPE='$AMI_TYPE \
-    execAMI.json > output.txt
+    execAMI.json 2>&1 | tee output.txt
 
-    cat output.txt
     #this is to get the ami from output
     echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
     | cut -d':' -f 2) > /build/state/AMI_ID.txt
