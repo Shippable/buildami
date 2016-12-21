@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+set -o pipefail
+
 export PK_INSALL_LOCATION=/opt
 export PK_VERSION=0.11.0
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
