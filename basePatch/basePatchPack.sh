@@ -85,9 +85,8 @@ build_ami() {
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'AMI_ID='$AMI_ID \
     -var 'AMI_TYPE='$AMI_TYPE \
-    basePatchAMI.json > output.txt
+    basePatchAMI.json 2>&1 | tee output.txt
 
-    cat output.txt
     #this is to get the ami from output
     echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
     | cut -d':' -f 2) > /build/state/AMI_ID.txt
