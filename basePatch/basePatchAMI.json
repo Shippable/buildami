@@ -37,6 +37,14 @@
   "provisioners": [
     {
       "type": "shell",
+      "inline": [
+        "sleep 30",
+        "uname -a",
+        "uptime"
+      ]
+    },
+    {
+      "type": "shell",
       "script": "basePatchPull.sh",
       "environment_vars": [
         "AMI_ID={{user `AMI_ID`}}"
