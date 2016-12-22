@@ -36,6 +36,14 @@
   "provisioners": [
     {
       "type": "shell",
+      "inline": [
+        "sleep 30",
+        "uname -a",
+        "uptime"
+      ]
+    },
+    {
+      "type": "shell",
       "script": "baseInit.sh"
     },
     {

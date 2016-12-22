@@ -1,3 +1,5 @@
+*.swo
+*.swp
 # Cache objects
 packer_cache/
 
