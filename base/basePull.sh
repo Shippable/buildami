@@ -53,7 +53,9 @@ export IMAGE_NAMES="drydock/u14nod:prod \
   drydock/u12cloall:prod \
   drydock/u12clopls:prod \
   drydock/u14clopls:prod \
-  drydock/u12clo:prod "
+  drydock/u12clo:prod \
+  drydock/u12cpp:prod \
+  drydock/u14cpp:prod "
 
 
 pull_images() {
