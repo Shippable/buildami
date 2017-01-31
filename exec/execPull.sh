@@ -2,7 +2,7 @@
 
 readonly CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
 readonly MEXEC_IMAGE_NAME="shipimg/mexec"
-readonly EXEC_IMAGE_NAME="shipimg/runsh"
+readonly EXEC_IMAGE_NAME="shipimg/genexec"
 
 # Indicates whether the script has succeeded
 export is_success=false
