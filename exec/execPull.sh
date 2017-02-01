@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 readonly CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
-readonly MEXEC_IMAGE_NAME="shipimg/mexec"
 readonly EXEC_IMAGE_NAME="shipimg/genexec"
 
 # Indicates whether the script has succeeded
@@ -60,7 +59,6 @@ install_prereqs() {
 
 parse_release_version() {
   echo "Most recent release version is : $REL_VER"
-  readonly MEXEC_IMAGE_NAME_WITH_TAG="$MEXEC_IMAGE_NAME:$REL_VER"
   readonly EXEC_IMAGE_NAME_WITH_TAG="$EXEC_IMAGE_NAME:$REL_VER"
   is_success=true
 }
@@ -76,12 +74,6 @@ cleanCEXEC() {
 cloneCEXEC() {
   is_success=false
   exec_cmd "sudo git clone https://github.com/Shippable/cexec.git $CEXEC_LOCATION_ON_HOST"
-  is_success=true
-}
-
-pull_mexec() {
-  is_success=false
-  exec_cmd "sudo docker pull $MEXEC_IMAGE_NAME_WITH_TAG"
   is_success=true
 }
 
@@ -111,9 +103,6 @@ main() {
 
   trap before_exit EXIT
   exec_grp "cloneCEXEC"
-
-  trap before_exit EXIT
-  exec_grp "pull_mexec"
 
   trap before_exit EXIT
   exec_grp "pull_exec"
