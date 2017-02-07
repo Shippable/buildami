@@ -20,8 +20,6 @@ export AMI_PARAMS_TYPE=$(eval echo "$"$AMI_PARAMS"_TYPE" | awk '{print toupper($
 # path to find the AMI config
 export AMI_STRING=$AMI_PARAMS"_"$AMI_PARAMS_TYPE
 
-# now get all the parameters for ami location
-export REGION=$(eval echo "$"$AMI_STRING"_REGION")
 
 echo "REGION=$REGION"
 
@@ -43,20 +41,18 @@ setup_keys() {
 }
 
 setup_params(){
-  pushd ./IN/$RES_PARAMS
-  export REGION=$(jq -r '.version.propertyBag.params.REGION' version.json)
-  export VPC_ID=$(jq -r '.version.propertyBag.params.VPC_ID' version.json)
-  export SUBNET_ID=$(jq -r '.version.propertyBag.params.SUBNET_ID' version.json)
-  export SECURITY_GROUP_ID=$(jq -r '.version.propertyBag.params.SECURITY_GROUP_ID' version.json)
-  export SOURCE_AMI=$(jq -r '.version.propertyBag.params.SOURCE_AMI' version.json)
+  # now get all the parameters for ami location
+  export REGION=$(eval echo "$"$AMI_STRING"_REGION")
+  export VPC_ID=$(eval echo "$"$AMI_STRING"_VPC_ID")
+  export SUBNET_ID=$(eval echo "$"$AMI_STRING"_SUBNET_ID")
+  export SECURITY_GROUP_ID=$(eval echo "$"$AMI_STRING"_SECURITY_GROUP_ID")
+  export SOURCE_AMI=$(eval echo "$"$AMI_STRING"_SOURCE_AMI")
 
   echo "SOURCE_AMI=$SOURCE_AMI"
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
   echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
-
-  popd
 }
 
 install_packer() {
@@ -106,9 +102,9 @@ build_ami() {
 }
 
 main() {
-  #setup_ssh
+  setup_ssh
   #setup_keys
-  #setup_params
+  setup_params
   #install_packer
   #build_ami
 }
