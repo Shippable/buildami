@@ -7,9 +7,23 @@ export PK_VERSION=0.11.0
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
 export RES_AWS_CREDS="aws-bits-access"
 export REPO_RESOURCE_NAME="bldami-repo"
-export RES_PARAMS=$1
+export RES_PARAMS="baseami-params"
 
-echo "RES_PARAMS=$RES_PARAMS"
+# since resources here have dashes Shippable replaces them and UPPER cases them
+# RES_PARAMS has this supplied from the script
+
+export AMI_PARAMS=$(echo ${RES_PARAMS//-/} | awk '{print toupper($0)}')
+
+# uppercase type of the resource above
+export AMI_PARAMS_TYPE=$(eval echo "$"$AMI_PARAMS"_TYPE" | awk '{print toupper($0)}')
+
+# path to find the AMI config
+export AMI_STRING=$AMI_PARAMS"_"$AMI_PARAMS_TYPE
+
+# now get all the parameters for ami location
+export REGION=$(eval echo "$"$AMI_STRING"_REGION")
+
+echo "REGION=$REGION"
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -92,11 +106,11 @@ build_ami() {
 }
 
 main() {
-  setup_ssh
-  setup_keys
-  setup_params
-  install_packer
-  build_ami
+  #setup_ssh
+  #setup_keys
+  #setup_params
+  #install_packer
+  #build_ami
 }
 
 main
