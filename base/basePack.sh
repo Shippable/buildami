@@ -47,8 +47,8 @@ setup_params(){
   export SOURCE_AMI=$(eval echo "$"$AMI_STRING"_SOURCE_AMI")
 
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(eval echo "$"$AMI_STRING"_AWS_ACCESS_KEY_ID")
-  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$AMI_STRING"_AWS_SECRET_ACCESS_KEY")
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$AWS_STRING"_AWS_ACCESS_KEY_ID")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$AWS_STRING"_AWS_SECRET_ACCESS_KEY")
 
   echo "SOURCE_AMI=$SOURCE_AMI"
   echo "VPC_ID=$VPC_ID"
