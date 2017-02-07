@@ -11,14 +11,10 @@ export REPO_RESOURCE_NAME="bldami-repo"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export AMI_PARAMS=$(echo ${RES_PARAMS//-/} | awk '{print toupper($0)}')
-
-# path to find the AMI config
 export AMI_STRING=$AMI_PARAMS"_PARAMS"
 
 # Now get AWS keys
 export AWS_INT=$(echo ${RES_AWS_CREDS//-/} | awk '{print toupper($0)}')
-
-# path to find the AMI config
 export AWS_STRING=$AWS_INT"_INTEGRATION"
 
 # set the repo path
@@ -77,7 +73,7 @@ install_packer() {
 }
 
 build_ami() {
-  pushd /build/IN/$REPO_RESOURCE_NAME/gitRepo/base
+  pushd $REPO_PATH/base
   echo "-----------------------------------"
 
   echo "validating AMI template"
@@ -104,10 +100,9 @@ build_ami() {
 
 main() {
   setup_ssh
-  #setup_keys
   setup_params
-  #install_packer
-  #build_ami
+  install_packer
+  build_ami
 }
 
 main
