@@ -23,11 +23,7 @@ export AWS_STRING=$AWS_INT"_INTEGRATION"
 
 # set the repo path
 export REPO_NAME=$(echo ${REPO_RESOURCE_NAME//-/} | awk '{print toupper($0)}')
-export REPO_PATH=$REPO_NAME"_PATH/gitRepo"
-
-echo "repoPath is = "$REPO_PATH
-
-RESOURCENAME_PATH
+export REPO_STR=$REPO_NAME"_PATH"
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -48,12 +44,16 @@ setup_params(){
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$AWS_STRING"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$AWS_STRING"_AWS_SECRET_ACCESS_KEY")
 
+  # get repo path
+  export REPO_PATH=$(eval echo "$"$REPO_STR"/gitRepo")
+
   echo "SOURCE_AMI=$SOURCE_AMI"
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
   echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
+  echo "REPO_PATH=$REPO_PATH"
 }
 
 install_packer() {
