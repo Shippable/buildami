@@ -18,7 +18,7 @@ parse_version() {
   export DH_USERNAME=$(eval echo "$"$DH_STRING"_USERNAME")
   export DH_PASSWORD=$(eval echo "$"$DH_STRING"_PASSWORD")
   export DH_EMAIL=$(eval echo "$"$DH_STRING"_EMAIL")
-  export DH_EMAIL=$(DH_EMAIL//\\/)
+  export DH_EMAIL=$(echo ${DH_EMAIL//\\/})
 
   echo "VERSION=$VERSION"
   echo "DH_USERNAME=$DH_USERNAME"
