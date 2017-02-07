@@ -33,7 +33,7 @@ parse_version() {
 dockerhub_login() {
   echo "Logging in to Dockerhub"
   echo "----------------------------------------------"
-  sudo docker login -u $$DH_USERNAME -p $DH_PASSWORD -e $DH_EMAIL
+  sudo docker login -u $DH_USERNAME -p $DH_PASSWORD -e $DH_EMAIL
 }
 
 pull_tag_push_images() {
