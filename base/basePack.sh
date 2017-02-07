@@ -10,18 +10,16 @@ export REPO_RESOURCE_NAME="bldami-repo"
 export RES_PARAMS="baseami-params"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
-# RES_PARAMS has this supplied from the script
-
 export AMI_PARAMS=$(echo ${RES_PARAMS//-/} | awk '{print toupper($0)}')
 
-# uppercase type of the resource above
-export AMI_PARAMS_TYPE=$(eval echo "$"$AMI_PARAMS"_TYPE" | awk '{print toupper($0)}')
+# path to find the AMI config
+export AMI_STRING=$AMI_PARAMS"_PARAMS"
+
+# Now get AWS keys
+export AWS_INT=$(echo ${RES_AWS_CREDS//-/} | awk '{print toupper($0)}')
 
 # path to find the AMI config
-export AMI_STRING=$AMI_PARAMS"_"$AMI_PARAMS_TYPE
-
-
-echo "REGION=$REGION"
+export AWS_STRING=$AWS_INT"_INTEGRATION"
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -48,11 +46,16 @@ setup_params(){
   export SECURITY_GROUP_ID=$(eval echo "$"$AMI_STRING"_SECURITY_GROUP_ID")
   export SOURCE_AMI=$(eval echo "$"$AMI_STRING"_SOURCE_AMI")
 
+  # now get the AWS keys
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$AMI_STRING"_AWS_ACCESS_KEY_ID")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$AMI_STRING"_AWS_SECRET_ACCESS_KEY")
+
   echo "SOURCE_AMI=$SOURCE_AMI"
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
-  echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
+  echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
+  echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}"
 }
 
 install_packer() {
