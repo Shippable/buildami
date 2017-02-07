@@ -37,7 +37,7 @@ dockerhub_login() {
 }
 
 pull_tag_push_images() {
-  __pull_image $DOCKERHUB_ORG/u16:tip
+  __pull_tag_push_image $DOCKERHUB_ORG/u16:tip
 }
 
 __pull_tag_push_image() {
