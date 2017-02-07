@@ -58,7 +58,7 @@ __pull_tag_push_image() {
 main() {
   parse_version
   dockerhub_login
-  # pull_tag_push_images
+  pull_tag_push_images
 }
 
 main
