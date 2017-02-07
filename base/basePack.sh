@@ -6,8 +6,8 @@ export PK_INSALL_LOCATION=/opt
 export PK_VERSION=0.11.0
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
 export RES_AWS_CREDS="aws-bits-access"
-export REPO_RESOURCE_NAME="bldami-repo"
 export RES_PARAMS="baseami-params"
+export REPO_RESOURCE_NAME="bldami-repo"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export AMI_PARAMS=$(echo ${RES_PARAMS//-/} | awk '{print toupper($0)}')
@@ -21,21 +21,19 @@ export AWS_INT=$(echo ${RES_AWS_CREDS//-/} | awk '{print toupper($0)}')
 # path to find the AMI config
 export AWS_STRING=$AWS_INT"_INTEGRATION"
 
+# set the repo path
+export REPO_NAME=$(echo ${REPO_RESOURCE_NAME//-/} | awk '{print toupper($0)}')
+export REPO_PATH=$REPO_NAME"_PATH/gitRepo"
+
+echo "repoPath is = "$REPO_PATH
+
+RESOURCENAME_PATH
+
 setup_ssh(){
   eval `ssh-agent -s`
   ps -eaf | grep ssh
   ls -al ~/.ssh/
   which ssh-agent
-}
-
-setup_keys() {
-  pushd /build/IN/$RES_AWS_CREDS
-  echo "-----------------------------------"
-
-  echo "setting AWS keys"
-  echo "-----------------------------------"
-  . integration.env
-  popd
 }
 
 setup_params(){
@@ -55,7 +53,7 @@ setup_params(){
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
   echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
-  echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}"
+  echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 }
 
 install_packer() {
@@ -88,8 +86,8 @@ build_ami() {
   echo "building AMI"
   echo "-----------------------------------"
 
-  packer build -machine-readable -var 'aws_access_key='$aws_access_key_id \
-    -var 'aws_secret_key='$aws_secret_access_key \
+  packer build -machine-readable -var 'aws_access_key='$AWS_ACCESS_KEY_ID \
+    -var 'aws_secret_key='$AWS_SECRET_ACCESS_KEY \
     -var 'REGION='$REGION \
     -var 'VPC_ID='$VPC_ID \
     -var 'SUBNET_ID='$SUBNET_ID \
