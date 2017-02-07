@@ -47,7 +47,7 @@ __pull_tag_push_image() {
 
   image=$1
   full_name=$(echo $image | cut -d ':' -f 1)
-  push_name= $full_name:$VERSION
+  push_name=$full_name:$VERSION
 
   echo "pulling image $image"
   sudo docker pull $image
