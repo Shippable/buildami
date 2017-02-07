@@ -18,7 +18,8 @@ parse_version() {
   export DH_USERNAME=$(eval echo "$"$DH_STRING"_USERNAME")
   export DH_PASSWORD=$(eval echo "$"$DH_STRING"_PASSWORD")
   export DH_EMAIL=$(eval echo "$"$DH_STRING"_EMAIL")
-
+  export DH_EMAIL=$(RES_DOCKERHUB_INTEGRATION//-/)
+  
   echo "VERSION=$VERSION"
   echo "DH_USERNAME=$DH_USERNAME"
   echo "DH_PASSWORD=${#DH_PASSWORD}" #show only count
