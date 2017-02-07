@@ -27,8 +27,6 @@ export REPO_PATH=$REPO_NAME"_PATH/gitRepo"
 
 echo "repoPath is = "$REPO_PATH
 
-RESOURCENAME_PATH
-
 setup_ssh(){
   eval `ssh-agent -s`
   ps -eaf | grep ssh
