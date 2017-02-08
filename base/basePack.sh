@@ -111,7 +111,7 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'SOURCE_AMI='$SOURCE_AMI \
-    -var 'IMAGE_NAMES="'$IMAGE_NAMES'"' \
+#    -var 'IMAGE_NAMES="'$IMAGE_NAMES'"' \
     -var 'DRYDOCK_TAG='$DRYDOCK_TAG \
     baseAMI.json 2>&1 | tee output.txt
 
