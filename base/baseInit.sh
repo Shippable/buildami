@@ -99,18 +99,18 @@ docker_install() {
   inst_extras_cmd='sudo apt-get install -y linux-image-extra-`uname -r`'
   exec_cmd "$inst_extras_cmd"
 
-  inst_extras_cmd='sudo apt-get install -y linux-image-extra-virtual'
+  inst_extras_cmd='sudo apt-get install -y linux-image-extra-virtual software-properties-common ca-certificates'
   exec_cmd "$inst_extras_cmd"
 
-  add_docker_repo_keys='sudo apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D'
+  add_docker_repo_keys='curl -fsSL https://yum.dockerproject.org/gpg | sudo apt-key add -'
   exec_cmd "$add_docker_repo_keys"
 
-  add_docker_repo='echo "deb https://get.docker.io/ubuntu docker main" | sudo tee -a /etc/apt/sources.list.d/docker.list'
+  add_docker_repo='sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"'
   exec_cmd "$add_docker_repo"
 
   _run_update
 
-  install_docker='sudo apt-get install -y lxc-docker-$DOCKER_VERSION'
+  install_docker='sudo apt-get -y install docker-engine=$DOCKER_VERSION'
   exec_cmd "$install_docker"
 
   is_success=true
