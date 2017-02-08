@@ -52,7 +52,6 @@ setup_params(){
 
   # getting propertyBag values
   pushd $(eval echo "$"$DRYDOCK_TAG_STR"_PATH")
-  pwd
   export IMAGE_NAMES=$(jq -r '.version.propertyBag.IMAGE_NAMES' version.json)
   popd
 
@@ -64,7 +63,12 @@ setup_params(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "REPO_PATH=$REPO_PATH"
   echo "DRYDOCK_TAG=$DRYDOCK_TAG"
-  echo "IMAGE_NAMES="$IMAGE_NAMES
+
+  echo "Images to be pulled --------->"
+  for IMAGE_NAME in $IMAGE_NAMES; do
+    echo $IMAGE_NAME
+  done
+  echo "end of images to be pulled --------->"
 }
 
 install_packer() {
