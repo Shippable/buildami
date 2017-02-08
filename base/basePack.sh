@@ -5,6 +5,8 @@ set -o pipefail
 export PK_INSALL_LOCATION=/opt
 export PK_VERSION=0.12.2
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
+
+export CURR_JOB="build-baseami"
 export RES_AWS_CREDS="aws-bits-access"
 export RES_PARAMS="baseami-params"
 export REPO_RESOURCE_NAME="bldami-repo"

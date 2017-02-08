@@ -89,10 +89,10 @@ build_ami() {
     -var 'AMI_TYPE='$AMI_TYPE \
     basePatchAMI.json 2>&1 | tee output.txt
 
-    #this is to get the ami from output
-    echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > /build/state/AMI_ID.txt
-    cat /build/state/AMI_ID.txt
+    #putting AMI-ID as the versionName of this job
+    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2) > /build/state/$CURR_JOB.env #adding version state
+    cat /build/state/$CURR_JOB.env
   popd
 }
 
