@@ -25,8 +25,8 @@ set_context() {
   echo "DH_PASSWORD=${#DH_PASSWORD}" #show only count
   echo "DH_EMAIL=$DH_EMAIL"
 
-  export IMAGE_NAMES="drydock/u14:tip \
-  drydock/u16:tip "
+  export IMAGE_NAMES="drydock/u14 \
+  drydock/u16"
 
   # create a state file so that next job can pick it up
   echo "versionName=$VERSION" > /build/state/$CURR_JOB.env #adding version state
@@ -41,9 +41,8 @@ dockerhub_login() {
 }
 
 pull_tag_push_images() {
-  for image in $IMAGE_NAMES; do
-    echo "Pulling -------------------> $image"
-    __pull_tag_push_image $image
+  for IMAGE_NAME in $IMAGE_NAMES; do
+    __pull_tag_push_image $IMAGE_NAME
   done
 }
 
@@ -52,20 +51,21 @@ __pull_tag_push_image() {
     return 0
   fi
 
-  image=$1
-  full_name=$(echo $image | cut -d ':' -f 1)
-  push_name=$full_name:$VERSION
+  IMAGE_NAME=$1
+  PULL_NAME=$IMAGE_NAME":tip"
+  PUSH_NAME=$IMAGE_NAME":"$VERSION
 
-  echo "pulling image $image"
-  sudo docker pull $image
-  sudo docker tag -f $image $push_name
-  sudo docker push $push_name
+  echo "pulling image $PULL_NAME"
+  sudo docker pull $PULL_NAME
+  sudo docker tag -f $PULL_NAME $PUSH_NAME
+  echo "pushing image $PUSH_NAME"
+  sudo docker push $PUSH_NAME
 }
 
 main() {
   set_context
   dockerhub_login
-  #pull_tag_push_images
+  pull_tag_push_images
 }
 
 main

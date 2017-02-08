@@ -50,6 +50,12 @@ setup_params(){
   # get DRY DOCK tag
   export DRYDOCK_TAG=$(eval echo "$"$DRYDOCK_TAG_STR"_VERSIONNAME")
 
+  # getting propertyBag values
+  pushd $DRYDOCK_TAG_STR"_PATH"
+  pwd
+  export IMAGE_NAMES=$(jq -r '.version.propertyBag.IMAGE_NAMES' version.json)
+  popd
+
   echo "SOURCE_AMI=$SOURCE_AMI"
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
@@ -58,6 +64,7 @@ setup_params(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "REPO_PATH=$REPO_PATH"
   echo "DRYDOCK_TAG=$DRYDOCK_TAG"
+  echo "IMAGE_NAMES="$IMAGE_NAMES
 }
 
 install_packer() {
@@ -110,8 +117,8 @@ build_ami() {
 main() {
   setup_ssh
   setup_params
-  install_packer
-  build_ami
+  #install_packer
+  #build_ami
 }
 
 main
