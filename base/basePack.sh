@@ -53,9 +53,6 @@ setup_params(){
   # getting propertyBag values
   pushd $(eval echo "$"$DRYDOCK_TAG_STR"_PATH")
   export IMAGE_NAMES=$(jq -r '.version.propertyBag.IMAGE_NAMES' version.json)
-
-  # escape all the CRLF in the list
-  #IMAGE_NAMES=$( echo "$IMAGE_NAMES" | sed 's/ /\\ /g' )
   popd
 
   echo "SOURCE_AMI=$SOURCE_AMI"
@@ -106,8 +103,8 @@ build_ami() {
   echo "building AMI"
   echo "-----------------------------------"
 
-  set -x
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
+    -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
@@ -116,10 +113,6 @@ build_ami() {
     -var IMAGE_NAMES="${IMAGE_NAMES}" \
     -var DRYDOCK_TAG=$DRYDOCK_TAG \
     baseAMI.json 2>&1 | tee output.txt
-
-   set +x
-
-#    -var 'aws_secret_key='$AWS_SECRET_ACCESS_KEY \
 
     #this is to get the ami from output
     echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
