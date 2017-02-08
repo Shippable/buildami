@@ -14,21 +14,24 @@ export RES_VER_UP=$(echo ${RES_VER//-/} | awk '{print toupper($0)}')
 export RES_DH=$(echo ${RES_DOCKERHUB_INTEGRATION//-/} | awk '{print toupper($0)}')
 export DH_STRING=$RES_DH"_INTEGRATION"
 
-parse_version() {
+set_context() {
   export VERSION=$(eval echo "$"$RES_VER_UP"_VERSIONNAME")
   export DH_USERNAME=$(eval echo "$"$DH_STRING"_USERNAME")
   export DH_PASSWORD=$(eval echo "$"$DH_STRING"_PASSWORD")
   export DH_EMAIL=$(eval echo "$"$DH_STRING"_EMAIL")
-#  export DH_EMAIL=$(echo ${DH_EMAIL//\\/})
 
   echo "VERSION=$VERSION"
   echo "DH_USERNAME=$DH_USERNAME"
   echo "DH_PASSWORD=${#DH_PASSWORD}" #show only count
   echo "DH_EMAIL=$DH_EMAIL"
-  echo "VERSION=$VERSION"
+
+  export IMAGE_NAMES="drydock/u14:tip \
+  drydock/u16:tip "
 
   # create a state file so that next job can pick it up
   echo "versionName=$VERSION" > /build/state/$CURR_JOB.env #adding version state
+  echo "IMAGE_NAMES=$IMAGE_NAMES" >> /build/state/$CURR_JOB.env
+
 }
 
 dockerhub_login() {
@@ -38,8 +41,6 @@ dockerhub_login() {
 }
 
 pull_tag_push_images() {
-  export IMAGE_NAMES="drydock/u14nod:tip"
-
   for image in $IMAGE_NAMES; do
     echo "Pulling -------------------> $image"
     __pull_tag_push_image $image
@@ -62,7 +63,7 @@ __pull_tag_push_image() {
 }
 
 main() {
-  parse_version
+  set_context
   dockerhub_login
   #pull_tag_push_images
 }
