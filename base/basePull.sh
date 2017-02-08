@@ -59,8 +59,7 @@ export IMAGE_NAMES="drydock/u14nod:prod \
 
 
 pull_images() {
-  echo "DRYDOCK_TAG=$DRYDOCK_TAG"
-  echo "AVI_TAG=$AVI_TAG"
+echo "DRYDOCK_TAG=$DRYDOCK_TAG"
 #  for image in $IMAGE_NAMES; do
 #    echo "Pulling -------------------> $image"
 #    sudo docker pull $image
