@@ -63,10 +63,10 @@ __pull_tag_push_image() {
   PUSH_NAME=$IMAGE_NAME":"$VERSION
 
   echo "pulling image $PULL_NAME"
-  sudo docker pull $PULL_NAME
-  sudo docker tag -f $PULL_NAME $PUSH_NAME
-  echo "pushing image $PULL_NAME"
-  sudo docker push $PUSH_NAME
+#  sudo docker pull $PULL_NAME
+#  sudo docker tag -f $PULL_NAME $PUSH_NAME
+  echo "pushing image $PUSH_NAME"
+#  sudo docker push $PUSH_NAME
 }
 
 main() {
