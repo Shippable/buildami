@@ -2,7 +2,7 @@
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
 readonly KEY_STORE_LOCATION="/tmp/ssh"
-readonly DOCKER_VERSION=1.9.1
+readonly DOCKER_VERSION=1.13.0
 
 # Indicates whether the script has succeeded
 export is_success=false
@@ -96,10 +96,13 @@ docker_install() {
 
   _run_update
 
-  install_kernel_extras='sudo apt-get install -y linux-image-extra-`uname -r`'
-  exec_cmd "$install_kernel_extras"
+  inst_extras_cmd='sudo apt-get install -y linux-image-extra-`uname -r`'
+  exec_cmd "$inst_extras_cmd"
 
-  add_docker_repo_keys='sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9'
+  inst_extras_cmd='sudo apt-get install -y linux-image-extra-virtual'
+  exec_cmd "$inst_extras_cmd"
+
+  add_docker_repo_keys='sudo apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D'
   exec_cmd "$add_docker_repo_keys"
 
   add_docker_repo='echo "deb https://get.docker.io/ubuntu docker main" | sudo tee -a /etc/apt/sources.list.d/docker.list'

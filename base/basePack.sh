@@ -109,6 +109,7 @@ build_ami() {
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'SOURCE_AMI='$SOURCE_AMI \
     -var 'DRYDOCK_TAG='$DRYDOCK_TAG \
+    -var 'IMAGE_NAMES='$IMAGE_NAMES \
     baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
