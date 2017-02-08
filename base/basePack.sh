@@ -8,6 +8,7 @@ export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
 export RES_AWS_CREDS="aws-bits-access"
 export RES_PARAMS="baseami-params"
 export REPO_RESOURCE_NAME="bldami-repo"
+export DRY_TAG_RES="push-dry-tag"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export AMI_PARAMS=$(echo ${RES_PARAMS//-/} | awk '{print toupper($0)}')
@@ -20,6 +21,9 @@ export AWS_STRING=$AWS_INT"_INTEGRATION"
 # set the repo path
 export REPO_NAME=$(echo ${REPO_RESOURCE_NAME//-/} | awk '{print toupper($0)}')
 export REPO_STR=$REPO_NAME"_PATH"
+
+# set the drydock tag path
+export REPO_NAME=$(echo ${DRY_TAG_RES//-/} | awk '{print toupper($0)}')
 
 setup_ssh(){
   eval `ssh-agent -s`

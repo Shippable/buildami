@@ -3,6 +3,7 @@
 export VERSION=""
 export DOCKERHUB_ORG=drydock
 
+export CURR_JOB=push-dry-tag
 export RES_VER=ship-ver
 export RES_DOCKERHUB_INTEGRATION=shipimg-dockerhub
 
@@ -27,7 +28,7 @@ parse_version() {
   echo "VERSION=$VERSION"
 
   # create a state file so that next job can pick it up
-  echo "DRYDOCK_TAG=$VERSION" > /build/state/rel_ver.txt #adding version state
+  echo "versionName=$VERSION" > /build/state/$CURR_JOB.env #adding version state
 }
 
 dockerhub_login() {
@@ -37,7 +38,12 @@ dockerhub_login() {
 }
 
 pull_tag_push_images() {
-  __pull_tag_push_image $DOCKERHUB_ORG/u16:tip
+  export IMAGE_NAMES="drydock/u14nod:tip"
+
+  for image in $IMAGE_NAMES; do
+    echo "Pulling -------------------> $image"
+    __pull_tag_push_image $image
+  done
 }
 
 __pull_tag_push_image() {
@@ -58,7 +64,7 @@ __pull_tag_push_image() {
 main() {
   parse_version
   dockerhub_login
-  pull_tag_push_images
+  #pull_tag_push_images
 }
 
 main
