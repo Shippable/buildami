@@ -23,7 +23,7 @@ export REPO_NAME=$(echo ${REPO_RESOURCE_NAME//-/} | awk '{print toupper($0)}')
 export REPO_STR=$REPO_NAME"_PATH"
 
 # set the drydock tag path
-export REPO_NAME=$(echo ${DRY_TAG_RES//-/} | awk '{print toupper($0)}')
+export DRYDOCK_TAG_STR=$(echo ${DRY_TAG_RES//-/} | awk '{print toupper($0)}')
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -47,6 +47,9 @@ setup_params(){
   # get repo path
   export REPO_PATH=$(eval echo "$"$REPO_STR"/gitRepo")
 
+  # get DRY DOCK tag
+  export DRYDOCK_TAG=$(eval echo "$"$DRYDOCK_TAG_STR"_VERSIONNAME")
+
   echo "SOURCE_AMI=$SOURCE_AMI"
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
@@ -54,6 +57,7 @@ setup_params(){
   echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "REPO_PATH=$REPO_PATH"
+  echo "DRYDOCK_TAG=$DRYDOCK_TAG"
 }
 
 install_packer() {
@@ -93,6 +97,7 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'SOURCE_AMI='$SOURCE_AMI \
+    -var 'DRYDOCK_TAG='$DRYDOCK_TAG \
     baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
