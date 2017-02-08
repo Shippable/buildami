@@ -52,10 +52,10 @@ setup_params(){
 
   # getting propertyBag values
   pushd $(eval echo "$"$DRYDOCK_TAG_STR"_PATH")
-  export IMAGE_NAMES=$(jq -r '.version.propertyBag.IMAGE_NAMES' version.json)
+  export IMAGE_NAMES="$(jq -r '.version.propertyBag.IMAGE_NAMES' version.json)"
 
   # escape all the CRLF in the list
-  IMAGE_NAMES=$( echo "$IMAGE_NAMES" | sed 's/ /\\ /g' )
+  #IMAGE_NAMES=$( echo "$IMAGE_NAMES" | sed 's/ /\\ /g' )
   popd
 
   echo "SOURCE_AMI=$SOURCE_AMI"
