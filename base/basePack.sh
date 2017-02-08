@@ -67,6 +67,8 @@ setup_params(){
   echo "REPO_PATH=$REPO_PATH"
   echo "DRYDOCK_TAG=$DRYDOCK_TAG"
 
+  echo "IMAGE_NAMES=$IMAGE_NAMES"
+
   echo "Images to be pulled --------->"
   for IMAGE_NAME in $IMAGE_NAMES; do
     echo $IMAGE_NAME
