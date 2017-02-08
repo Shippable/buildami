@@ -42,10 +42,6 @@
         "uname -a",
         "uptime"
       ],
-      "environment_vars": [
-        "DRYDOCK_TAG={{user `DRYDOCK_TAG`}}",
-        "AVI_TAG=KEMPI"
-      ]
     },
     {
       "type": "shell",
@@ -54,6 +50,10 @@
     {
       "type": "shell",
       "script": "basePull.sh"
+      "environment_vars": [
+        "DRYDOCK_TAG={{user `DRYDOCK_TAG`}}",
+        "AVI_TAG=KEMPI"
+      ]
     }
   ]
 }
