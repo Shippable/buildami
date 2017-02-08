@@ -51,7 +51,7 @@ setup_params(){
   export DRYDOCK_TAG=$(eval echo "$"$DRYDOCK_TAG_STR"_VERSIONNAME")
 
   # getting propertyBag values
-  pushd $DRYDOCK_TAG_STR"_PATH"
+  pushd $(eval echo "$"$DRYDOCK_TAG_STR"_PATH")
   pwd
   export IMAGE_NAMES=$(jq -r '.version.propertyBag.IMAGE_NAMES' version.json)
   popd
