@@ -6,13 +6,18 @@ export DOCKERHUB_ORG=drydock
 export CURR_JOB=push-dry-tag
 export RES_VER=ship-ver
 export RES_DOCKERHUB_INTEGRATION=shipimg-dockerhub
+export RES_REPO=bldami-repo
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_VER_UP=$(echo ${RES_VER//-/} | awk '{print toupper($0)}')
 
 # get dockerhub EN string
-export RES_DH=$(echo ${RES_DOCKERHUB_INTEGRATION//-/} | awk '{print toupper($0)}')
-export DH_STRING=$RES_DH"_INTEGRATION"
+export RES_DOCKERHUB_INTEGRATION_UP=$(echo ${RES_DOCKERHUB_INTEGRATION//-/} | awk '{print toupper($0)}')
+export DH_STRING=$RES_DOCKERHUB_INTEGRATION_UP"_INTEGRATION"
+
+# since resources here have dashes Shippable replaces them and UPPER cases them
+export RES_REPO_UP=$(echo ${RES_REPO//-/} | awk '{print toupper($0)}')
+export RES_REPO_PATH=$(eval echo "$"$RES_REPO_UP"/gitRepo")
 
 set_context() {
   export VERSION=$(eval echo "$"$RES_VER_UP"_VERSIONNAME")
@@ -25,14 +30,14 @@ set_context() {
   echo "DH_PASSWORD=${#DH_PASSWORD}" #show only count
   echo "DH_EMAIL=$DH_EMAIL"
 
-  export IMAGE_NAMES="drydock/u14 \
-  drydock/u16"
-
+  pushd $RES_REPO_PATH
+  export IMAGE_NAMES=$(cat images.txt)
+  export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
+  popd
 
   # create a state file so that next job can pick it up
   echo "versionName=$VERSION" > /build/state/$CURR_JOB.env #adding version state
-  echo "IMAGE_NAMES=$IMAGE_NAMES" >> /build/state/$CURR_JOB.env
-
+  echo "IMAGE_NAMES=$IMAGE_NAMES_SPACED" >> /build/state/$CURR_JOB.env
 }
 
 dockerhub_login() {
