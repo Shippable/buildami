@@ -69,6 +69,8 @@ setup_params(){
 
   echo "IMAGE_NAMES=$IMAGE_NAMES"
 
+  ${IMAGE_NAMES}
+
   echo "Images to be pulled --------->"
   for IMAGE_NAME in $IMAGE_NAMES; do
     echo $IMAGE_NAME
@@ -106,8 +108,8 @@ build_ami() {
   echo "building AMI"
   echo "-----------------------------------"
 
+  set -x
   packer build -machine-readable -var 'aws_access_key='$AWS_ACCESS_KEY_ID \
-    -var 'aws_secret_key='$AWS_SECRET_ACCESS_KEY \
     -var 'REGION='$REGION \
     -var 'VPC_ID='$VPC_ID \
     -var 'SUBNET_ID='$SUBNET_ID \
@@ -116,6 +118,10 @@ build_ami() {
     -var 'IMAGE_NAMES="'$IMAGE_NAMES'"' \
     -var 'DRYDOCK_TAG='$DRYDOCK_TAG \
     baseAMI.json 2>&1 | tee output.txt
+
+   set +x
+
+#    -var 'aws_secret_key='$AWS_SECRET_ACCESS_KEY \
 
     #this is to get the ami from output
     echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
