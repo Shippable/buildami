@@ -69,8 +69,6 @@ setup_params(){
 
   echo "IMAGE_NAMES=$IMAGE_NAMES"
 
-  ${IMAGE_NAMES}
-
   echo "Images to be pulled --------->"
   for IMAGE_NAME in $IMAGE_NAMES; do
     echo $IMAGE_NAME
@@ -109,14 +107,14 @@ build_ami() {
   echo "-----------------------------------"
 
   set -x
-  packer build -machine-readable -var 'aws_access_key='$AWS_ACCESS_KEY_ID \
-    -var 'REGION='$REGION \
-    -var 'VPC_ID='$VPC_ID \
-    -var 'SUBNET_ID='$SUBNET_ID \
-    -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
-    -var 'SOURCE_AMI='$SOURCE_AMI \
-    -var 'IMAGE_NAMES="'$IMAGE_NAMES'"' \
-    -var 'DRYDOCK_TAG='$DRYDOCK_TAG \
+  packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
+    -var REGION=$REGION \
+    -var VPC_ID=$VPC_ID \
+    -var SUBNET_ID=$SUBNET_ID \
+    -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
+    -var SOURCE_AMI=$SOURCE_AMI \
+    -var IMAGE_NAMES="${IMAGE_NAMES}" \
+    -var DRYDOCK_TAG=$DRYDOCK_TAG \
     baseAMI.json 2>&1 | tee output.txt
 
    set +x
