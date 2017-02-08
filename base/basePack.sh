@@ -122,8 +122,8 @@ build_ami() {
 main() {
   setup_ssh
   setup_params
-  #install_packer
-  #build_ami
+  install_packer
+  build_ami
 }
 
 main
