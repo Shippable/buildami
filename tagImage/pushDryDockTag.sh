@@ -17,7 +17,8 @@ export DH_STRING=$RES_DOCKERHUB_INTEGRATION_UP"_INTEGRATION"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REPO_UP=$(echo ${RES_REPO//-/} | awk '{print toupper($0)}')
-export RES_REPO_PATH=$(eval echo "$"$RES_REPO_UP"/gitRepo")
+export RES_REPO_UP_PATH=$RES_REPO_UP"_PATH"
+export RES_REPO_PATH=$(eval echo "$"$RES_REPO_UP_PATH"/gitRepo")
 
 set_context() {
   export VERSION=$(eval echo "$"$RES_VER_UP"_VERSIONNAME")
