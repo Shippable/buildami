@@ -28,6 +28,7 @@ set_context() {
   export IMAGE_NAMES="drydock/u14 \
   drydock/u16"
 
+
   # create a state file so that next job can pick it up
   echo "versionName=$VERSION" > /build/state/$CURR_JOB.env #adding version state
   echo "IMAGE_NAMES=$IMAGE_NAMES" >> /build/state/$CURR_JOB.env
@@ -58,7 +59,7 @@ __pull_tag_push_image() {
   echo "pulling image $PULL_NAME"
   sudo docker pull $PULL_NAME
   sudo docker tag -f $PULL_NAME $PUSH_NAME
-  echo "pushing image $PUSH_NAME"
+  echo "pushing image $PULL_NAME"
   sudo docker push $PUSH_NAME
 }
 
