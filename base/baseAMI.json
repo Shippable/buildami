@@ -3,6 +3,7 @@
     "aws_access_key": "",
     "aws_secret_key": "",
     "DRYDOCK_TAG": "",
+    "IMAGE_NAMES": "",
     "REGION": "",
     "VPC_ID": "",
     "SUBNET_ID": "",
@@ -52,7 +53,7 @@
       "script": "basePull.sh",
       "environment_vars": [
         "DRYDOCK_TAG={{user `DRYDOCK_TAG`}}",
-        "AVI_TAG=KEMPI"
+        "IMAGE_NAMES={{user `IMAGE_NAMES`}}"
       ]
     }
   ]
