@@ -2,7 +2,7 @@
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
 readonly KEY_STORE_LOCATION="/tmp/ssh"
-readonly DOCKER_VERSION=1.13.0
+readonly DOCKER_VERSION="1.13.0-0~ubuntu-trusty"
 
 # Indicates whether the script has succeeded
 export is_success=false
