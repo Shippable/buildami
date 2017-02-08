@@ -3,7 +3,7 @@
 set -o pipefail
 
 export PK_INSALL_LOCATION=/opt
-export PK_VERSION=0.11.0
+export PK_VERSION=0.12.2
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
 export RES_AWS_CREDS="aws-bits-access"
 export RES_PARAMS="baseami-params"
@@ -108,8 +108,8 @@ build_ami() {
     -var 'SUBNET_ID='$SUBNET_ID \
     -var 'SECURITY_GROUP_ID='$SECURITY_GROUP_ID \
     -var 'SOURCE_AMI='$SOURCE_AMI \
-    -var 'DRYDOCK_TAG='$DRYDOCK_TAG \
     -var 'IMAGE_NAMES='$IMAGE_NAMES \
+    -var 'DRYDOCK_TAG='$DRYDOCK_TAG \
     baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
