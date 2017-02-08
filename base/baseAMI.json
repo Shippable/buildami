@@ -2,6 +2,7 @@
   "variables": {
     "aws_access_key": "",
     "aws_secret_key": "",
+    "DRYDOCK_TAG": "",
     "REGION": "",
     "VPC_ID": "",
     "SUBNET_ID": "",
@@ -40,6 +41,9 @@
         "sleep 30",
         "uname -a",
         "uptime"
+      ],
+      "environment_vars": [
+        "DRYDOCK_TAG={{user `DRYDOCK_TAG`}}",
       ]
     },
     {

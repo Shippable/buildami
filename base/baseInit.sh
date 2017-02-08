@@ -175,29 +175,30 @@ before_exit() {
 }
 
 main() {
-  trap before_exit EXIT
-  exec_grp "setup_shippable_user"
-
-  trap before_exit EXIT
-  exec_grp "upgrade_kernel"
-
-  trap before_exit EXIT
-  exec_grp "setup_directories"
-
-  trap before_exit EXIT
-  exec_grp "install_prereqs"
-
-  trap before_exit EXIT
-  exec_grp "docker_install"
-
-  trap before_exit EXIT
-  exec_grp "check_docker_opts"
-
-  trap before_exit EXIT
-  exec_grp "restart_docker_service"
-
-  trap before_exit EXIT
-  exec_grp "install_ntp"
+#  trap before_exit EXIT
+#  exec_grp "setup_shippable_user"
+#
+#  trap before_exit EXIT
+#  exec_grp "upgrade_kernel"
+#
+#  trap before_exit EXIT
+#  exec_grp "setup_directories"
+#
+#  trap before_exit EXIT
+#  exec_grp "install_prereqs"
+#
+#  trap before_exit EXIT
+#  exec_grp "docker_install"
+#
+#  trap before_exit EXIT
+#  exec_grp "check_docker_opts"
+#
+#  trap before_exit EXIT
+#  exec_grp "restart_docker_service"
+#
+#  trap before_exit EXIT
+#  exec_grp "install_ntp"
+pwd
 }
 
 main

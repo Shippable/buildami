@@ -59,10 +59,11 @@ export IMAGE_NAMES="drydock/u14nod:prod \
 
 
 pull_images() {
-  for image in $IMAGE_NAMES; do
-    echo "Pulling -------------------> $image"
-    sudo docker pull $image
-  done
+  echo "DRYDOCK_TAG=$DRYDOCK_TAG"
+#  for image in $IMAGE_NAMES; do
+#    echo "Pulling -------------------> $image"
+#    sudo docker pull $image
+#  done
 }
 
 pull_images
