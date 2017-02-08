@@ -43,7 +43,7 @@
         "uptime"
       ],
       "environment_vars": [
-        "DRYDOCK_TAG={{user `DRYDOCK_TAG`}}",
+        "DRYDOCK_TAG={{user `DRYDOCK_TAG`}}"
       ]
     },
     {
