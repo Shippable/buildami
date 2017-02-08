@@ -5,6 +5,8 @@ set -o pipefail
 export PK_INSALL_LOCATION=/opt
 export PK_VERSION=0.12.2
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
+
+export CURR_JOB="build-baseami"
 export RES_AWS_CREDS="aws-bits-access"
 export RES_PARAMS="baseami-params"
 export REPO_RESOURCE_NAME="bldami-repo"
@@ -49,6 +51,7 @@ setup_params(){
 
   # get DRY DOCK tag
   export DRYDOCK_TAG=$(eval echo "$"$DRYDOCK_TAG_STR"_VERSIONNAME")
+  export DRYDOCK_TAG_DASH=${DRYDOCK_TAG//./-}
 
   # getting propertyBag values
   pushd $(eval echo "$"$DRYDOCK_TAG_STR"_PATH")
@@ -63,6 +66,7 @@ setup_params(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "REPO_PATH=$REPO_PATH"
   echo "DRYDOCK_TAG=$DRYDOCK_TAG"
+  echo "DRYDOCK_TAG_DASH=$DRYDOCK_TAG_DASH"
 
   echo "IMAGE_NAMES=$IMAGE_NAMES"
 
@@ -112,6 +116,7 @@ build_ami() {
     -var SOURCE_AMI=$SOURCE_AMI \
     -var IMAGE_NAMES="${IMAGE_NAMES}" \
     -var DRYDOCK_TAG=$DRYDOCK_TAG \
+    -var DRYDOCK_TAG_DASH=$DRYDOCK_TAG_DASH \
     baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
