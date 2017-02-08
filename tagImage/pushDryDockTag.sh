@@ -31,6 +31,10 @@ set_context() {
   echo "DH_PASSWORD=${#DH_PASSWORD}" #show only count
   echo "DH_EMAIL=$DH_EMAIL"
 
+  echo "RES_REPO_UP=$RES_REPO_UP"
+  echo "RES_REPO_UP_PATH=$RES_REPO_UP_PATH"
+  echo "RES_REPO_PATH=$RES_REPO_PATH"
+
   pushd "$RES_REPO_PATH/tagImage"
   #export IMAGE_NAMES=$(cat images.txt)
   #export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
