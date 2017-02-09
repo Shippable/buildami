@@ -38,9 +38,12 @@ setup_params(){
   export SECURITY_GROUP_ID=$(jq -r '.version.propertyBag.params.SECURITY_GROUP_ID' version.json)
   popd
 
-  pushd ./IN/$RES_AMI/runSh
-  . AMI_ID.txt #to set AMI_ID
-  popd
+#  pushd ./IN/$RES_AMI/runSh
+#  . AMI_ID.txt #to set AMI_ID
+#  popd
+
+  export AMI_ID=$RES_AMI
+
 
   pushd ./IN/$RES_REL_VER/runSh
   . rel_ver.txt #to set REL_VER
