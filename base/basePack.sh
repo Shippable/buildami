@@ -9,23 +9,23 @@ export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
 export CURR_JOB="build-baseami"
 export RES_AWS_CREDS="aws-bits-access"
 export RES_PARAMS="baseami-params"
-export REPO_RESOURCE_NAME="bldami-repo"
-export DRY_TAG_RES="push-dry-tag"
+export RES_REPO="bldami-repo"
+export RES_DRY_TAG="push-dry-tag"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
-export AMI_PARAMS=$(echo ${RES_PARAMS//-/} | awk '{print toupper($0)}')
-export AMI_STRING=$AMI_PARAMS"_PARAMS"
+export RES_PARAMS_UP=$(echo ${RES_PARAMS//-/} | awk '{print toupper($0)}')
+export RES_PARAMS_STR=$RES_PARAMS_UP"_PARAMS"
 
 # Now get AWS keys
-export AWS_INT=$(echo ${RES_AWS_CREDS//-/} | awk '{print toupper($0)}')
-export AWS_STRING=$AWS_INT"_INTEGRATION"
+export RES_AWS_CREDS_UP=$(echo ${RES_AWS_CREDS//-/} | awk '{print toupper($0)}')
+export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
 # set the repo path
-export REPO_NAME=$(echo ${REPO_RESOURCE_NAME//-/} | awk '{print toupper($0)}')
-export REPO_STR=$REPO_NAME"_PATH"
+export RES_REPO_UP=$(echo ${RES_REPO//-/} | awk '{print toupper($0)}')
+export RES_REPO_PATH=$RES_REPO_UP"_PATH"
 
 # set the drydock tag path
-export DRYDOCK_TAG_STR=$(echo ${DRY_TAG_RES//-/} | awk '{print toupper($0)}')
+export RES_DRY_TAG_UP=$(echo ${RES_DRY_TAG//-/} | awk '{print toupper($0)}')
 
 setup_ssh(){
   eval `ssh-agent -s`
@@ -36,25 +36,25 @@ setup_ssh(){
 
 setup_params(){
   # now get all the parameters for ami location
-  export REGION=$(eval echo "$"$AMI_STRING"_REGION")
-  export VPC_ID=$(eval echo "$"$AMI_STRING"_VPC_ID")
-  export SUBNET_ID=$(eval echo "$"$AMI_STRING"_SUBNET_ID")
-  export SECURITY_GROUP_ID=$(eval echo "$"$AMI_STRING"_SECURITY_GROUP_ID")
-  export SOURCE_AMI=$(eval echo "$"$AMI_STRING"_SOURCE_AMI")
+  export REGION=$(eval echo "$"$RES_PARAMS_STR"_REGION")
+  export VPC_ID=$(eval echo "$"$RES_PARAMS_STR"_VPC_ID")
+  export SUBNET_ID=$(eval echo "$"$RES_PARAMS_STR"_SUBNET_ID")
+  export SECURITY_GROUP_ID=$(eval echo "$"$RES_PARAMS_STR"_SECURITY_GROUP_ID")
+  export SOURCE_AMI=$(eval echo "$"$RES_PARAMS_STR"_SOURCE_AMI")
 
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(eval echo "$"$AWS_STRING"_AWS_ACCESS_KEY_ID")
-  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$AWS_STRING"_AWS_SECRET_ACCESS_KEY")
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
 
   # get repo path
-  export REPO_PATH=$(eval echo "$"$REPO_STR"/gitRepo")
+  export REPO_PATH=$(eval echo "$"$RES_REPO_PATH"/gitRepo")
 
   # get DRY DOCK tag
-  export DRYDOCK_TAG=$(eval echo "$"$DRYDOCK_TAG_STR"_VERSIONNAME")
+  export DRYDOCK_TAG=$(eval echo "$"$RES_DRY_TAG_UP"_VERSIONNAME")
   export DRYDOCK_TAG_DASH=${DRYDOCK_TAG//./-}
 
   # getting propertyBag values
-  pushd $(eval echo "$"$DRYDOCK_TAG_STR"_PATH")
+  pushd $(eval echo "$"$RES_DRY_TAG_UP"_PATH")
   export IMAGE_NAMES=$(jq -r '.version.propertyBag.IMAGE_NAMES' version.json)
   popd
 
@@ -62,12 +62,11 @@ setup_params(){
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
-  echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
+  echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "REPO_PATH=$REPO_PATH"
   echo "DRYDOCK_TAG=$DRYDOCK_TAG"
   echo "DRYDOCK_TAG_DASH=$DRYDOCK_TAG_DASH"
-
   echo "IMAGE_NAMES=$IMAGE_NAMES"
 
   echo "Images to be pulled --------->"
@@ -120,9 +119,13 @@ build_ami() {
     baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
-    echo AMI_ID=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > /build/state/AMI_ID.txt
-    cat /build/state/AMI_ID.txt
+    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2) > /build/state/$CURR_JOB.env
+
+    echo "DRYDOCK_TAG=$DRYDOCK_TAG" >> /build/state/$CURR_JOB.env
+    echo "DRYDOCK_TAG_DASH=$DRYDOCK_TAG_DASH" >> /build/state/$CURR_JOB.env
+
+    cat /build/state/$CURR_JOB.env
   popd
 }
 
