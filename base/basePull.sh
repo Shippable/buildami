@@ -1,5 +1,4 @@
 #!/bin/bash -e
-
 pull_images() {
   echo "DRYDOCK_TAG=$DRYDOCK_TAG"
 
