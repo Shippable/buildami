@@ -70,6 +70,14 @@ __pull_tag_push_image() {
   sudo docker tag -f $PULL_NAME $PUSH_NAME
   echo "pushing image $PUSH_NAME"
   sudo docker push $PUSH_NAME
+
+  # removing the images to save space
+  if [ $IMAGE_NAME!="drydock/u16all" -a $IMAGE_NAME!="drydock/u14all" \
+  -a $IMAGE_NAME!="drydock/u16" -a $IMAGE_NAME!="drydock/u16" ]; then
+    echo "Removing image IMAGE_NAME"
+    sudo docker rmi -f $PUSH_NAME
+    sudo docker rmi -f $PULL_NAME
+  fi
 }
 
 main() {
