@@ -63,9 +63,9 @@ set_context(){
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
+  echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
-  echo "RES_REPO_STATE=$RES_REPO_STATE"
   echo "RES_DRY_TAG_VER_NAME=$RES_DRY_TAG_VER_NAME"
   echo "RES_DRY_TAG_VER_NAME_DASH=$RES_DRY_TAG_VER_NAME_DASH"
   echo "IMAGE_NAMES=$IMAGE_NAMES"
@@ -98,7 +98,7 @@ install_packer() {
 }
 
 build_ami() {
-  pushd $RES_REPO_STATE/base
+  pushd "$RES_REPO_STATE/base"
   echo "-----------------------------------"
 
   echo "validating AMI template"
