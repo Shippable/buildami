@@ -16,7 +16,7 @@ export RES_DH_INT_STR=$RES_DH_UP"_INTEGRATION"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
-export RES_REPO_STATE=$RES_REPO_UP"_STATE"
+export RES_REPO_STATE=$(eval echo "$"$RES_REPO_UP"_STATE")
 
 set_context() {
   export VERSION=$(eval echo "$"$RES_VER_UP"_VERSIONNAME")
