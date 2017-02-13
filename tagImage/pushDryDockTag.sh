@@ -1,36 +1,48 @@
 #!/bin/bash -e
 
-export VERSION=""
 export DOCKERHUB_ORG=drydock
 
-export CURR_JOB=push-dry-tag
-export RES_VER=ship-ver
-export RES_DOCKERHUB_INTEGRATION=shipimg-dockerhub
-export RES_REPO=bldami-repo
+export CURR_JOB="push_dry_tag"
+export RES_VER="ship-ver"
+export RES_DH="ship_dh"
+export RES_REPO="bldami_repo"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_VER_UP=$(echo ${RES_VER//-/} | awk '{print toupper($0)}')
 
 # get dockerhub EN string
-export RES_DOCKERHUB_INTEGRATION_UP=$(echo ${RES_DOCKERHUB_INTEGRATION//-/} | awk '{print toupper($0)}')
-export DH_STRING=$RES_DOCKERHUB_INTEGRATION_UP"_INTEGRATION"
+export RES_DH_UP=$(echo $RES_DH | awk '{print toupper($0)}')
+export RES_DH_INT_STR=$RES_DH_UP"_INTEGRATION"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
-export RES_REPO_UP=$(echo ${RES_REPO//-/} | awk '{print toupper($0)}')
-export RES_REPO_UP_PATH=$RES_REPO_UP"_PATH"
-export RES_REPO_PATH=$(eval echo "$"$RES_REPO_UP_PATH"/gitRepo")
+export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
+export RES_REPO_PATH_STR=$RES_REPO_UP"_PATH"
+export RES_REPO_PATH=$(eval echo "$"$RES_REPO_PATH_STR"/gitRepo")
 
 set_context() {
   export VERSION=$(eval echo "$"$RES_VER_UP"_VERSIONNAME")
-  export DH_USERNAME=$(eval echo "$"$DH_STRING"_USERNAME")
-  export DH_PASSWORD=$(eval echo "$"$DH_STRING"_PASSWORD")
-  export DH_EMAIL=$(eval echo "$"$DH_STRING"_EMAIL")
+  export DH_USERNAME=$(eval echo "$"$RES_DH_INT_STR"_USERNAME")
+  export DH_PASSWORD=$(eval echo "$"$RES_DH_INT_STR"_PASSWORD")
+  export DH_EMAIL=$(eval echo "$"$RES_DH_INT_STR"_EMAIL")
+
+  echo "CURR_JOB=$CURR_JOB"
+  echo "RES_VER=$RES_VER"
+  echo "RES_DH=$RES_DH"
+  echo "RES_REPO=$RES_REPO"
+  echo "RES_VER_UP=$RES_VER_UP"
+  echo "RES_DH_UP=$RES_DH_UP"
+  echo "RES_DH_INT_STR=$RES_DH_INT_STR"
+  echo "RES_REPO_UP=$RES_REPO_UP"
+  echo "RES_REPO_PATH_STR=$RES_REPO_PATH_STR"
+  echo "RES_REPO_PATH=$RES_REPO_PATH"
 
   echo "VERSION=$VERSION"
   echo "DH_USERNAME=$DH_USERNAME"
   echo "DH_PASSWORD=${#DH_PASSWORD}" #show only count
   echo "DH_EMAIL=$DH_EMAIL"
+}
 
+get_image_list() {
   pushd "$RES_REPO_PATH/tagImage"
   export IMAGE_NAMES=$(cat images.txt)
   export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
@@ -82,8 +94,9 @@ __pull_tag_push_image() {
 
 main() {
   set_context
-  dockerhub_login
-  pull_tag_push_images
+  get_image_list
+  #dockerhub_login
+  #pull_tag_push_images
 }
 
 main
