@@ -2,8 +2,8 @@
   "variables": {
     "aws_access_key": "",
     "aws_secret_key": "",
-    "DRYDOCK_TAG": "",
-    "DRYDOCK_TAG_DASH": "",
+    "RES_DRY_TAG_VER_NAME": "",
+    "RES_DRY_TAG_VER_NAME_DASH": "",
     "IMAGE_NAMES": "",
     "REGION": "",
     "VPC_ID": "",
@@ -24,7 +24,7 @@
       "source_ami": "{{user `SOURCE_AMI`}}",
       "instance_type": "t2.micro",
       "ssh_username": "ubuntu",
-      "ami_name": "base-ami-{{user `DRYDOCK_TAG_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
+      "ami_name": "base-ami-{{user `RES_DRY_TAG_VER_NAME_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
       "ami_groups": "all",
       "launch_block_device_mappings": [
         {
@@ -53,7 +53,7 @@
       "type": "shell",
       "script": "basePull.sh",
       "environment_vars": [
-        "DRYDOCK_TAG={{user `DRYDOCK_TAG`}}",
+        "RES_DRY_TAG_VER_NAME={{user `RES_DRY_TAG_VER_NAME`}}",
         "IMAGE_NAMES={{user `IMAGE_NAMES`}}"
       ]
     }
