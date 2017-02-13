@@ -93,8 +93,8 @@ __pull_tag_push_image() {
 main() {
   set_context
   get_image_list
-  #dockerhub_login
-  #pull_tag_push_images
+  dockerhub_login
+  pull_tag_push_images
 }
 
 main
