@@ -41,7 +41,7 @@ set_context() {
 }
 
 get_image_list() {
-  pushd "$RES_REPO_PATH/tagImage"
+  pushd "$RES_REPO_STATE/tagImage"
   export IMAGE_NAMES=$(cat images.txt)
   export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
   popd
