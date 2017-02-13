@@ -16,8 +16,7 @@ export RES_DH_INT_STR=$RES_DH_UP"_INTEGRATION"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
-export RES_REPO_PATH_STR=$RES_REPO_UP"_PATH"
-export RES_REPO_PATH=$(eval echo "$"$RES_REPO_PATH_STR"/gitRepo")
+export RES_REPO_STATE=$RES_REPO_UP"_STATE"
 
 set_context() {
   export VERSION=$(eval echo "$"$RES_VER_UP"_VERSIONNAME")
@@ -33,8 +32,7 @@ set_context() {
   echo "RES_DH_UP=$RES_DH_UP"
   echo "RES_DH_INT_STR=$RES_DH_INT_STR"
   echo "RES_REPO_UP=$RES_REPO_UP"
-  echo "RES_REPO_PATH_STR=$RES_REPO_PATH_STR"
-  echo "RES_REPO_PATH=$RES_REPO_PATH"
+  echo "RES_REPO_STATE=$RES_REPO_STATE"
 
   echo "VERSION=$VERSION"
   echo "DH_USERNAME=$DH_USERNAME"
