@@ -5,7 +5,7 @@
     "REGION": "",
     "VPC_ID": "",
     "SUBNET_ID": "",
-    "AMI_ID": "",
+    "AMI_ID": "test",
     "REL_VER": "",
     "REL_DASH_VER": "",
     "SECURITY_GROUP_ID": ""
