@@ -120,7 +120,6 @@ build_ami() {
     echo "RES_DRY_TAG_VER_NAME=$RES_DRY_TAG_VER_NAME" >> /build/state/$CURR_JOB.env
     echo "RES_DRY_TAG_VER_NAME_DASH=$RES_DRY_TAG_VER_NAME_DASH" >> /build/state/$CURR_JOB.env
 
-    cat /build/state/$CURR_JOB.env
   popd
 }
 
