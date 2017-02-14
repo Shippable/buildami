@@ -3,7 +3,7 @@
 export DOCKERHUB_ORG=drydock
 
 export CURR_JOB="push_dry_tag"
-export RES_VER="ship-ver"
+export RES_VER="ship_ver"
 export RES_DH="ship_dh"
 export RES_REPO="bldami_repo"
 
