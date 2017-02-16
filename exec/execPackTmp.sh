@@ -74,6 +74,7 @@ set_context(){
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "AMI_ID=$AMI_ID"
+  echo "AMI_TYPE=$AMI_TYPE"
 }
 
 install_packer() {
