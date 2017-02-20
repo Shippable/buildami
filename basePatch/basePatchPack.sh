@@ -44,8 +44,9 @@ set_context(){
 
   # getting propertyBag values
   pushd $RES_BASE_AMI_PATH
-  export RES_DRY_TAG_VER_NAME=$(jq -r '.version.propertyBag.RES_DRY_TAG_VER_NAME' version.json)
-  export RES_DRY_TAG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_DRY_TAG_VER_NAME_DASH' version.json)
+  export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
+  export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
+  export IMAGE_NAMES_SPACED=$(jq -r '.version.propertyBag.IMAGE_NAMES_SPACED' version.json)
   popd
 
   echo "CURR_JOB=$CURR_JOB"
@@ -69,8 +70,8 @@ set_context(){
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "AMI_ID=$AMI_ID"
-  echo "RES_DRY_TAG_VER_NAME=$RES_DRY_TAG_VER_NAME"
-  echo "RES_DRY_TAG_VER_NAME_DASH=$RES_DRY_TAG_VER_NAME_DASH"
+  echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
+  echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
 }
 
 install_packer() {
@@ -110,15 +111,17 @@ build_ami() {
     -var SUBNET_ID=$SUBNET_ID \
     -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var AMI_ID=$AMI_ID \
-    -var RES_DRY_TAG_VER_NAME_DASH=$RES_DRY_TAG_VER_NAME_DASH \
+    -var RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH \
     basePatchAMI.json 2>&1 | tee output.txt
 
     #putting AMI-ID as the versionName of this job
     echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > /build/state/$CURR_JOB.env #adding version state
+    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env" #adding version state
 
-    echo "RES_DRY_TAG_VER_NAME=$RES_DRY_TAG_VER_NAME" >> /build/state/$CURR_JOB.env
-    echo "RES_DRY_TAG_VER_NAME_DASH=$RES_DRY_TAG_VER_NAME_DASH" >> /build/state/$CURR_JOB.env
+    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
+    echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
+    echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
+    cat "$JOB_STATE/$CURR_JOB.env"
 
   popd
 }

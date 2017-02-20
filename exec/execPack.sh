@@ -28,6 +28,7 @@ export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
 # set the base-ami path
 export RES_BASE_AMI_UP=$(echo $RES_BASE_AMI | awk '{print toupper($0)}')
+export RES_BASE_AMI_PATH=$(eval echo "$"$RES_BASE_AMI_UP"_PATH")
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_PARAMS_UP=$(echo $RES_PARAMS | awk '{print toupper($0)}')
@@ -46,6 +47,12 @@ set_context(){
 
   # get AMI_ID
   export AMI_ID=$(eval echo "$"$RES_BASE_AMI_UP"_VERSIONNAME")
+  # getting propertyBag values
+  pushd $RES_BASE_AMI_PATH
+  export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
+  export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
+  export IMAGE_NAMES_SPACED=$(jq -r '.version.propertyBag.IMAGE_NAMES_SPACED' version.json)
+  popd
 
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_REL=$RES_REL"
@@ -72,6 +79,9 @@ set_context(){
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "AMI_ID=$AMI_ID"
+  echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
+  echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+  echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 }
 
 install_packer() {
@@ -117,10 +127,14 @@ build_ami() {
 
     #this is to get the ami from output
     echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > /build/state/$CURR_JOB.env
+    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
 
-    echo "RES_REL_VER_NAME=$RES_REL_VER_NAME" >> /build/state/$CURR_JOB.env
-    echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH" >> /build/state/$CURR_JOB.env
+    echo "RES_REL_VER_NAME=$RES_REL_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
+    echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
+    echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
+    echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
+    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
+    cat "$JOB_STATE/$CURR_JOB.env"
   popd
 }
 

@@ -2,9 +2,9 @@
   "variables": {
     "aws_access_key": "",
     "aws_secret_key": "",
-    "RES_DRY_TAG_VER_NAME": "",
-    "RES_DRY_TAG_VER_NAME_DASH": "",
-    "IMAGE_NAMES": "",
+    "RES_IMG_VER_NAME": "",
+    "RES_IMG_VER_NAME_DASH": "",
+    "IMAGE_NAMES_SPACED": "",
     "REGION": "",
     "VPC_ID": "",
     "SUBNET_ID": "",
@@ -24,7 +24,7 @@
       "source_ami": "{{user `SOURCE_AMI`}}",
       "instance_type": "t2.micro",
       "ssh_username": "ubuntu",
-      "ami_name": "base-ami-{{user `RES_DRY_TAG_VER_NAME_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
+      "ami_name": "base-ami-{{user `RES_IMG_VER_NAME_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
       "ami_groups": "all",
       "launch_block_device_mappings": [
         {
@@ -53,8 +53,8 @@
       "type": "shell",
       "script": "basePull.sh",
       "environment_vars": [
-        "RES_DRY_TAG_VER_NAME={{user `RES_DRY_TAG_VER_NAME`}}",
-        "IMAGE_NAMES={{user `IMAGE_NAMES`}}"
+        "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}",
+        "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
       ]
     }
   ]
