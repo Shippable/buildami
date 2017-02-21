@@ -134,6 +134,7 @@ main() {
   which ssh-agent
 
   set_context
+  get_image_list
   install_packer
   build_ami
 }
