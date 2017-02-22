@@ -12,7 +12,6 @@ export AMI_ID=$3
 export AMI_TYPE=$4
 export RES_REPO="bldami_repo"
 export RES_AWS_CREDS="aws_bits_access"
-export RES_BASE_AMI="patch_baseami"
 export RES_PARAMS="baseami_params"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
@@ -27,9 +26,6 @@ export RES_REPO_STATE=$(eval echo "$"$RES_REPO_UP"_STATE")
 # Now get AWS keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
-
-# set the base-ami path
-export RES_BASE_AMI_UP=$(echo $RES_BASE_AMI | awk '{print toupper($0)}')
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_PARAMS_UP=$(echo $RES_PARAMS | awk '{print toupper($0)}')
@@ -46,14 +42,12 @@ set_context(){
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
 
-  # get AMI_ID
-  # export AMI_ID=$(eval echo "$"$RES_BASE_AMI_UP"_VERSIONNAME")
 
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_REL=$RES_REL"
   echo "RES_REPO=$RES_REPO"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
-  echo "RES_BASE_AMI=$RES_BASE_AMI"
+
   echo "RES_PARAMS=$RES_PARAMS"
 
   echo "RES_REL_UP=$RES_REPO_UP"
@@ -63,7 +57,7 @@ set_context(){
   echo "RES_REPO_STATE=$RES_REPO_STATE"
   echo "RES_AWS_CREDS_UP=$RES_AWS_CREDS_UP"
   echo "RES_AWS_CREDS_INT=$RES_AWS_CREDS_INT"
-  echo "RES_BASE_AMI_UP=$RES_BASE_AMI_UP"
+
   echo "RES_PARAMS_UP=$RES_PARAMS_UP"
   echo "RES_PARAMS_STR=$RES_PARAMS_STR"
 
