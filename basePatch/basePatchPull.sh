@@ -9,7 +9,7 @@ clean_cexec() {
 }
 
 clone_cexec() {
-  mkdir -p $CEXEC_LOCATION_ON_HOST
+  sudo mkdir -p $CEXEC_LOCATION_ON_HOST
   sudo git clone https://github.com/Shippable/cexec.git $CEXEC_LOCATION_ON_HOST
 }
 
