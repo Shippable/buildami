@@ -22,9 +22,9 @@ pull_images() {
 
 tag_cexec() {
   pushd $CEXEC_LOC
-  git checkout master
-  git pull --tags
-  git checkout $REL_VER
+  sudo git checkout master
+  sudo git pull --tags
+  sudo git checkout $REL_VER
   popd
 }
 
