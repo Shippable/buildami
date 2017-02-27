@@ -6,6 +6,7 @@
     "VPC_ID": "",
     "SUBNET_ID": "",
     "AMI_ID": "test",
+    "IMAGE_NAMES_SPACED":"test",
     "REL_VER": "",
     "REL_DASH_VER": "",
     "SECURITY_GROUP_ID": ""
@@ -48,7 +49,8 @@
       "type": "shell",
       "script": "execPull.sh",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}"
+        "REL_VER={{user `REL_VER`}}",
+        "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
       ]
     }
   ]

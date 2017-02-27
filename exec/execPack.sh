@@ -6,8 +6,8 @@ export PK_INSALL_LOCATION=/opt
 export PK_VERSION=0.11.0
 export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
 
-export CURR_JOB=$1
-export RES_REL=$2
+export CURR_JOB="build_finalami"
+export RES_REL="rel_prod"
 export RES_REPO="bldami_repo"
 export RES_AWS_CREDS="aws_bits_access"
 export RES_BASE_AMI="patch_baseami"
@@ -121,6 +121,7 @@ build_ami() {
     -var SUBNET_ID=$SUBNET_ID \
     -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var AMI_ID=$AMI_ID \
+    -var IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED \
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
     execAMI.json 2>&1 | tee output.txt
