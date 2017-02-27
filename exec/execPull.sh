@@ -22,6 +22,7 @@ pull_images() {
 
 tag_cexec() {
   pushd $CEXEC_LOC
+  git checkout master
   git pull --tags
   git checkout $REL_VER
   popd
