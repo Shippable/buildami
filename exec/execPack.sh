@@ -97,7 +97,7 @@ build_ami() {
     -var SUBNET_ID=$SUBNET_ID \
     -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var AMI_ID=$AMI_ID \
-    -var IMAGE_NAMES_SPACED="'"$IMAGE_NAMES_SPACED"'" \
+    -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
     execAMI.json 2>&1 | tee output.txt
