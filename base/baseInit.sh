@@ -2,7 +2,7 @@
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
 readonly KEY_STORE_LOCATION="/tmp/ssh"
-readonly DOCKER_VERSION="1.13.0-0~ubuntu-trusty"
+readonly DOCKER_VERSION="1.13.0"
 
 # Indicates whether the script has succeeded
 export is_success=false
@@ -110,8 +110,17 @@ docker_install() {
 
   _run_update
 
-  install_docker='sudo apt-get -y install docker-engine=$DOCKER_VERSION'
+  install_docker='sudo apt-get -y install docker-engine=$DOCKER_VERSION-0~ubuntu-trusty'
   exec_cmd "$install_docker"
+
+  get_static_docker_binary="wget https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION.tgz -P /tmp/docker"
+  exec_cmd "$get_static_docker_binary"
+
+  extract_static_docker_binary="sudo tar -xzf /tmp/docker/docker-$DOCKER_VERSION.tgz --directory /opt"
+  exec_cmd "$extract_static_docker_binary"
+
+  remove_static_docker_binary='rm -rf /tmp/docker'
+  exec_cmd "$remove_static_docker_binary"
 
   is_success=true
 }
