@@ -121,7 +121,6 @@ main() {
   which ssh-agent
 
   set_context
-  install_packer
   build_ami
 }
 
