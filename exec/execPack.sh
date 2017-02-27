@@ -2,10 +2,6 @@
 
 set -o pipefail
 
-export PK_INSALL_LOCATION=/opt
-export PK_VERSION=0.11.0
-export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
-
 export CURR_JOB="build_finalami"
 export RES_REL="rel_prod"
 export RES_REPO="bldami_repo"
@@ -84,26 +80,6 @@ set_context(){
   echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 }
 
-install_packer() {
-  pushd $PK_INSALL_LOCATION
-  echo "Fetching packer"
-  echo "-----------------------------------"
-
-  rm -rf $PK_INSALL_LOCATION/packer
-  mkdir -p $PK_INSALL_LOCATION/packer
-
-  wget -q https://releases.hashicorp.com/packer/$PK_VERSION/"$PK_FILENAME"
-  apt-get install unzip
-  unzip -o $PK_FILENAME -d $PK_INSALL_LOCATION/packer
-  export PATH=$PATH:$PK_INSALL_LOCATION/packer
-  echo "downloaded packer successfully"
-  echo "-----------------------------------"
-  
-  local pk_version=$(packer version)
-  echo "Packer version: $pk_version"
-  popd
-}
-
 build_ami() {
   pushd "$RES_REPO_STATE/exec"
   echo "-----------------------------------"
@@ -121,7 +97,7 @@ build_ami() {
     -var SUBNET_ID=$SUBNET_ID \
     -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var AMI_ID=$AMI_ID \
-    -var IMAGE_NAMES_SPACED='$IMAGE_NAMES_SPACED' \
+    -var IMAGE_NAMES_SPACED="'"$IMAGE_NAMES_SPACED"'" \
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
     execAMI.json 2>&1 | tee output.txt
