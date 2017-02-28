@@ -2,6 +2,8 @@
 
 readonly CEXEC_LOC="/home/shippable/cexec"
 readonly GENEXEC_IMG="shipimg/genexec"
+readonly CPP_IMAGE_NAME="drydock/u14cppall"
+readonly CPP_IMAGE_TAG="prod"
 
 set_context() {
 
@@ -20,6 +22,16 @@ pull_images() {
   done
 }
 
+pull_cpp_prod_image() {
+  if [ -n "$CPP_IMAGE_NAME" ] && [ -n "$CPP_IMAGE_TAG" ]; then
+    echo "CPP_IMAGE_NAME=$CPP_IMAGE_NAME"
+    echo "CPP_IMAGE_TAG=$CPP_IMAGE_TAG"
+
+    echo "Pulling -------------------> $CPP_IMAGE_NAME:$CPP_IMAGE_TAG"
+    sudo docker pull $CPP_IMAGE_NAME:$CPP_IMAGE_TAG
+  fi
+}
+
 tag_cexec() {
   pushd $CEXEC_LOC
   sudo git checkout master
@@ -35,6 +47,7 @@ pull_exec() {
 main() {
   set_context
   pull_images
+  pull_cpp_prod_image
   tag_cexec
   pull_exec
 }
