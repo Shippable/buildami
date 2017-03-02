@@ -47,6 +47,10 @@
     },
     {
       "type": "shell",
+      "script": "patchDockerOptsTmp.sh"
+    },
+    {
+      "type": "shell",
       "script": "execPull.sh",
       "environment_vars": [
         "REL_VER={{user `REL_VER`}}"
