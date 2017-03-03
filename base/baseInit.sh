@@ -93,24 +93,28 @@ validate_envs() {
 
   if [ -z "$SCRIPTS_DOWNLOAD_URL" ] || [ "$SCRIPTS_DOWNLOAD_URL" == "" ]; then
     __process_error "SCRIPTS_DOWNLOAD_URL env not defined, exiting"
+    exit 1
   else
     __process_msg "SCRIPTS_DOWNLOAD_URL: $SCRIPTS_DOWNLOAD_URL"
   fi
 
   if [ -z "$NODE_TYPE_CODE" ] || [ "$NODE_TYPE_CODE" == "" ]; then
     __process_error "NODE_TYPE_CODE env not defined, exiting"
+    exit 1
   else
     __process_msg "NODE_TYPE_CODE: $NODE_TYPE_CODE"
   fi
 
   if [ -z "$SHIPPABLE_NODE_INIT_SCRIPT" ] || [ "$SHIPPABLE_NODE_INIT_SCRIPT" == "" ]; then
     __process_error "SHIPPABLE_NODE_INIT_SCRIPT env not defined, exiting"
+    exit 1
   else
     __process_msg "SHIPPABLE_NODE_INIT_SCRIPT: $SHIPPABLE_NODE_INIT_SCRIPT"
   fi
 
   if [ -z "$SHIPPABLE_NODE_INIT" ] || [ "$SHIPPABLE_NODE_INIT" == "" ]; then
     __process_error "SHIPPABLE_NODE_INIT env not defined, exiting"
+    exit 1
   else
     __process_msg "SHIPPABLE_NODE_INIT: $SHIPPABLE_NODE_INIT"
   fi
@@ -158,7 +162,6 @@ get_repo() {
     --connect-timeout 60 \
     --max-time 120 \
     '$SCRIPTS_DOWNLOAD_URL' \
-    -H authorization:'apiToken $SHIPPABLE_API_TOKEN' \
     -o $NODE_SCRIPTS_DOWNLOAD_LOCATION"
 
   __process_msg "Un-taring Shippable node init repo"
