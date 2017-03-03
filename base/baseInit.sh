@@ -1,217 +1,223 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
+set -o pipefail
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
 readonly KEY_STORE_LOCATION="/tmp/ssh"
 readonly DOCKER_VERSION="1.13.0"
+readonly SCRIPTS_DOWNLOAD_URL="https://github.com/Shippable/node/archive/master.tar.gz"
+readonly NODE_SCRIPTS_DOWNLOAD_LOCATION="/tmp/shippable/node.tar.gz"
+readonly NODE_SCRIPTS_LOCATION="/tmp/shippable/node"
+readonly NODE_DATA_LOCATION="/etc/shippable"
+readonly NODE_LOGS_LOCATION="$NODE_DATA_LOCATION/logs"
+readonly EXEC_REPO="https://github.com/Shippable/cexec"
+readonly COMPONENT="genExec"
 
 # Indicates whether the script has succeeded
 export is_success=false
 
-# Indicates if docker service should be restarted
-export docker_restart=false
+########################### HEADERS SECTION ############################
+__process_marker() {
+  local prompt="$@"
+  echo ""
+  echo "# $(date +"%T") #######################################"
+  echo "# $prompt"
+  echo "##################################################"
+}
 
-#
-# Prints the command start and end markers with timestamps
-# and executes the supplied command
-#
+__process_msg() {
+  local message="$@"
+  echo "|___ $@"
+}
+
+__process_error() {
+  local message="$1"
+  local error="$2"
+  local bold_red_text='\e[91m'
+  local reset_text='\033[0m'
+
+  echo -e "$bold_red_text|___ $message$reset_text"
+  echo -e "     $error"
+}
+
+before_exit() {
+  ## flush any remaining console
+  echo $1
+  echo $2
+
+  if [ "$is_success" == true ]; then
+    echo "AMI build script executed successfully"
+  else
+    echo "Error while building AMI"
+  fi
+}
+
 exec_cmd() {
-  cmd=$@
-  cmd_uuid=$(python -c 'import uuid; print str(uuid.uuid4())')
-  cmd_start_timestamp=`date +"%s"`
-  echo "Running $cmd"
+  local cmd=$@
+  __process_msg "Running $cmd"
   eval $cmd
   cmd_status=$?
   if [ "$2" ]; then
     echo $2;
   fi
 
-  cmd_end_timestamp=`date +"%s"`
   if [ $cmd_status == 0 ]; then
-    echo "Completed $cmd"
+    __process_msg "Completed $cmd"
     return $cmd_status
   else
-    echo "Failed $cmd"
+    __process_error "Failed $cmd"
     exit 99
   fi
 }
 
 exec_grp() {
-  group_name=$1
-  group_uuid=$(python -c 'import uuid; print str(uuid.uuid4())')
-  group_start_timestamp=`date +"%s"`
-  echo "Starting $group_name"
+  local group_name=$1
+  __process_marker "Starting $group_name"
   eval "$group_name"
   group_status=$?
-  group_end_timestamp=`date +"%s"`
-  echo "Completed $group_name"
+  __process_marker "Completed $group_name"
 }
 
-_run_update() {
+########################### END HEADERS SECTION #########################
+
+validate_envs() {
   is_success=false
-  update_cmd="sudo apt-get update"
-  exec_cmd "$update_cmd"
-  is_success=true
-}
+  __process_msg "Validating environment variables for AMI"
 
-setup_directories() {
-  sudo mkdir -p "$MESSAGE_STORE_LOCATION"
-  sudo mkdir -p "$KEY_STORE_LOCATION"
-}
-
-setup_shippable_user() {
-  is_success=false
-  if id -u 'shippable' >/dev/null 2>&1; then
-    echo "User shippable already exists"
+  if [ -z "$DOCKER_VERSION" ] || [ "$DOCKER_VERSION" == "" ]; then
+    __process_error "DOCKER_VERSION env not defined, exiting"
+    exit 1
   else
-    exec_cmd "sudo useradd -d /home/shippable -m -s /bin/bash -p shippablepwd shippable"
+    __process_msg "DOCKER_VERSION: $DOCKER_VERSION"
   fi
 
-  exec_cmd "sudo echo 'shippable ALL=(ALL) NOPASSWD:ALL' | sudo tee -a /etc/sudoers"
-  exec_cmd "sudo chown -R $USER:$USER /home/shippable/"
-  exec_cmd "sudo chown -R shippable:shippable /home/shippable/"
-  is_success=true
-}
-
-upgrade_kernel() {
-  ## This is required to fix this docker bug where java builds hang
-  ## https://github.com/docker/docker/issues/18180#issuecomment-184359636
-  ## once the updated kernel is released, we can remove this function
-  exec_cmd "echo 'deb http://archive.ubuntu.com/ubuntu/ trusty-proposed restricted main multiverse universe' | sudo tee -a /etc/apt/sources.list"
-  exec_cmd "echo -e 'Package: *\nPin: release a=trusty-proposed\nPin-Priority: 400' | sudo tee -a  /etc/apt/preferences.d/proposed-updates"
-  _run_update
-  exec_cmd "sudo apt-get -y  install linux-image-3.19.0-51-generic linux-image-extra-3.19.0-51-generic"
-}
-
-install_prereqs() {
-  echo "Installing prerequisite binaries"
-  _run_update
-
-  install_prereqs_cmd="sudo apt-get -yy install git python-pip"
-  exec_cmd "$install_prereqs_cmd"
-}
-
-docker_install() {
-  is_success=false
-  echo "Installing docker"
-
-  _run_update
-
-  inst_extras_cmd='sudo apt-get install -y linux-image-extra-`uname -r`'
-  exec_cmd "$inst_extras_cmd"
-
-  inst_extras_cmd='sudo apt-get install -y linux-image-extra-virtual software-properties-common ca-certificates'
-  exec_cmd "$inst_extras_cmd"
-
-  add_docker_repo_keys='curl -fsSL https://yum.dockerproject.org/gpg | sudo apt-key add -'
-  exec_cmd "$add_docker_repo_keys"
-
-  add_docker_repo='sudo add-apt-repository "deb https://apt.dockerproject.org/repo/ ubuntu-$(lsb_release -cs) main"'
-  exec_cmd "$add_docker_repo"
-
-  _run_update
-
-  install_docker='sudo apt-get -y install docker-engine=$DOCKER_VERSION-0~ubuntu-trusty'
-  exec_cmd "$install_docker"
-
-  get_static_docker_binary="wget https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION.tgz -P /tmp/docker"
-  exec_cmd "$get_static_docker_binary"
-
-  extract_static_docker_binary="sudo tar -xzf /tmp/docker/docker-$DOCKER_VERSION.tgz --directory /opt"
-  exec_cmd "$extract_static_docker_binary"
-
-  remove_static_docker_binary='rm -rf /tmp/docker'
-  exec_cmd "$remove_static_docker_binary"
-
-  is_success=true
-}
-
-check_docker_opts() {
-  is_success=false
-  # SHIPPABLE docker options required for every node
-  echo "Checking docker options"
-
-  SHIPPABLE_DOCKER_OPTS='DOCKER_OPTS="$DOCKER_OPTS -H unix:///var/run/docker.sock -g=/data --storage-driver aufs --dns 8.8.8.8 --dns 8.8.4.4"'
-  opts_exist=$(sudo sh -c "grep '$SHIPPABLE_DOCKER_OPTS' /etc/default/docker || echo ''")
-
-  if [ -z "$opts_exist" ]; then
-    ## docker opts do not exist
-    echo "appending DOCKER_OPTS to /etc/default/docker"
-    sudo sh -c "echo '$SHIPPABLE_DOCKER_OPTS' >> /etc/default/docker"
-    docker_restart=true
+  if [ -z "$SCRIPTS_DOWNLOAD_URL" ] || [ "$SCRIPTS_DOWNLOAD_URL" == "" ]; then
+    __process_error "SCRIPTS_DOWNLOAD_URL env not defined, exiting"
   else
-    echo "Shippable docker options already present in /etc/default/docker"
+    __process_msg "SCRIPTS_DOWNLOAD_URL: $SCRIPTS_DOWNLOAD_URL"
   fi
 
-  ## remove the docker option to listen on all ports
-  echo "Disabling docker tcp listener"
-  sudo sh -c "sed -e s/\"-H tcp:\/\/0.0.0.0:4243\"//g -i /etc/default/docker"
-  is_success=true
-}
-
-restart_docker_service() {
-  is_success=false
-  echo "checking if docker restart is necessary"
-  if [ $docker_restart == true ]; then
-    echo "restarting docker service on reset"
-    exec_cmd "sudo service docker restart"
+  if [ -z "$NODE_TYPE_CODE" ] || [ "$NODE_TYPE_CODE" == "" ]; then
+    __process_error "NODE_TYPE_CODE env not defined, exiting"
   else
-    echo "docker_restart set to false, not restarting docker daemon"
+    __process_msg "NODE_TYPE_CODE: $NODE_TYPE_CODE"
   fi
-  is_success=true
-}
 
-install_ntp() {
-  is_success=false
-  {
-    check_ntp=$(sudo service --status-all 2>&1 | grep ntp)
-  } || {
-    true
-  }
-
-  if [ ! -z "$check_ntp" ]; then
-    echo "NTP already installed, skipping."
+  if [ -z "$SHIPPABLE_NODE_INIT_SCRIPT" ] || [ "$SHIPPABLE_NODE_INIT_SCRIPT" == "" ]; then
+    __process_error "SHIPPABLE_NODE_INIT_SCRIPT env not defined, exiting"
   else
-    echo "Installing NTP"
-    exec_cmd "sudo apt-get install -y ntp"
-    exec_cmd "sudo service ntp restart"
+    __process_msg "SHIPPABLE_NODE_INIT_SCRIPT: $SHIPPABLE_NODE_INIT_SCRIPT"
   fi
+
+  if [ -z "$SHIPPABLE_NODE_INIT" ] || [ "$SHIPPABLE_NODE_INIT" == "" ]; then
+    __process_error "SHIPPABLE_NODE_INIT env not defined, exiting"
+  else
+    __process_msg "SHIPPABLE_NODE_INIT: $SHIPPABLE_NODE_INIT"
+  fi
+
   is_success=true
 }
 
-before_exit() {
-  if [ "$is_success" == true ]; then
-    echo "__SH__SCRIPT_END_SUCCESS__";
+check_dependencies() {
+  is_success=false
+  __process_msg "Checking node dependencies"
+
+  command -v curl >/dev/null 2>&1
+  local ret=$?
+  if [ $? -ne 0 ]; then
+    __process_msg "curl not installed on host machine. Shippable nodes require curl to be installed"
+    is_success=false
   else
-    echo "__SH__SCRIPT_END_FAILURE__";
+    __process_msg "curl installed, continuing..."
+    exec_cmd "curl --version"
+    is_success=true
+  fi
+
+  command -v tar >/dev/null 2>&1
+  local ret=$?
+  if [ $? -ne 0 ]; then
+    __process_msg "tar not installed on host machine. Shippable nodes require tar to be installed"
+    is_success=false
+  else
+    __process_msg "tar installed, continuing..."
+    exec_cmd "tar --version"
+    is_success=true
   fi
 }
 
-main() {
-  trap before_exit EXIT
-  exec_grp "setup_shippable_user"
+get_repo() {
+  is_success=false
+  __process_msg "Downloading Shippable node init repo"
 
-  trap before_exit EXIT
-  exec_grp "upgrade_kernel"
+  exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
+  exec_cmd "mkdir -p $NODE_DATA_LOCATION"
+  exec_cmd "mkdir -p $NODE_LOGS_LOCATION"
 
-  trap before_exit EXIT
-  exec_grp "setup_directories"
+  __process_msg "Pulling scripts from api"
+  exec_cmd "curl -LkSs \
+    --connect-timeout 60 \
+    --max-time 120 \
+    '$SCRIPTS_DOWNLOAD_URL' \
+    -H authorization:'apiToken $SHIPPABLE_API_TOKEN' \
+    -o $NODE_SCRIPTS_DOWNLOAD_LOCATION"
 
-  trap before_exit EXIT
-  exec_grp "install_prereqs"
+  __process_msg "Un-taring Shippable node init repo"
+  exec_cmd "tar -xvzf \
+    '$NODE_SCRIPTS_DOWNLOAD_LOCATION' \
+    -C $NODE_SCRIPTS_LOCATION \
+    --strip-components=1"
 
-  trap before_exit EXIT
-  exec_grp "docker_install"
-
-  trap before_exit EXIT
-  exec_grp "check_docker_opts"
-
-  trap before_exit EXIT
-  exec_grp "restart_docker_service"
-
-  trap before_exit EXIT
-  exec_grp "install_ntp"
-pwd
+  is_success=true
 }
 
-main
-echo "AMI init script completed"
+update_envs() {
+  is_success=false
+
+  local node_env_template=$NODE_SCRIPTS_LOCATION/usr/node.env.template
+  local node_env=$NODE_DATA_LOCATION/node.env
+
+  if [ ! -f "$node_env_template" ]; then
+    __process_error "Node environment template file not found: $node_env_template"
+    is_success=false
+    return
+  else
+    __process_msg "Node environment template file found: $node_env_template"
+  fi
+
+  __process_msg "Writing node specific envs to $node_env"
+
+  sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template > $node_env
+  sed -i "s#{{SHIPPABLE_NODE_INIT_SCRIPT}}#$SHIPPABLE_NODE_INIT_SCRIPT#g" $node_env
+  sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
+  sed -i "s#{{COMPONENT}}#$COMPONENT#g" $node_env
+  sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
+
+  __process_msg "Successfully update node specific envs to $node_env"
+  exec_cmd "cat $node_env"
+
+  is_success=true
+}
+
+initialize() {
+  is_success=false
+
+  __process_msg "Initializing node"
+  exec_cmd "/bin/bash $NODE_SCRIPTS_LOCATION/boot.sh"
+
+  is_success=true
+}
+
+trap before_exit EXIT
+exec_grp "validate_envs"
+
+trap before_exit EXIT
+exec_grp "check_dependencies"
+
+trap before_exit EXIT
+exec_grp "get_repo"
+
+trap before_exit EXIT
+exec_grp "update_envs"
+
+trap before_exit EXIT
+exec_grp "initialize"
