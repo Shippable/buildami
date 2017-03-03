@@ -32,6 +32,13 @@ pull_cpp_prod_image() {
   fi
 }
 
+clone_cexec() {
+  if [ -d "$CEXEC_LOC" ]; then
+    sudo rm -rf $CEXEC_LOC
+  fi
+  sudo git clone https://github.com/Shippable/cexec.git $CEXEC_LOC
+}
+
 tag_cexec() {
   pushd $CEXEC_LOC
   sudo git checkout master
@@ -48,6 +55,7 @@ main() {
   set_context
   pull_images
   pull_cpp_prod_image
+  clone_cexec
   tag_cexec
   pull_exec
 }
