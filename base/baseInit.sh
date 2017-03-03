@@ -189,11 +189,29 @@ update_envs() {
 
   __process_msg "Writing node specific envs to $node_env"
 
+  ## Setting the build time envs
   sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template > $node_env
   sed -i "s#{{SHIPPABLE_NODE_INIT_SCRIPT}}#$SHIPPABLE_NODE_INIT_SCRIPT#g" $node_env
   sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
   sed -i "s#{{COMPONENT}}#$COMPONENT#g" $node_env
   sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
+
+  ## Setting the runtime values to empty
+  local default_value=""
+  sed -i "s#{{LISTEN_QUEUE}}#$default_value#g" $node_env
+  sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$default_value#g" $node_env
+  sed -i "s#{{SHIPPABLE_AMQP_URL}}#$default_value#g" $node_env
+  sed -i "s#{{SHIPPABLE_API_URL}}#$default_value#g" $node_env
+  sed -i "s#{{SHIPPABLE_API_TOKEN}}#$default_value#g" $node_env
+  sed -i "s#{{SHIPPABLE_AMQP_DEFAULT_EXCHANGE}}#$default_value#g" $node_env
+  sed -i "s#{{RUN_MODE}}#$default_value#g" $node_env
+  sed -i "s#{{JOB_TYPE}}#$default_value#g" $node_env
+  sed -i "s#{{EXEC_MOUNTS}}#$default_value#g" $node_env
+  sed -i "s#{{EXEC_OPTS}}#$default_value#g" $node_env
+  sed -i "s#{{EXEC_IMAGE}}#$default_value#g" $node_env
+  sed -i "s#{{EXEC_REPO}}#$default_value#g" $node_env
+  sed -i "s#{{EXEC_CONTAINER_NAME}}#$default_value#g" $node_env
+  sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
 
   __process_msg "Successfully update node specific envs to $node_env"
   exec_cmd "cat $node_env"
