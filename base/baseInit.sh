@@ -84,6 +84,20 @@ validate_envs() {
   is_success=false
   __process_msg "Validating environment variables for AMI"
 
+  if [ -z "$SHIPPABLE_RELEASE_VERSION" ] || [ "$SHIPPABLE_RELEASE_VERSION" == "" ]; then
+    __process_error "SHIPPABLE_RELEASE_VERSION env not defined, exiting"
+    exit 1
+  else
+    __process_msg "SHIPPABLE_RELEASE_VERSION: $SHIPPABLE_RELEASE_VERSION"
+  fi
+
+  if [ -z "$EXEC_IMAGE" ] || [ "$EXEC_IMAGE" == "" ]; then
+    __process_error "EXEC_IMAGE env not defined, exiting"
+    exit 1
+  else
+    __process_msg "EXEC_IMAGE: $EXEC_IMAGE"
+  fi
+
   if [ -z "$DOCKER_VERSION" ] || [ "$DOCKER_VERSION" == "" ]; then
     __process_error "DOCKER_VERSION env not defined, exiting"
     exit 1
@@ -195,11 +209,12 @@ update_envs() {
   sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
   sed -i "s#{{COMPONENT}}#$COMPONENT#g" $node_env
   sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
+  sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$SHIPPABLE_RELEASE_VERSION#g" $node_env
+  sed -i "s#{{EXEC_IMAGE}}#$EXEC_IMAGE#g" $node_env
 
   ## Setting the runtime values to empty
   local default_value=""
   sed -i "s#{{LISTEN_QUEUE}}#$default_value#g" $node_env
-  sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$default_value#g" $node_env
   sed -i "s#{{SHIPPABLE_AMQP_URL}}#$default_value#g" $node_env
   sed -i "s#{{SHIPPABLE_API_URL}}#$default_value#g" $node_env
   sed -i "s#{{SHIPPABLE_API_TOKEN}}#$default_value#g" $node_env
@@ -208,7 +223,6 @@ update_envs() {
   sed -i "s#{{JOB_TYPE}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_MOUNTS}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_OPTS}}#$default_value#g" $node_env
-  sed -i "s#{{EXEC_IMAGE}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_REPO}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_CONTAINER_NAME}}#$default_value#g" $node_env
   sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
