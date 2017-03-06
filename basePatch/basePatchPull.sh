@@ -5,7 +5,7 @@ readonly NODE_SCRIPTS_LOCATION="/tmp/shippable/node"
 
 clean_cexec() {
   if [ -d "$CEXEC_LOCATION_ON_HOST" ]; then
-    exec_cmd "sudo rm -rf $CEXEC_LOCATION_ON_HOST"
+    sudo rm -rf $CEXEC_LOCATION_ON_HOST || true
   fi
 }
 
@@ -16,7 +16,7 @@ clone_cexec() {
 
 clean_node_scripts() {
   if [ -d "$NODE_SCRIPTS_LOCATION" ]; then
-    exec_cmd "sudo rm -rf $NODE_SCRIPTS_LOCATION"
+    sudo rm -rf $NODE_SCRIPTS_LOCATION || true
   fi
 }
 
