@@ -47,7 +47,11 @@
     },
     {
       "type": "shell",
-      "script": "baseInit.sh"
+      "script": "baseInit.sh",
+      "environment_vars": [
+        "SHIPPABLE_RELEASE_VERSION={{user `SHIPPABLE_RELEASE_VERSION`}}",
+        "SHIPPABLE_NODE_INIT_SCRIPT={{user `SHIPPABLE_NODE_INIT_SCRIPT`}}"
+      ]
     },
     {
       "type": "shell",

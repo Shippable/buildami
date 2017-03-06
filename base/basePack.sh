@@ -12,6 +12,7 @@ export RES_PARAMS="baseami_params"
 export RES_REPO="bldami_repo"
 export RES_IMG="u16_img"
 export SHIPPABLE_RELEASE_VERSION="master"
+export SHIPPABLE_NODE_INIT_SCRIPT="ubu_14.04_docker_1.13.sh"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_PARAMS_UP=$(echo $RES_PARAMS | awk '{print toupper($0)}')

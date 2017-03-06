@@ -92,11 +92,11 @@ validate_envs() {
     __process_msg "SHIPPABLE_RELEASE_VERSION: $SHIPPABLE_RELEASE_VERSION"
   fi
 
-  if [ -z "$EXEC_IMAGE" ] || [ "$EXEC_IMAGE" == "" ]; then
-    __process_error "EXEC_IMAGE env not defined, exiting"
+  if [ -z "$SHIPPABLE_NODE_INIT_SCRIPT" ] || [ "$SHIPPABLE_NODE_INIT_SCRIPT" == "" ]; then
+    __process_error "SHIPPABLE_NODE_INIT_SCRIPT env not defined, exiting"
     exit 1
   else
-    __process_msg "EXEC_IMAGE: $EXEC_IMAGE"
+    __process_msg "SHIPPABLE_NODE_INIT_SCRIPT: $SHIPPABLE_NODE_INIT_SCRIPT"
   fi
 
   if [ -z "$SCRIPTS_DOWNLOAD_URL" ] || [ "$SCRIPTS_DOWNLOAD_URL" == "" ]; then
@@ -111,13 +111,6 @@ validate_envs() {
     exit 1
   else
     __process_msg "NODE_TYPE_CODE: $NODE_TYPE_CODE"
-  fi
-
-  if [ -z "$SHIPPABLE_NODE_INIT_SCRIPT" ] || [ "$SHIPPABLE_NODE_INIT_SCRIPT" == "" ]; then
-    __process_error "SHIPPABLE_NODE_INIT_SCRIPT env not defined, exiting"
-    exit 1
-  else
-    __process_msg "SHIPPABLE_NODE_INIT_SCRIPT: $SHIPPABLE_NODE_INIT_SCRIPT"
   fi
 
   if [ -z "$SHIPPABLE_NODE_INIT" ] || [ "$SHIPPABLE_NODE_INIT" == "" ]; then
@@ -202,7 +195,6 @@ update_envs() {
   sed -i "s#{{SHIPPABLE_NODE_INIT_SCRIPT}}#$SHIPPABLE_NODE_INIT_SCRIPT#g" $node_env
   sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
   sed -i "s#{{COMPONENT}}#$COMPONENT#g" $node_env
-  sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
   sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$SHIPPABLE_RELEASE_VERSION#g" $node_env
 
   ## Setting the runtime values to empty
