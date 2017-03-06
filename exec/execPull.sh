@@ -56,6 +56,14 @@ tag_cexec() {
   popd
 }
 
+tag_node_scripts() {
+  pushd $NODE_SCRIPTS_LOC
+  sudo git checkout master
+  sudo git pull --tags
+  sudo git checkout $REL_VER
+  popd
+}
+
 pull_exec() {
   sudo docker pull $GENEXEC_IMG_WITH_TAG
 }
@@ -65,8 +73,9 @@ main() {
   pull_images
   pull_cpp_prod_image
   clone_cexec
-  clone_node_scripts
   tag_cexec
+  clone_node_scripts
+  tag_node_scripts
   pull_exec
 }
 

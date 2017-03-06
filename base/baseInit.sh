@@ -4,7 +4,8 @@ set -o pipefail
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
 readonly KEY_STORE_LOCATION="/tmp/ssh"
-readonly DOCKER_VERSION="1.13.0"
+readonly NODE_TYPE_CODE=7001
+readonly SHIPPABLE_NODE_INIT=true
 readonly SCRIPTS_DOWNLOAD_URL="https://github.com/Shippable/node/archive/master.tar.gz"
 readonly NODE_SCRIPTS_DOWNLOAD_LOCATION="/tmp/shippable/node.tar.gz"
 readonly NODE_SCRIPTS_LOCATION="/tmp/shippable/node"
@@ -96,13 +97,6 @@ validate_envs() {
     exit 1
   else
     __process_msg "EXEC_IMAGE: $EXEC_IMAGE"
-  fi
-
-  if [ -z "$DOCKER_VERSION" ] || [ "$DOCKER_VERSION" == "" ]; then
-    __process_error "DOCKER_VERSION env not defined, exiting"
-    exit 1
-  else
-    __process_msg "DOCKER_VERSION: $DOCKER_VERSION"
   fi
 
   if [ -z "$SCRIPTS_DOWNLOAD_URL" ] || [ "$SCRIPTS_DOWNLOAD_URL" == "" ]; then
@@ -210,7 +204,6 @@ update_envs() {
   sed -i "s#{{COMPONENT}}#$COMPONENT#g" $node_env
   sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
   sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$SHIPPABLE_RELEASE_VERSION#g" $node_env
-  sed -i "s#{{EXEC_IMAGE}}#$EXEC_IMAGE#g" $node_env
 
   ## Setting the runtime values to empty
   local default_value=""
@@ -226,6 +219,7 @@ update_envs() {
   sed -i "s#{{EXEC_OPTS}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_REPO}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_CONTAINER_NAME}}#$default_value#g" $node_env
+  sed -i "s#{{EXEC_IMAGE}}#$default_value#g" $node_env
   sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
 
   __process_msg "Successfully update node specific envs to $node_env"
