@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 readonly CEXEC_LOC="/home/shippable/cexec"
+readonly NODE_SCRIPTS_LOC="/tmp/shippable/node"
 readonly GENEXEC_IMG="shipimg/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
@@ -39,8 +40,24 @@ clone_cexec() {
   sudo git clone https://github.com/Shippable/cexec.git $CEXEC_LOC
 }
 
+clone_node_scripts() {
+  if [ -d "$NODE_SCRIPTS_LOC" ]; then
+    sudo rm -rf $NODE_SCRIPTS_LOC
+  fi
+  mkdir -p $NODE_SCRIPTS_LOC
+  sudo git clone https://github.com/Shippable/node.git $NODE_SCRIPTS_LOC
+}
+
 tag_cexec() {
   pushd $CEXEC_LOC
+  sudo git checkout master
+  sudo git pull --tags
+  sudo git checkout $REL_VER
+  popd
+}
+
+tag_node_scripts() {
+  pushd $NODE_SCRIPTS_LOC
   sudo git checkout master
   sudo git pull --tags
   sudo git checkout $REL_VER
@@ -57,6 +74,8 @@ main() {
   pull_cpp_prod_image
   clone_cexec
   tag_cexec
+  clone_node_scripts
+  tag_node_scripts
   pull_exec
 }
 

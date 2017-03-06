@@ -11,6 +11,8 @@ export RES_AWS_CREDS="aws_bits_access"
 export RES_PARAMS="baseami_params"
 export RES_REPO="bldami_repo"
 export RES_IMG="u16_img"
+export SHIPPABLE_RELEASE_VERSION="master"
+export SHIPPABLE_NODE_INIT_SCRIPT="ubu_14.04_docker_1.13.sh"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_PARAMS_UP=$(echo $RES_PARAMS | awk '{print toupper($0)}')
@@ -89,7 +91,7 @@ install_packer() {
   export PATH=$PATH:$PK_INSALL_LOCATION/packer
   echo "downloaded packer successfully"
   echo "-----------------------------------"
-  
+
   local pk_version=$(packer version)
   echo "Packer version: $pk_version"
   popd
@@ -115,6 +117,8 @@ build_ami() {
     -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var RES_IMG_VER_NAME=$RES_IMG_VER_NAME \
     -var RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH \
+    -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
+    -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
     baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
