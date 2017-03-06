@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 readonly CEXEC_LOC="/home/shippable/cexec"
-readonly NODE_SCRIPTS_LOC="/tmp/shippable/node"
+readonly NODE_SCRIPTS_LOC="/home/shippable/node"
 readonly GENEXEC_IMG="shipimg/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"

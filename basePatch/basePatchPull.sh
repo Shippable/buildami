@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 readonly CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
-readonly NODE_SCRIPTS_LOCATION="/tmp/shippable/node"
+readonly NODE_SCRIPTS_LOCATION="/home/shippable/node"
 
 clean_cexec() {
   if [ -d "$CEXEC_LOCATION_ON_HOST" ]; then
