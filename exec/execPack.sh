@@ -8,6 +8,7 @@ export RES_REPO="bldami_repo"
 export RES_AWS_CREDS="aws_bits_access"
 export RES_BASE_AMI="patch_baseami"
 export RES_PARAMS="baseami_params"
+export SHIPPABLE_NODE_INIT_SCRIPT="ubu_14.04_docker_1.13.sh"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
@@ -100,6 +101,7 @@ build_ami() {
     -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
+    -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
     execAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
