@@ -164,6 +164,7 @@ get_repo() {
   exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
   exec_cmd "mkdir -p $NODE_DATA_LOCATION"
   exec_cmd "mkdir -p $NODE_LOGS_LOCATION"
+  exec_cmd "mkdir -p /tmp/shippable"
 
   __process_msg "Pulling scripts from api"
   exec_cmd "curl -LkSs \
