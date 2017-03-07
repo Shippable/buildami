@@ -44,7 +44,7 @@ clone_node_scripts() {
   if [ -d "$NODE_SCRIPTS_LOC" ]; then
     sudo rm -rf $NODE_SCRIPTS_LOC
   fi
-  mkdir -p $NODE_SCRIPTS_LOC
+  sudo mkdir -p $NODE_SCRIPTS_LOC
   sudo git clone https://github.com/Shippable/node.git $NODE_SCRIPTS_LOC
 }
 
