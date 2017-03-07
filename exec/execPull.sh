@@ -110,6 +110,7 @@ update_envs() {
 
   echo "Writing node specific envs to $node_env"
 
+  mkdir -p $NODE_DATA_LOCATION
   ## Setting the build time envs
   sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template > $node_env
   sed -i "s#{{SHIPPABLE_NODE_INIT_SCRIPT}}#$SHIPPABLE_NODE_INIT_SCRIPT#g" $node_env
