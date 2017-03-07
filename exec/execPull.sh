@@ -136,9 +136,7 @@ update_envs() {
   sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
 
   echo "Successfully update node specific envs to $node_env"
-  exec_cmd "cat $node_env"
-
-  is_success=true
+  cat $node_env
 }
 
 pull_exec() {
