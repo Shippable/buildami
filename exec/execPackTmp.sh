@@ -13,6 +13,7 @@ export AMI_TYPE=$4
 export RES_REPO="bldami_repo"
 export RES_AWS_CREDS="aws_bits_access"
 export RES_PARAMS="baseami_params"
+export SHIPPABLE_NODE_INIT_SCRIPT="ubu_14.04_docker_1.9.sh"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
@@ -85,7 +86,7 @@ install_packer() {
   export PATH=$PATH:$PK_INSALL_LOCATION/packer
   echo "downloaded packer successfully"
   echo "-----------------------------------"
-  
+
   local pk_version=$(packer version)
   echo "Packer version: $pk_version"
   popd
@@ -111,6 +112,7 @@ build_ami() {
     -var AMI_TYPE=$AMI_TYPE \
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
+    -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
     execAMITmp.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
