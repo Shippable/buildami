@@ -50,8 +50,10 @@
       "script": "execPull.sh",
       "environment_vars": [
         "REL_VER={{user `REL_VER`}}",
+        "SHIPPABLE_NODE_INIT_SCRIPT={{user `SHIPPABLE_NODE_INIT_SCRIPT`}}",
         "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
-      ]
+      ],
+      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     }
   ]
 }
