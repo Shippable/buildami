@@ -103,7 +103,7 @@ update_envs() {
 
   if [ ! -f "$node_env_template" ]; then
     echo "Node environment template file not found: $node_env_template"
-    return
+    exit 1
   else
     echo "Node environment template file found: $node_env_template"
   fi
