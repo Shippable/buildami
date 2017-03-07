@@ -106,27 +106,6 @@ validate_envs() {
     __process_msg "SCRIPTS_DOWNLOAD_URL: $SCRIPTS_DOWNLOAD_URL"
   fi
 
-  if [ -z "$NODE_TYPE_CODE" ] || [ "$NODE_TYPE_CODE" == "" ]; then
-    __process_error "NODE_TYPE_CODE env not defined, exiting"
-    exit 1
-  else
-    __process_msg "NODE_TYPE_CODE: $NODE_TYPE_CODE"
-  fi
-
-  if [ -z "$SHIPPABLE_NODE_INIT" ] || [ "$SHIPPABLE_NODE_INIT" == "" ]; then
-    __process_error "SHIPPABLE_NODE_INIT env not defined, exiting"
-    exit 1
-  else
-    __process_msg "SHIPPABLE_NODE_INIT: $SHIPPABLE_NODE_INIT"
-  fi
-
-  if [ -z "$EXEC_REPO" ] || [ "$EXEC_REPO" == "" ]; then
-    __process_error "EXEC_REPO env not defined, exiting"
-    exit 1
-  else
-    __process_msg "EXEC_REPO: $EXEC_REPO"
-  fi
-
   is_success=true
 }
 

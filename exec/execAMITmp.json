@@ -53,8 +53,10 @@
       "type": "shell",
       "script": "execPull.sh",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}"
-      ]
+        "REL_VER={{user `REL_VER`}}",
+        "SHIPPABLE_NODE_INIT_SCRIPT={{user `SHIPPABLE_NODE_INIT_SCRIPT`}}"
+      ],
+      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     }
   ]
 }
