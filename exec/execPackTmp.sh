@@ -70,6 +70,10 @@ set_context(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "AMI_ID=$AMI_ID"
   echo "AMI_TYPE=$AMI_TYPE"
+  if [ "$AMI_TYPE" == "unstable" ]; then
+    export SHIPPABLE_NODE_INIT_SCRIPT="ubu_14.04_docker_1.11.sh"
+  fi
+  echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT"
 }
 
 install_packer() {
