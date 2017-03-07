@@ -98,7 +98,7 @@ tag_node_scripts() {
 }
 
 update_envs() {
-  local node_env_template=$NODE_SCRIPTS_LOCATION/usr/node.env.template
+  local node_env_template=$NODE_SCRIPTS_LOC/usr/node.env.template
   local node_env=$NODE_DATA_LOCATION/node.env
 
   if [ ! -f "$node_env_template" ]; then
