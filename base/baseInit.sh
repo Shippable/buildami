@@ -189,6 +189,7 @@ update_envs() {
   local default_value=""
   sed -i "s#{{LISTEN_QUEUE}}#$default_value#g" $node_env
   sed -i "s#{{NODE_ID}}#$default_value#g" $node_env
+  sed -i "s#{{SUBSCRIPTION_ID}}#$default_value#g" $node_env
   sed -i "s#{{SHIPPABLE_AMQP_URL}}#$default_value#g" $node_env
   sed -i "s#{{SHIPPABLE_API_URL}}#$default_value#g" $node_env
   sed -i "s#{{SHIPPABLE_API_TOKEN}}#$default_value#g" $node_env
