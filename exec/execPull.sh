@@ -108,7 +108,7 @@ update_envs() {
     echo "Node environment template file found: $node_env_template"
   fi
 
-  __process_msg "Writing node specific envs to $node_env"
+  echo "Writing node specific envs to $node_env"
 
   ## Setting the build time envs
   sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template > $node_env
@@ -134,7 +134,7 @@ update_envs() {
   sed -i "s#{{EXEC_IMAGE}}#$default_value#g" $node_env
   sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
 
-  __process_msg "Successfully update node specific envs to $node_env"
+  echo "Successfully update node specific envs to $node_env"
   exec_cmd "cat $node_env"
 
   is_success=true
