@@ -133,6 +133,7 @@ update_envs() {
   sed -i "s#{{EXEC_MOUNTS}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_OPTS}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_CONTAINER_NAME}}#$default_value#g" $node_env
+  sed -i "s#{{EXEC_CONTAINER_NAME_PATTERN}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_IMAGE}}#$default_value#g" $node_env
   sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
 
