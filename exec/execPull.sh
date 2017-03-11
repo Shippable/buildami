@@ -165,5 +165,6 @@ main() {
   pull_exec
 }
 
+echo "Running execPull script..."
 trap before_exit EXIT
 main
