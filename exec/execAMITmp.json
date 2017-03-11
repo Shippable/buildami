@@ -9,6 +9,7 @@
     "AMI_TYPE": "test",
     "REL_VER": "",
     "REL_DASH_VER": "",
+    "SHIPPABLE_NODE_INIT_SCRIPT": "",
     "SECURITY_GROUP_ID": ""
   },
   "builders": [
