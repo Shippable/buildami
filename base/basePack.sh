@@ -65,6 +65,7 @@ set_context(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
   echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+  echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT"
 }
 
 get_image_list() {
