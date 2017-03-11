@@ -163,6 +163,7 @@ main() {
   tag_node_scripts
   update_envs
   pull_exec
+  echo "AMI init script completed"
 }
 
 echo "Running execPull script..."
