@@ -21,6 +21,7 @@ readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
 
 set_context() {
+  echo "Setting context for AMI"
 
   echo "REL_VER=$REL_VER"
   echo "GENEXEC_IMG=$GENEXEC_IMG"
@@ -145,6 +146,14 @@ pull_exec() {
   sudo docker pull $GENEXEC_IMG_WITH_TAG
 }
 
+before_exit() {
+  ## flush any remaining console
+  echo $1
+  echo $2
+
+  echo "AMI build script completed"
+}
+
 main() {
   set_context
   pull_images
@@ -157,5 +166,5 @@ main() {
   pull_exec
 }
 
+trap before_exit EXIT
 main
-echo "AMI init script completed"
