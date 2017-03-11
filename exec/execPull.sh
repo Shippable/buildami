@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/bin/bash -e
 
-set -e
 set -o pipefail
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
