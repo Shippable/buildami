@@ -2,10 +2,6 @@
 
 set -o pipefail
 
-export PK_INSALL_LOCATION=/opt
-export PK_VERSION=0.12.2
-export PK_FILENAME=packer_"$PK_VERSION"_linux_amd64.zip
-
 export CURR_JOB="patch_baseami"
 export RES_AWS_CREDS="aws_bits_access"
 export RES_PARAMS="baseami_params"
@@ -74,26 +70,6 @@ set_context(){
   echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
 }
 
-install_packer() {
-  pushd $PK_INSALL_LOCATION
-  echo "Fetching packer"
-  echo "-----------------------------------"
-
-  rm -rf $PK_INSALL_LOCATION/packer
-  mkdir -p $PK_INSALL_LOCATION/packer
-
-  wget -q https://releases.hashicorp.com/packer/$PK_VERSION/"$PK_FILENAME"
-  apt-get install unzip
-  unzip -o $PK_FILENAME -d $PK_INSALL_LOCATION/packer
-  export PATH=$PATH:$PK_INSALL_LOCATION/packer
-  echo "downloaded packer successfully"
-  echo "-----------------------------------"
-  
-  local pk_version=$(packer version)
-  echo "Packer version: $pk_version"
-  popd
-}
-
 build_ami() {
   pushd "$RES_REPO_STATE/basePatch"
   echo "-----------------------------------"
@@ -132,7 +108,6 @@ main() {
   which ssh-agent
 
   set_context
-  install_packer
   build_ami
 }
 
