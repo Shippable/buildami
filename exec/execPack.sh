@@ -8,7 +8,6 @@ export RES_REPO="bldami_repo"
 export RES_AWS_CREDS="aws_bits_access"
 export RES_BASE_AMI="patch_baseami"
 export RES_PARAMS="baseami_params"
-export SHIPPABLE_NODE_INIT_SCRIPT="ubu_14.04_docker_1.13.sh"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
@@ -37,6 +36,7 @@ set_context(){
   export VPC_ID=$(eval echo "$"$RES_PARAMS_STR"_VPC_ID")
   export SUBNET_ID=$(eval echo "$"$RES_PARAMS_STR"_SUBNET_ID")
   export SECURITY_GROUP_ID=$(eval echo "$"$RES_PARAMS_STR"_SECURITY_GROUP_ID")
+  export SHIPPABLE_NODE_INIT_SCRIPT=$(eval echo "$"$RES_PARAMS_STR"_SHIPPABLE_NODE_INIT_SCRIPT")
 
   # now get the AWS keys
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
