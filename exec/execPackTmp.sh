@@ -9,7 +9,7 @@ export AMI_TYPE=$4
 export RES_REPO="bldami_repo"
 export RES_AWS_CREDS="aws_bits_access"
 export RES_PARAMS="baseami_params"
-export SHIPPABLE_NODE_INIT_SCRIPT="ubu_14.04_docker_1.9.sh"
+export SHIPPABLE_NODE_INIT_SCRIPT="Ubuntu_14.04_Docker_1.9.sh"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
@@ -67,7 +67,7 @@ set_context(){
   echo "AMI_ID=$AMI_ID"
   echo "AMI_TYPE=$AMI_TYPE"
   if [ "$AMI_TYPE" == "rc-unstable" ]; then
-    export SHIPPABLE_NODE_INIT_SCRIPT="ubu_14.04_docker_1.11.sh"
+    export SHIPPABLE_NODE_INIT_SCRIPT="Ubuntu_14.04_Docker_1.11.sh"
   fi
   echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT"
 }
