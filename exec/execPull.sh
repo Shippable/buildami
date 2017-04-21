@@ -42,7 +42,7 @@ validate_envs() {
 
   if [ -z "$KERNEL_DOWN" ] || [ "$KERNEL_DOWN" == "" ]; then
     echo "KERNEL_DOWN env not defined, setting it to false"
-    export KERNEL_DOWN=false
+    export KERNEL_DOWN="false"
   else
     echo "KERNEL_DOWN: $KERNEL_DOWN"
   fi
@@ -56,7 +56,7 @@ validate_envs() {
 }
 
 down_kernel() {
-  if KERNEL_DOWN; then
+  if [$KERNEL_DOWN == "true"]; then
     echo "Downgrading Kernel to default Ubuntu 14.04"
     sudo apt-get update
     sudo apt-get install linux-generic-lts-trusty
