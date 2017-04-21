@@ -172,6 +172,7 @@ before_exit() {
 main() {
   set_context
   validate_envs
+  down_kernel
   pull_images
   pull_cpp_prod_image
   clone_cexec
