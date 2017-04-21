@@ -10,6 +10,7 @@
     "REL_VER": "",
     "REL_DASH_VER": "",
     "SHIPPABLE_NODE_INIT_SCRIPT": "",
+    "KERNEL_DOWN": false,
     "SECURITY_GROUP_ID": ""
   },
   "builders": [
@@ -59,7 +60,8 @@
       "script": "execPull.sh",
       "environment_vars": [
         "REL_VER={{user `REL_VER`}}",
-        "SHIPPABLE_NODE_INIT_SCRIPT={{user `SHIPPABLE_NODE_INIT_SCRIPT`}}"
+        "SHIPPABLE_NODE_INIT_SCRIPT={{user `SHIPPABLE_NODE_INIT_SCRIPT`}}",
+        "KERNEL_DOWN={{user `KERNEL_DOWN`}}"
       ],
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     }

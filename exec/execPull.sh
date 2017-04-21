@@ -40,11 +40,27 @@ validate_envs() {
     echo "SHIPPABLE_RELEASE_VERSION: $SHIPPABLE_RELEASE_VERSION"
   fi
 
+  if [ -z "$KERNEL_DOWN" ] || [ "$KERNEL_DOWN" == "" ]; then
+    echo "KERNEL_DOWN env not defined, setting it to false"
+    export KERNEL_DOWN=false
+  else
+    echo "KERNEL_DOWN: $KERNEL_DOWN"
+  fi
+
   if [ -z "$SHIPPABLE_NODE_INIT_SCRIPT" ] || [ "$SHIPPABLE_NODE_INIT_SCRIPT" == "" ]; then
     echo "SHIPPABLE_NODE_INIT_SCRIPT env not defined, exiting"
     exit 1
   else
     echo "SHIPPABLE_NODE_INIT_SCRIPT: $SHIPPABLE_NODE_INIT_SCRIPT"
+  fi
+}
+
+down_kernel() {
+  if KERNEL_DOWN; then
+    echo "Downgrading Kernel to default Ubuntu 14.04"
+    sudo apt-get update
+    sudo apt-get install linux-generic-lts-trusty
+    echo "Completed downgrading Kernel to default Ubuntu 14.04"
   fi
 }
 
@@ -155,6 +171,7 @@ before_exit() {
 
 main() {
   set_context
+  validate_envs
   pull_images
   pull_cpp_prod_image
   clone_cexec
