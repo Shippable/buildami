@@ -6,10 +6,12 @@ export CURR_JOB=$1
 export RES_REL=$2
 export AMI_ID=$3
 export AMI_TYPE=$4
+export SHIPPABLE_NODE_INIT_SCRIPT=$5
+export KERNEL_DOWN=$6
+
 export RES_REPO="bldami_repo"
 export RES_AWS_CREDS="aws_bits_access"
 export RES_PARAMS="baseami_params"
-export SHIPPABLE_NODE_INIT_SCRIPT="Ubuntu_14.04_Docker_1.9.sh"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
@@ -39,12 +41,10 @@ set_context(){
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
 
-
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_REL=$RES_REL"
   echo "RES_REPO=$RES_REPO"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
-
   echo "RES_PARAMS=$RES_PARAMS"
 
   echo "RES_REL_UP=$RES_REPO_UP"
@@ -66,10 +66,8 @@ set_context(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "AMI_ID=$AMI_ID"
   echo "AMI_TYPE=$AMI_TYPE"
-  if [ "$AMI_TYPE" == "rc-unstable" ]; then
-    export SHIPPABLE_NODE_INIT_SCRIPT="Ubuntu_14.04_Docker_1.11.sh"
-  fi
   echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT"
+  echo "KERNEL_DOWN=$KERNEL_DOWN"
 }
 
 build_ami() {
@@ -93,6 +91,7 @@ build_ami() {
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
     -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
+    -var KERNEL_DOWN=$KERNEL_DOWN \
     execAMITmp.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
