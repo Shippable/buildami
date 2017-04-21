@@ -10,7 +10,7 @@
     "REL_VER": "",
     "REL_DASH_VER": "",
     "SHIPPABLE_NODE_INIT_SCRIPT": "",
-    "KERNEL_DOWN": false,
+    "KERNEL_DOWN": "false",
     "SECURITY_GROUP_ID": ""
   },
   "builders": [
