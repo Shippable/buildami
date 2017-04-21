@@ -56,7 +56,7 @@ validate_envs() {
 }
 
 down_kernel() {
-  if [$KERNEL_DOWN == "true"]; then
+  if [ $KERNEL_DOWN == "true" ]; then
     echo "Downgrading Kernel to default Ubuntu 14.04"
     sudo apt-get update
     sudo apt-get install linux-generic-lts-trusty
