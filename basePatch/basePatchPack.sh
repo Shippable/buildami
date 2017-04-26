@@ -43,6 +43,7 @@ set_context(){
   export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
   export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
   export IMAGE_NAMES_SPACED=$(jq -r '.version.propertyBag.IMAGE_NAMES_SPACED' version.json)
+  export SHIPPABLE_NODE_INIT_SCRIPT=$(jq -r '.version.propertyBag.SHIPPABLE_NODE_INIT_SCRIPT' version.json)
   popd
 
   echo "CURR_JOB=$CURR_JOB"
@@ -68,6 +69,7 @@ set_context(){
   echo "AMI_ID=$AMI_ID"
   echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
   echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+  echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT"
 }
 
 build_ami() {
@@ -97,6 +99,7 @@ build_ami() {
     echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
     echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
     echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
+    echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT" >> "$JOB_STATE/$CURR_JOB.env"
     cat "$JOB_STATE/$CURR_JOB.env"
 
   popd
