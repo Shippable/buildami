@@ -55,15 +55,6 @@ validate_envs() {
   fi
 }
 
-down_kernel() {
-  if [ $KERNEL_DOWN == "true" ]; then
-    echo "Downgrading Kernel to default Ubuntu 14.04"
-    sudo apt-get update
-    sudo apt-get install -y linux-generic-lts-trusty
-    echo "Completed downgrading Kernel to default Ubuntu 14.04"
-  fi
-}
-
 pull_images() {
   for IMAGE_NAME in $IMAGE_NAMES_SPACED; do
     echo "Pulling -------------------> $IMAGE_NAME:$REL_VER"
@@ -172,7 +163,6 @@ before_exit() {
 main() {
   set_context
   validate_envs
-  down_kernel
   pull_images
   pull_cpp_prod_image
   clone_cexec
