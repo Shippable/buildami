@@ -19,6 +19,9 @@ readonly GENEXEC_IMG="shipimg/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
 
+#temporary zephyr build speed up....
+readonly ZEPHYR_IMG="nashif/zephyr:master.6"
+
 set_context() {
   echo "Setting context for AMI"
 
@@ -152,6 +155,10 @@ pull_exec() {
   sudo docker pull $GENEXEC_IMG_WITH_TAG
 }
 
+pull_zephyr() {
+  sudo docker pull $ZEPHYR_IMG
+}
+
 before_exit() {
   ## flush any remaining console
   echo $1
@@ -171,6 +178,7 @@ main() {
   tag_node_scripts
   update_envs
   pull_exec
+  pull_zephyr
 }
 
 echo "Running execPull script..."
