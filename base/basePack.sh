@@ -2,9 +2,9 @@
 
 set -o pipefail
 
-export CURR_JOB="build_baseami"
+export CURR_JOB=$1
+export RES_PARAMS=$2
 export RES_AWS_CREDS="aws_bits_access"
-export RES_PARAMS="baseami_params"
 export RES_REPO="bldami_repo"
 export RES_IMG="u16_img"
 export SHIPPABLE_RELEASE_VERSION="master"
