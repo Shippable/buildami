@@ -29,8 +29,9 @@
       "launch_block_device_mappings": [
         {
           "device_name": "/dev/sda1",
-          "volume_type": "gp2",
-          "volume_size": "150",
+          "volume_type": "io1",
+          "volume_size": "120",
+          "iops": "7500",
           "delete_on_termination": true
         }
       ]
@@ -53,6 +54,14 @@
         "SHIPPABLE_NODE_INIT_SCRIPT={{user `SHIPPABLE_NODE_INIT_SCRIPT`}}"
       ],
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
+    },
+    {
+      "type": "shell",
+      "script": "basePull.sh",
+      "environment_vars": [
+        "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}",
+        "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
+      ]
     }
   ]
 }
