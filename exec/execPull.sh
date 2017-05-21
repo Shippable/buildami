@@ -21,6 +21,7 @@ readonly CPP_IMAGE_TAG="prod"
 
 #temporary zephyr build speed up....
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:master.16"
+readonly ZEPHYR_IMG_OLD="nashif/zephyr:master.6"
 
 set_context() {
   echo "Setting context for AMI"
@@ -159,6 +160,10 @@ pull_zephyr() {
   sudo docker pull $ZEPHYR_IMG
 }
 
+pull_zephyr_old() {
+  sudo docker pull $ZEPHYR_IMG_OLD
+}
+
 before_exit() {
   ## flush any remaining console
   echo $1
@@ -179,6 +184,7 @@ main() {
   update_envs
   pull_exec
   pull_zephyr
+  pull_zephyr_old
 }
 
 echo "Running execPull script..."
