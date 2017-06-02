@@ -139,6 +139,8 @@ __clear_user_settings() {
   echo "Removing all authorized keys for ubuntu user"
   echo "" | sudo tee /home/ubuntu/.ssh/authorized_keys
 
+  echo "Removing default password for Shippable user"
+  sudo passwd -d shippable
 
   echo "Successfully cleared user settings"
 }
