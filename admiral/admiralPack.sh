@@ -70,7 +70,7 @@ build_ami() {
 
   echo "validating AMI template"
   echo "-----------------------------------"
-  packer --version
+  packer --version || true
   packer validate admiralAMI.json
   echo "building AMI"
   echo "-----------------------------------"
