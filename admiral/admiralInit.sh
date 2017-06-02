@@ -25,14 +25,14 @@ __print_runtime() {
     echo "ERROR!!! Missing ACCESS_KEY environment variable"
     exit 1
   else
-    echo "ACCESS_KEY: $ACCESS_KEY"
+    echo "ACCESS_KEY: ${#ACCESS_KEY}"
   fi
 
   if [ -z "$SECRET_KEY" ] || [ "$SECRET_KEY" == "" ]; then
     echo "ERROR!!! Missing SECRET_KEY environment variable"
     exit 1
   else
-    echo "SECRET_KEY : $SECRET_KEY "
+    echo "SECRET_KEY : ${#SECRET_KEY} "
   fi
 
   echo "=================================================="
@@ -70,10 +70,10 @@ __update_env() {
   echo "Updating ADMIRAL_IP: $ADMIRAL_IP"
   sudo sed -i 's#.*ADMIRAL_IP=.*#ADMIRAL_IP="'$ADMIRAL_IP'"#g' $ADMIRAL_ENV
 
-  echo "Updating ACCESS_KEY: $ACCESS_KEY"
+  echo "Updating ACCESS_KEY: ${#ACCESS_KEY}"
   sudo sed -i 's#.*ACCESS_KEY=.*#ACCESS_KEY="'$ACCESS_KEY'"#g' $ADMIRAL_ENV
 
-  echo "Updating SECRET_KEY: $SECRET_KEY"
+  echo "Updating SECRET_KEY: ${#SECRET_KEY}"
   sudo sed -i 's#.*SECRET_KEY=.*#SECRET_KEY="'$SECRET_KEY'"#g' $ADMIRAL_ENV
 
   echo "Updating DB_IP: $DB_IP"
@@ -86,8 +86,7 @@ __update_env() {
   echo "Updating DB_PASSWORD: $temp_db_password"
   sudo sed -i 's#.*DB_PASSWORD=.*#DB_PASSWORD="'$temp_db_password'"#g' $ADMIRAL_ENV
 
-  echo "admiral.env"
-  cat $ADMIRAL_ENV
+  echo "updated admiral.env"
 }
 
 __install() {
