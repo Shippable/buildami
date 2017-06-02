@@ -6,6 +6,7 @@ export CURR_JOB=$1
 export RES_PARAMS=$2
 export RES_REL=$3
 export RES_AWS_CREDS="aws_bits_access"
+export RES_AWS_AMI_CREDS="aws_prod_access"
 
 export RES_REPO="bldami_repo"
 export REL_DASH_VER="master"
@@ -17,6 +18,10 @@ export RES_PARAMS_STR=$RES_PARAMS_UP"_PARAMS"
 # Now get ECR keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
+
+# Now get keys for building AMI
+export RES_AWS_AMI_CREDS_UP=$(echo $RES_AWS_AMI_CREDS | awk '{print toupper($0)}')
+export RES_AWS_AMI_CREDS_INT=$RES_AWS_AMI_CREDS_UP"_INTEGRATION"
 
 # set the repo path
 export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
@@ -44,6 +49,10 @@ set_context(){
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
 
+  # now get the AMI build keys
+  export AWS_AMI_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_AMI_CREDS_INT"_AWS_ACCESS_KEY_ID")
+  export AWS_AMI_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_AMI_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
+
   echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH"
   echo "RES_REL_VER_NAME=$RES_REL_VER_NAME"
   echo "CURR_JOB=$CURR_JOB"
@@ -64,6 +73,9 @@ set_context(){
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 
+  echo "AWS_AMI_ACCESS_KEY_ID=${#AWS_AMI_ACCESS_KEY_ID}" #print only length not value
+  echo "AWS_AMI_SECRET_ACCESS_KEY=${#AWS_AMI_SECRET_ACCESS_KEY}" #print only length not value
+
 }
 
 build_ami() {
@@ -79,6 +91,8 @@ build_ami() {
 
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
+    -var aws_ami_access_key=$AWS_AMI_ACCESS_KEY_ID \
+    -var aws_ami_secret_key=$AWS_AMI_SECRET_ACCESS_KEY \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
     -var REL_VER=$RES_REL_VER_NAME \
     -var REGION=$REGION \
