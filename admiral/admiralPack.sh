@@ -32,7 +32,6 @@ set_context(){
   export REGION=$(eval echo "$"$RES_PARAMS_STR"_REGION")
   export VPC_ID=$(eval echo "$"$RES_PARAMS_STR"_VPC_ID")
   export SUBNET_ID=$(eval echo "$"$RES_PARAMS_STR"_SUBNET_ID")
-  export SECURITY_GROUP_ID=$(eval echo "$"$RES_PARAMS_STR"_SECURITY_GROUP_ID")
   export SOURCE_AMI=$(eval echo "$"$RES_PARAMS_STR"_SOURCE_AMI")
 
   # now get the AWS keys
@@ -54,7 +53,6 @@ set_context(){
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
-  echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 }
@@ -74,7 +72,6 @@ build_ami() {
     -var REGION=$REGION \
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
-    -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var SOURCE_AMI=$SOURCE_AMI \
     -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
