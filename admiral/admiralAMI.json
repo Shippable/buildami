@@ -23,7 +23,7 @@
     "source_ami": "{{user `SOURCE_AMI`}}",
     "instance_type": "c3.xlarge",
     "ssh_username": "ubuntu",
-    "ami_name": "Shippable Server - Startup Edition {{user `REL_DASH_VER`}}",
+    "ami_name": "Shippable Server - Startup Edition {{user `REL_DASH_VER`}}-{{isotime \"1504\"}}",
     "tags": {
       "OS_Version": "Ubuntu 14.04",
       "Release": "master"
