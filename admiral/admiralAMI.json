@@ -1,6 +1,7 @@
 {
   "variables": {
     "REL_DASH_VER": "",
+    "REL_VER": "",
     "aws_access_key": "",
     "aws_secret_key": "",
     "REGION": "",
@@ -47,7 +48,7 @@
       "type": "shell",
       "script": "admiralInit.sh",
       "environment_vars": [
-        "REL_DASH_VER={{user `REL_DASH_VER `}}",
+        "REL_VER={{user `REL_VER`}}",
         "ACCESS_KEY={{user `aws_access_key`}}",
         "SECRET_KEY={{user `aws_secret_key`}}"
       ]
