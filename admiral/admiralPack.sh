@@ -4,7 +4,9 @@ set -o pipefail
 
 export CURR_JOB=$1
 export RES_PARAMS=$2
-export RES_AWS_CREDS="aws_rc_access"
+export RES_AWS_CREDS="aws_bits_access"
+export RES_AWS_CREDS_BUILD="aws_rc_access"
+
 export RES_REPO="bldami_repo"
 export SHIPPABLE_RELEASE_VERSION="master"
 
@@ -15,6 +17,10 @@ export RES_PARAMS_STR=$RES_PARAMS_UP"_PARAMS"
 # Now get AWS keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
+
+# Get ECR access keys
+export RES_AWS_CREDS_BUILD_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
+export RES_AWS_CREDS_BUILD_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
 # set the repo path
 export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
