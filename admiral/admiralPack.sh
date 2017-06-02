@@ -5,7 +5,6 @@ set -o pipefail
 export CURR_JOB=$1
 export RES_PARAMS=$2
 export RES_AWS_CREDS="aws_bits_access"
-export RES_AWS_CREDS_BUILD="aws_rc_access"
 
 export RES_REPO="bldami_repo"
 export SHIPPABLE_RELEASE_VERSION="master"
@@ -17,10 +16,6 @@ export RES_PARAMS_STR=$RES_PARAMS_UP"_PARAMS"
 # Now get ECR keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
-
-# Get AWS access keys to build AMI
-export RES_AWS_CREDS_BUILD_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
-export RES_AWS_CREDS_BUILD_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
 # set the repo path
 export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
@@ -37,10 +32,6 @@ set_context(){
   # now get the ECR keys
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
-
-  # now get AWS access keys to build AMI
-  export AWS_BUILD_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_BUILD_INT"_AWS_ACCESS_KEY_ID")
-  export AWS_BUILD_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_BUILD_INT"_AWS_SECRET_ACCESS_KEY")
 
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
@@ -60,8 +51,6 @@ set_context(){
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 
-  echo "AWS_BUILD_ACCESS_KEY_ID=${#AWS_BUILD_ACCESS_KEY_ID}" #print only length not value
-  echo "AWS_BUILD_SECRET_ACCESS_KEY=${#AWS_BUILD_SECRET_ACCESS_KEY}" #print only length not value
 }
 
 build_ami() {
@@ -77,8 +66,6 @@ build_ami() {
 
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
-    -var aws_build_access_key=$AWS_BUILD_ACCESS_KEY_ID \
-    -var aws_build_secret_key=$AWS_BUILD_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
