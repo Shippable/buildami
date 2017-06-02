@@ -1,5 +1,6 @@
 {
   "variables": {
+    "REL_DASH_VER": "",
     "aws_access_key": "",
     "aws_secret_key": "",
     "REGION": "",
@@ -19,7 +20,7 @@
     "source_ami": "{{user `SOURCE_AMI`}}",
     "instance_type": "c3.xlarge",
     "ssh_username": "ubuntu",
-    "ami_name": "Shippable Server Startup Edition [RC]",
+    "ami_name": "admiral-ami-{{user `REL_DASH_VER`}}",
     "tags": {
       "OS_Version": "Ubuntu 14.04",
       "Release": "master"
@@ -46,7 +47,7 @@
       "type": "shell",
       "script": "admiralInit.sh",
       "environment_vars": [
-        "SHIPPABLE_RELEASE_VERSION={{user `SHIPPABLE_RELEASE_VERSION`}}",
+        "REL_DASH_VER={{user `REL_DASH_VER `}}",
         "ACCESS_KEY={{user `aws_access_key`}}",
         "SECRET_KEY={{user `aws_secret_key`}}"
       ]
