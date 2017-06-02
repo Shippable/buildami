@@ -4,10 +4,11 @@ set -o pipefail
 
 export CURR_JOB=$1
 export RES_PARAMS=$2
+export RES_REL=$3
 export RES_AWS_CREDS="aws_bits_access"
 
 export RES_REPO="bldami_repo"
-export SHIPPABLE_RELEASE_VERSION="master"
+export REL_DASH_VER="master"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_PARAMS_UP=$(echo $RES_PARAMS | awk '{print toupper($0)}')
@@ -23,6 +24,15 @@ export RES_REPO_STATE=$(eval echo "$"$RES_REPO_UP"_STATE")
 
 
 set_context(){
+  # get release
+  if [ -z "$RES_REL" ] || [ "$RES_REL" == "" ]; then
+    export RES_REL_VER_NAME=master
+  else
+    export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
+    export RES_REL_VER_NAME=$(eval echo "$"$RES_REL_UP"_VERSIONNAME")
+    export RES_REL_VER_NAME_DASH=${RES_REL_VER_NAME//./-}
+  fi
+
   # now get all the parameters for ami location
   export REGION=$(eval echo "$"$RES_PARAMS_STR"_REGION")
   export VPC_ID=$(eval echo "$"$RES_PARAMS_STR"_VPC_ID")
@@ -33,6 +43,10 @@ set_context(){
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
 
+  export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
+  export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
+
+  echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH"
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
   echo "RES_PARAMS=$RES_PARAMS"
@@ -66,11 +80,12 @@ build_ami() {
 
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
+    -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
     -var REGION=$REGION \
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
     -var SOURCE_AMI=$SOURCE_AMI \
-    -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
+    -var REL_DASH_VER=$REL_DASH_VER \
     admiralAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
@@ -87,7 +102,7 @@ main() {
   which ssh-agent
 
   set_context
-  build_ami
+  #build_ami
 }
 
 main
