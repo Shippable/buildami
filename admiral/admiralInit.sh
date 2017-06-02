@@ -130,6 +130,19 @@ __clear_secrets() {
   sudo rm -rf $RUNTIME_DIR/db
 }
 
+__clear_user_settings() {
+  echo "Clearing any user related data on the machine"
+
+  echo "Removing all authorized keys for root user"
+  echo "" | sudo tee /root/.ssh/authorized_keys
+
+  echo "Removing all authorized keys for ubuntu user"
+  echo "" | sudo tee /home/ubuntu/.ssh/authorized_keys
+
+
+  echo "Successfully cleared user settings"
+}
+
 __stop_services() {
   echo "Stopping services"
 
@@ -151,8 +164,9 @@ main() {
   __install
   __setup_upstart
   __clear_secrets
+  __clear_user_settings
   __stop_services
-  echo "Admiral installation complete"
+  echo "Admiral AMI bootstrap complete"
 }
 
 main
