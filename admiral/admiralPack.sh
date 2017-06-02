@@ -29,7 +29,6 @@ set_context(){
     export RES_REL_VER_NAME=master
     export RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME
   else
-    echo "$RES_REL"
     export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
     export RES_REL_VER_NAME=$(eval echo "$"$RES_REL_UP"_VERSIONNAME")
     export RES_REL_VER_NAME_DASH=${RES_REL_VER_NAME//./-}
@@ -46,6 +45,7 @@ set_context(){
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
 
   echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH"
+  echo "RES_REL_VER_NAME=$RES_REL_VER_NAME"
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
   echo "RES_PARAMS=$RES_PARAMS"
@@ -102,7 +102,7 @@ main() {
   which ssh-agent
 
   set_context
-  #build_ami
+  build_ami
 }
 
 main
