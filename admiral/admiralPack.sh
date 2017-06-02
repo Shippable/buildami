@@ -14,11 +14,11 @@ export SHIPPABLE_RELEASE_VERSION="master"
 export RES_PARAMS_UP=$(echo $RES_PARAMS | awk '{print toupper($0)}')
 export RES_PARAMS_STR=$RES_PARAMS_UP"_PARAMS"
 
-# Now get AWS keys
+# Now get ECR keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
-# Get ECR access keys
+# Get AWS access keys to build AMI
 export RES_AWS_CREDS_BUILD_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_BUILD_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
@@ -34,9 +34,13 @@ set_context(){
   export SUBNET_ID=$(eval echo "$"$RES_PARAMS_STR"_SUBNET_ID")
   export SOURCE_AMI=$(eval echo "$"$RES_PARAMS_STR"_SOURCE_AMI")
 
-  # now get the AWS keys
+  # now get the ECR keys
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
+
+  # now get AWS access keys to build AMI
+  export AWS_BUILD_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_BUILD_INT"_AWS_ACCESS_KEY_ID")
+  export AWS_BUILD_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_BUILD_INT"_AWS_SECRET_ACCESS_KEY")
 
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
@@ -55,6 +59,9 @@ set_context(){
   echo "SUBNET_ID=$SUBNET_ID"
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
+
+  echo "AWS_BUILD_ACCESS_KEY_ID=${#AWS_BUILD_ACCESS_KEY_ID}" #print only length not value
+  echo "AWS_BUILD_SECRET_ACCESS_KEY=${#AWS_BUILD_SECRET_ACCESS_KEY}" #print only length not value
 }
 
 build_ami() {
