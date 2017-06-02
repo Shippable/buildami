@@ -27,7 +27,9 @@ set_context(){
   # get release
   if [ -z "$RES_REL" ] || [ "$RES_REL" == "" ]; then
     export RES_REL_VER_NAME=master
+    export RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME
   else
+    echo "$RES_REL"
     export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
     export RES_REL_VER_NAME=$(eval echo "$"$RES_REL_UP"_VERSIONNAME")
     export RES_REL_VER_NAME_DASH=${RES_REL_VER_NAME//./-}
@@ -81,6 +83,7 @@ build_ami() {
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
+    -var REL_VER=$RES_REL_VER_NAME \
     -var REGION=$REGION \
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \

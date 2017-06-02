@@ -19,7 +19,7 @@ __print_runtime() {
   echo "=================================================="
   echo "ADMIRAL_DIR: $ADMIRAL_DIR"
   echo "ADMIRAL_REPO: $ADMIRAL_REPO"
-  echo "REL_DASH_VER: $REL_DASH_VER"
+  echo "REL_VER: $REL_VER"
 
   if [ -z "$ACCESS_KEY" ] || [ "$ACCESS_KEY" == "" ]; then
     echo "ERROR!!! Missing ACCESS_KEY environment variable"
@@ -55,7 +55,7 @@ __clone_admiral() {
   sudo mkdir -p $ADMIRAL_DIR
   sudo git clone $ADMIRAL_REPO $ADMIRAL_DIR
   cd $ADMIRAL_DIR
-  sudo git checkout $REL_DASH_VER
+  sudo git checkout $REL_VER
 }
 
 __update_env() {
