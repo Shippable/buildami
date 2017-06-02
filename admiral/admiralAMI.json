@@ -1,7 +1,7 @@
 {
   "variables": {
     "aws_build_access_key": "",
-    "aws_build_secret_key": ""
+    "aws_build_secret_key": "",
     "aws_access_key": "",
     "aws_secret_key": "",
     "REGION": "",
