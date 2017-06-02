@@ -65,22 +65,24 @@ set_context(){
 }
 
 build_ami() {
-  pushd "$RES_REPO_STATE/base"
+  pushd "$RES_REPO_STATE/admiral"
   echo "-----------------------------------"
 
   echo "validating AMI template"
   echo "-----------------------------------"
+  packer --version
   packer validate admiralAMI.json
   echo "building AMI"
   echo "-----------------------------------"
 
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
+    -var aws_build_access_key=$AWS_BUILD_ACCESS_KEY_ID \
+    -var aws_build_secret_key=$AWS_BUILD_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
     -var SOURCE_AMI=$SOURCE_AMI \
-    -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
     admiralAMI.json 2>&1 | tee output.txt
 
@@ -88,7 +90,6 @@ build_ami() {
     echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
     | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
 
-    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
     cat "$JOB_STATE/$CURR_JOB.env"
   popd
 }
@@ -99,7 +100,7 @@ main() {
   which ssh-agent
 
   set_context
-  #build_ami
+  build_ami
 }
 
 main
