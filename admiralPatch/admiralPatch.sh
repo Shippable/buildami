@@ -156,6 +156,7 @@ __stop_services() {
 
 main() {
   echo "Patching admiral AMI"
+  __stop_services
   __print_runtime
   __clone_admiral
   __update_env
