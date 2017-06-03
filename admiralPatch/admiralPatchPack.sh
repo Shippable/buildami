@@ -30,7 +30,6 @@ export RES_REPO_STATE=$(eval echo "$"$RES_REPO_UP"_STATE")
 
 # set the base-ami path
 export RES_ADMIRAL_AMI_UP=$(echo $RES_ADMIRAL_AMI | awk '{print toupper($0)}')
-export RES_ADMIRAL_AMI_PATH=$(eval echo "$"$RES_ADMIRAL_AMI_UP"_PATH")
 
 set_context(){
   # get release
