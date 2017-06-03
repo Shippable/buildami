@@ -39,23 +39,20 @@ __print_runtime() {
   echo "=================================================="
 }
 
-__install_deps() {
-  echo "Installing dependencies"
-  __run_update
-
-  sudo apt install -y git-core
-
-  echo "Upgrading kernel"
-  sudo apt install -y linux-generic-lts-vivid
-}
-
 __clone_admiral() {
   echo "Cloning Admiral"
   sudo rm -rf $ADMIRAL_DIR
   sudo mkdir -p $ADMIRAL_DIR
   sudo git clone $ADMIRAL_REPO $ADMIRAL_DIR
   cd $ADMIRAL_DIR
-  sudo git checkout $REL_VER
+
+  local clone_cmd="sudo git checkout $REL_VER"
+  echo "Executing: $clone_cmd"
+
+  #TODO remove once prod release is done
+  clone_cmd="sudo git checkout master"
+
+  eval "$clone_cmd"
 }
 
 __update_env() {
@@ -158,9 +155,8 @@ __stop_services() {
 }
 
 main() {
-  echo "Bootstrapping AMI to install Admiral"
+  echo "Patching admiral AMI"
   __print_runtime
-  __install_deps
   __clone_admiral
   __update_env
   __install
@@ -168,7 +164,7 @@ main() {
   __clear_secrets
   __clear_user_settings
   __stop_services
-  echo "Admiral AMI bootstrap complete"
+  echo "Admiral AMI patch complete"
 }
 
 main
