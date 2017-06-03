@@ -1,0 +1,59 @@
+{
+  "variables": {
+    "REL_DASH_VER": "",
+    "REL_VER": "",
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "aws_ami_access_key": "",
+    "aws_ami_secret_key": "",
+    "AMI_ID": "test",
+    "REGION": "",
+    "VPC_ID": "",
+    "SUBNET_ID": "",
+    "SECURITY_GROUP_ID": ""
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_ami_access_key`}}",
+    "secret_key": "{{user `aws_ami_secret_key`}}",
+    "region": "{{user `REGION`}}",
+    "vpc_id": "{{user `VPC_ID`}}",
+    "associate_public_ip_address": true,
+    "subnet_id": "{{user `SUBNET_ID`}}",
+    "source_ami": "{{user `AMI_ID`}}",
+    "instance_type": "c3.xlarge",
+    "ssh_username": "ubuntu",
+    "ami_name": "Shippable Server - Startup Edition {{user `REL_DASH_VER`}}",
+    "tags": {
+      "OS_Version": "Ubuntu 14.04",
+      "Release": "master"
+    },
+    "launch_block_device_mappings": [
+      {
+        "device_name": "/dev/sda1",
+        "volume_type": "gp2",
+        "volume_size": "100",
+        "delete_on_termination": true
+      }
+    ]
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sleep 30",
+        "uname -a",
+        "uptime"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "admiralPatch.sh",
+      "environment_vars": [
+        "REL_VER={{user `REL_VER`}}",
+        "ACCESS_KEY={{user `aws_access_key`}}",
+        "SECRET_KEY={{user `aws_secret_key`}}"
+      ]
+    }
+  ]
+}
