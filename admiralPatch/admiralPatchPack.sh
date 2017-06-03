@@ -84,13 +84,13 @@ set_context(){
 }
 
 build_ami() {
-  pushd "$RES_REPO_STATE/admiral"
+  pushd "$RES_REPO_STATE/admiralPatch"
   echo "-----------------------------------"
 
   echo "validating AMI template"
   echo "-----------------------------------"
   packer --version || true
-  packer validate admiralAMI.json
+  packer validate admiralPatchAMI.json
   echo "building AMI"
   echo "-----------------------------------"
 
