@@ -104,7 +104,6 @@ build_ami() {
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
     -var AMI_ID=$AMI_ID \
-    -var REL_DASH_VER=$REL_DASH_VER \
     admiralPatchAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
