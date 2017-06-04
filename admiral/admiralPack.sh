@@ -99,7 +99,6 @@ build_ami() {
     -var VPC_ID=$VPC_ID \
     -var SUBNET_ID=$SUBNET_ID \
     -var SOURCE_AMI=$SOURCE_AMI \
-    -var REL_DASH_VER=$REL_DASH_VER \
     admiralAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
