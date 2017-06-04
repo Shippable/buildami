@@ -55,6 +55,17 @@ __clone_admiral() {
   eval "$clone_cmd"
 }
 
+__clean_admiral() {
+  echo "Cleaning up old artifacts"
+
+  echo "Removing config dir: $CONFIG_DIR"
+  sudo rm -rf $CONFIG_DIR
+
+  echo "Removing runtime dir: $RUNTIME_DIR"
+  sudo rm -rf $RUNTIME_DIR
+
+}
+
 __update_env() {
   echo "Updating admiral.env"
   sudo mkdir -p $CONFIG_DIR
@@ -159,8 +170,9 @@ __stop_services() {
 
 main() {
   echo "Patching admiral AMI"
-  __stop_services
   __print_runtime
+  __stop_services
+  __clean_admiral
   __clone_admiral
   __update_env
   __install
