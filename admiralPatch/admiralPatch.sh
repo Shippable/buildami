@@ -145,6 +145,9 @@ __clear_user_settings() {
 __stop_services() {
   echo "Stopping services"
 
+  echo "Stopping upstart job"
+  sudo service admiral stop || true
+
   echo "Stopping admiral"
   sudo docker rm -fv admiral || true
 
