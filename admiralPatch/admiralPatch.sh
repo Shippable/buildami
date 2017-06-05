@@ -49,9 +49,6 @@ __clone_admiral() {
   local clone_cmd="sudo git checkout $REL_VER"
   echo "Executing: $clone_cmd"
 
-  #TODO remove once prod release is done
-  clone_cmd="sudo git checkout master"
-
   eval "$clone_cmd"
 }
 
