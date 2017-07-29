@@ -20,7 +20,7 @@ readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
 
 #temporary zephyr build speed up....
-readonly ZEPHYR_IMG="zephyrprojectrtos/ci:master.16"
+readonly ZEPHYR_IMG="zephyrprojectrtos/ci:master.27"
 readonly ZEPHYR_IMG_OLD="nashif/zephyr:master.6"
 
 set_context() {
