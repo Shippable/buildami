@@ -202,6 +202,8 @@ update_envs() {
   sed -i "s#{{EXEC_CONTAINER_NAME_PATTERN}}#$default_value#g" $node_env
   sed -i "s#{{EXEC_IMAGE}}#$default_value#g" $node_env
   sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
+  sed -i "s#{{IS_SWAP_ENABLED}}#$default_value#g" $node_env
+  sed -i "s#{{SHIPPABLE_NODE_ARCHITECTURE}}#$default_value#g" $node_env
 
   __process_msg "Successfully update node specific envs to $node_env"
   exec_cmd "cat $node_env"
