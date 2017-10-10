@@ -4,7 +4,7 @@ set -o pipefail
 
 export CURR_JOB=$1
 export RES_PARAMS=$2
-export RES_AWS_CREDS="aws_bits_access"
+export RES_AWS_CREDS="aws_v2_bits_access"
 export RES_REPO="bldami_repo"
 export RES_IMG="u16_img"
 export SHIPPABLE_RELEASE_VERSION="master"
@@ -36,8 +36,8 @@ set_context(){
   export SHIPPABLE_NODE_INIT_SCRIPT=$(eval echo "$"$RES_PARAMS_STR"_SHIPPABLE_NODE_INIT_SCRIPT")
 
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
-  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_SECRETKEY")
 
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"

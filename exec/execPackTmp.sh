@@ -10,7 +10,7 @@ export SHIPPABLE_NODE_INIT_SCRIPT=$5
 export KERNEL_DOWN=$6
 
 export RES_REPO="bldami_repo"
-export RES_AWS_CREDS="aws_bits_access"
+export RES_AWS_CREDS="aws_v2_bits_access"
 export RES_PARAMS="baseami_params"
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
@@ -38,8 +38,8 @@ set_context(){
   export SECURITY_GROUP_ID=$(eval echo "$"$RES_PARAMS_STR"_SECURITY_GROUP_ID")
 
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
-  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_SECRETKEY")
 
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_REL=$RES_REL"

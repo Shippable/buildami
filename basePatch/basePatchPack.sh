@@ -3,7 +3,7 @@
 set -o pipefail
 
 export CURR_JOB="patch_baseami"
-export RES_AWS_CREDS="aws_bits_access"
+export RES_AWS_CREDS="aws_v2_bits_access"
 export RES_PARAMS="baseami_params"
 export RES_REPO="bldami_repo"
 export RES_BASE_AMI="build_baseami"
@@ -32,8 +32,8 @@ set_context(){
   export SECURITY_GROUP_ID=$(eval echo "$"$RES_PARAMS_STR"_SECURITY_GROUP_ID")
 
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
-  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_SECRETKEY")
 
   # get AMI_ID
   export AMI_ID=$(eval echo "$"$RES_BASE_AMI_UP"_VERSIONNAME")

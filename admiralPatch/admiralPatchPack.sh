@@ -5,7 +5,7 @@ set -o pipefail
 export CURR_JOB=$1
 export RES_PARAMS=$2
 export RES_REL=$3
-export RES_AWS_CREDS="aws_bits_access"
+export RES_AWS_CREDS="aws_v2_bits_access"
 export RES_AWS_AMI_CREDS="aws_prod_access"
 
 export RES_REPO="bldami_repo"
@@ -51,8 +51,8 @@ set_context(){
   export SUBNET_ID=$(eval echo "$"$RES_PARAMS_STR"_SUBNET_ID")
 
   # now get the ECR keys
-  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
-  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_SECRETKEY")
 
   # now get the AMI build keys
   export AWS_AMI_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_AMI_CREDS_INT"_AWS_ACCESS_KEY_ID")
