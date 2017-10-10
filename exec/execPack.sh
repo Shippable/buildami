@@ -5,7 +5,7 @@ set -o pipefail
 export CURR_JOB="build_finalami"
 export RES_REL="rel_prod"
 export RES_REPO="bldami_repo"
-export RES_AWS_CREDS="aws_bits_access"
+export RES_AWS_CREDS="aws_v2_bits_access"
 export RES_BASE_AMI="patch_baseami"
 export RES_PARAMS="baseami_params"
 
@@ -39,8 +39,8 @@ set_context(){
   export SHIPPABLE_NODE_INIT_SCRIPT=$(eval echo "$"$RES_PARAMS_STR"_SHIPPABLE_NODE_INIT_SCRIPT")
 
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_ACCESS_KEY_ID")
-  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_AWS_SECRET_ACCESS_KEY")
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_SECRETKEY")
 
   # get AMI_ID
   export AMI_ID=$(eval echo "$"$RES_BASE_AMI_UP"_VERSIONNAME")
