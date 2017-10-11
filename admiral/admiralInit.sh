@@ -46,7 +46,7 @@ __install_deps() {
   sudo apt install -y git-core
 
   echo "Upgrading kernel"
-  sudo apt install -y linux-generic-lts-vivid
+  sudo apt-get install -y linux-generic-lts-xenial linux-image-generic-lts-xenial
 }
 
 __clone_admiral() {
