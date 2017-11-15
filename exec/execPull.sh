@@ -20,7 +20,7 @@ readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
 
 #temporary zephyr build speed up....
-readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.1"
+readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
 
 set_context() {
   echo "Setting context for AMI"
