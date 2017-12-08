@@ -2,7 +2,6 @@
 set -e
 set -o pipefail
 
-readonly NODE_SHIPCTL_LOCATION="/root/node/shipctl"
 readonly NODE_ARCHITECTURE="x86_64"
 readonly NODE_OPERATING_SYSTEM="Ubuntu_14.04"
 readonly LEGACY_CI_CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
@@ -10,8 +9,7 @@ readonly SHIPPABLE_RELEASE_VERSION="master"
 readonly EXEC_IMAGE="drydock/reqproc:master"
 readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly NODE_SCRIPTS_LOCATION="/root/node"
-readonly ARCH="x86_64"
-readonly OS="Ubuntu_14.04"
+readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
 readonly INIT_SCRIPT_NAME="Docker_17.06.sh"
 
 check_envs() {
@@ -62,4 +60,4 @@ __process_msg "cloning node repo"
 git clone "https://github.com/Shippable/node" $NODE_SCRIPTS_LOCATION
 
 __process_msg "Initializing node"
-source "$NODE_SCRIPTS_LOCATION/initScripts/$ARCH/$OS/$INIT_SCRIPT_NAME"
+source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
