@@ -11,6 +11,8 @@ readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly NODE_SCRIPTS_LOCATION="/root/node"
 readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
 readonly INIT_SCRIPT_NAME="Docker_17.06.sh"
+readonly NODE_SCRIPTS_DOWNLOAD_LOCATION="/tmp/node.tar.gz"
+readonly NODE_TARBALL_URL="https://github.com/Shippable/node/archive/master.tar.gz"
 
 check_envs() {
   expected_envs=$1
@@ -56,8 +58,16 @@ __process_error() {
   echo -e "     $error"
 }
 
-__process_msg "cloning node repo"
-git clone "https://github.com/Shippable/node" $NODE_SCRIPTS_LOCATION
+__process_msg "downloading node scripts tarball"
+exec_cmd "wget '$NODE_TARBALL_URL' -O $NODE_SCRIPTS_DOWNLOAD_LOCATION"
+
+__process_msg "creating node scripts dir"
+exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
+
+__process_msg "extracting node scripts"
+exec_cmd "tar -xzvf '$NODE_SCRIPTS_DOWNLOAD_LOCATION' \
+  -C $NODE_SCRIPTS_LOCATION \
+  --strip-components=1"
 
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
