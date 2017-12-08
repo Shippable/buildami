@@ -8,5 +8,4 @@ pull_images() {
   done
 }
 
-# TODO: commented out for testing. should be removed once done
-# pull_images
+pull_images
