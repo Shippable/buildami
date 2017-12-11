@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 readonly CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
-readonly NODE_SCRIPTS_LOCATION="/home/shippable/node"
+readonly NODE_SCRIPTS_LOCATION="/root/node"
 readonly BASE_DIR="/var/lib/shippable"
 readonly REQKICK_DIR="$BASE_DIR/reqKick"
 readonly REQPROC_MASTER_IMAGE="drydock/reqproc:master"
