@@ -30,21 +30,21 @@ clone_node_scripts() {
 
 clean_reqKick () {
   echo "Cleaning reqKick..."
-  rm -rf $REQKICK_DIR || true
+  sudo rm -rf $REQKICK_DIR || true
 }
 
 clone_reqKick () {
   echo "Cloning reqKick..."
-  git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
+  sudo git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
 
   pushd $REQKICK_DIR
-    git checkout $SHIPPABLE_RELEASE_VERSION
-    npm install
+    sudo git checkout $SHIPPABLE_RELEASE_VERSION
+    sudo npm install
   popd
 }
 
 pull_reqProc () {
-  docker pull $REQPROC_MASTER_IMAGE
+  sudo docker pull $REQPROC_MASTER_IMAGE
 }
 
 main() {
