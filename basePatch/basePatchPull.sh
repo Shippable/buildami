@@ -18,9 +18,7 @@ clone_cexec() {
 }
 
 clean_node_scripts() {
-  if [ -d "$NODE_SCRIPTS_LOCATION" ]; then
-    sudo rm -rf $NODE_SCRIPTS_LOCATION || true
-  fi
+  sudo rm -rf $NODE_SCRIPTS_LOCATION
 }
 
 clone_node_scripts() {
