@@ -15,7 +15,7 @@ readonly COMPONENT="genExec"
 
 readonly CEXEC_LOC="/home/shippable/cexec"
 readonly NODE_SCRIPTS_LOC="/home/shippable/node"
-readonly NODE_SCRIPTS_GRISHAM_LOC="/root/node"
+readonly NODE_SCRIPTS_GRISHAM_LOC="/root/node" # TODO: remove post release
 readonly GENEXEC_IMG="drydock/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
@@ -114,6 +114,7 @@ tag_node_scripts() {
   popd
 }
 
+# TODO: remove this post release
 clone_node_scripts_grisham() {
   if [ -d "$NODE_SCRIPTS_GRISHAM_LOC" ]; then
     sudo rm -rf $NODE_SCRIPTS_GRISHAM_LOC
@@ -191,18 +192,18 @@ before_exit() {
   echo "AMI build script completed"
 }
 
-clone_reqKick () {
+clone_reqKick() {
   echo "cloning reqKick"
   sudo git clone $REQKICK_REPO $REQKICK_DIR
 }
 
-tag_reqKick () {
+tag_reqKick() {
   echo "tagging reqKick"
   pushd $REQKICK_DIR
-    sudo git checkout master
-    sudo git pull --tags
-    sudo git checkout $REL_VER
-    npm install
+  sudo git checkout master
+  sudo git pull --tags
+  sudo git checkout $REL_VER
+  npm install
   popd
 }
 
