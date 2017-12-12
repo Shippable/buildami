@@ -19,8 +19,9 @@ readonly GENEXEC_IMG="drydock/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
 
+readonly REL_VER="master" # TODO: remove this after testing the patch AMI job
 readonly REQPROC_IMG="drydock/reqproc"
-readonly REQKICK_DIR="/var/lib/shippable/"
+readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly REQKICK_REPO="https://github.com/Shippable/reqKick.git"
 
 #temporary zephyr build speed up....
