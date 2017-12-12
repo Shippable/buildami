@@ -14,8 +14,7 @@ readonly NODE_SCRIPTS_REPO="https://github.com/Shippable/node.git"
 readonly COMPONENT="genExec"
 
 readonly CEXEC_LOC="/home/shippable/cexec"
-readonly NODE_SCRIPTS_LOC="/home/shippable/node"
-readonly NODE_SCRIPTS_GRISHAM_LOC="/root/node" # TODO: remove post release
+readonly NODE_SCRIPTS_LOC="/root/node"
 readonly GENEXEC_IMG="drydock/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
@@ -114,24 +113,6 @@ tag_node_scripts() {
   popd
 }
 
-# TODO: remove this post release
-clone_node_scripts_grisham() {
-  if [ -d "$NODE_SCRIPTS_GRISHAM_LOC" ]; then
-    sudo rm -rf $NODE_SCRIPTS_GRISHAM_LOC
-  fi
-  echo "Downloading Shippable node init repo"
-  sudo mkdir -p $NODE_SCRIPTS_LOC
-  sudo git clone $NODE_SCRIPTS_REPO $NODE_SCRIPTS_GRISHAM_LOC
-}
-
-tag_node_scripts_grisham() {
-  pushd $NODE_SCRIPTS_GRISHAM_LOC
-  sudo git checkout master
-  sudo git pull --tags
-  sudo git checkout $REL_VER
-  popd
-}
-
 update_envs() {
   local node_env_template=$NODE_SCRIPTS_LOC/usr/node.env.template
   local node_env=$NODE_DATA_LOCATION/node.env
@@ -207,7 +188,7 @@ tag_reqKick() {
   popd
 }
 
-pull_tagged_reqproc () {
+pull_tagged_reqproc() {
   echo "pulling tagged reqproc image: $REQPROC_IMG_WITH_TAG"
   sudo docker pull $REQPROC_IMG_WITH_TAG
 }
@@ -221,8 +202,6 @@ main() {
   tag_cexec
   clone_node_scripts
   tag_node_scripts
-  clone_node_scripts_grisham
-  tag_node_scripts_grisham
   update_envs
   pull_exec
   pull_zephyr
