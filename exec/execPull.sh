@@ -14,10 +14,14 @@ readonly NODE_SCRIPTS_REPO="https://github.com/Shippable/node.git"
 readonly COMPONENT="genExec"
 
 readonly CEXEC_LOC="/home/shippable/cexec"
-readonly NODE_SCRIPTS_LOC="/home/shippable/node"
+readonly NODE_SCRIPTS_LOC="/root/node"
 readonly GENEXEC_IMG="drydock/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
+
+readonly REQPROC_IMG="drydock/reqproc"
+readonly REQKICK_DIR="/var/lib/shippable/"
+readonly REQKICK_REPO="https://github.com/Shippable/reqKick.git"
 
 #temporary zephyr build speed up....
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
@@ -27,10 +31,12 @@ set_context() {
 
   echo "REL_VER=$REL_VER"
   echo "GENEXEC_IMG=$GENEXEC_IMG"
+  echo "REQPROC_IMG=$REQPROC_IMG"
   echo "CEXEC_LOC=$CEXEC_LOC"
   echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 
   readonly GENEXEC_IMG_WITH_TAG="$GENEXEC_IMG:$REL_VER"
+  readonly REQPROC_IMG_WITH_TAG="$REQPROC_IMG:$REL_VER"
 }
 
 validate_envs() {
@@ -82,6 +88,14 @@ clone_cexec() {
   sudo git clone $EXEC_REPO $CEXEC_LOC
 }
 
+tag_cexec() {
+  pushd $CEXEC_LOC
+  sudo git checkout master
+  sudo git pull --tags
+  sudo git checkout $REL_VER
+  popd
+}
+
 clone_node_scripts() {
   if [ -d "$NODE_SCRIPTS_LOC" ]; then
     sudo rm -rf $NODE_SCRIPTS_LOC
@@ -89,14 +103,6 @@ clone_node_scripts() {
   echo "Downloading Shippable node init repo"
   sudo mkdir -p $NODE_SCRIPTS_LOC
   sudo git clone $NODE_SCRIPTS_REPO $NODE_SCRIPTS_LOC
-}
-
-tag_cexec() {
-  pushd $CEXEC_LOC
-  sudo git checkout master
-  sudo git pull --tags
-  sudo git checkout $REL_VER
-  popd
 }
 
 tag_node_scripts() {
@@ -167,6 +173,26 @@ before_exit() {
   echo "AMI build script completed"
 }
 
+clone_reqKick() {
+  echo "cloning reqKick"
+  sudo git clone $REQKICK_REPO $REQKICK_DIR
+}
+
+tag_reqKick() {
+  echo "tagging reqKick"
+  pushd $REQKICK_DIR
+  sudo git checkout master
+  sudo git pull --tags
+  sudo git checkout $REL_VER
+  npm install
+  popd
+}
+
+pull_tagged_reqproc() {
+  echo "pulling tagged reqproc image: $REQPROC_IMG_WITH_TAG"
+  sudo docker pull $REQPROC_IMG_WITH_TAG
+}
+
 main() {
   set_context
   validate_envs
@@ -179,6 +205,9 @@ main() {
   update_envs
   pull_exec
   pull_zephyr
+  clone_reqKick
+  tag_reqKick
+  pull_tagged_reqproc
 }
 
 echo "Running execPull script..."
