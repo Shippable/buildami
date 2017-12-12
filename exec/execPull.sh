@@ -3,6 +3,7 @@
 set -o pipefail
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
+readonly REL_VER="master" # TODO: remove this after testing the patch AMI job
 readonly SHIPPABLE_RELEASE_VERSION="$REL_VER"
 readonly KEY_STORE_LOCATION="/tmp/ssh"
 readonly NODE_TYPE_CODE=7001
@@ -19,10 +20,12 @@ readonly GENEXEC_IMG="drydock/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
 
-readonly REL_VER="master" # TODO: remove this after testing the patch AMI job
 readonly REQPROC_IMG="drydock/reqproc"
 readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly REQKICK_REPO="https://github.com/Shippable/reqKick.git"
+readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOC/shipctl"
+readonly NODE_ARCHITECTURE="x86_64"
+readonly NODE_OPERATING_SYSTEM="Ubuntu_14.04"
 
 #temporary zephyr build speed up....
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
@@ -98,9 +101,7 @@ tag_cexec() {
 }
 
 clone_node_scripts() {
-  if [ -d "$NODE_SCRIPTS_LOC" ]; then
-    sudo rm -rf $NODE_SCRIPTS_LOC
-  fi
+  sudo rm -rf $NODE_SCRIPTS_LOC || true
   echo "Downloading Shippable node init repo"
   sudo mkdir -p $NODE_SCRIPTS_LOC
   sudo git clone $NODE_SCRIPTS_REPO $NODE_SCRIPTS_LOC
@@ -174,8 +175,26 @@ before_exit() {
   echo "AMI build script completed"
 }
 
+install_nodejs() {
+  pushd /tmp
+  echo "Installing node 4.8.5"
+  sudo wget https://nodejs.org/dist/v4.8.5/node-v4.8.5-linux-x64.tar.xz
+  sudo tar -xf node-v4.8.5-linux-x64.tar.xz
+  sudo cp -Rf node-v4.8.5-linux-x64/{bin,include,lib,share} /usr/local
+
+  echo "Checking node version"
+  node -v
+  popd
+}
+
+install_shipctl() {
+  echo "Installing shipctl components"
+  eval "$NODE_SHIPCTL_LOCATION/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/install.sh"
+}
+
 clone_reqKick() {
   echo "cloning reqKick"
+  sudo rm -rf $REQKICK_DIR || true
   sudo git clone $REQKICK_REPO $REQKICK_DIR
 }
 
@@ -185,7 +204,7 @@ tag_reqKick() {
   sudo git checkout master
   sudo git pull --tags
   sudo git checkout $REL_VER
-  npm install
+  sudo npm install
   popd
 }
 
@@ -206,6 +225,8 @@ main() {
   update_envs
   pull_exec
   pull_zephyr
+  install_nodejs
+  install_shipctl
   clone_reqKick
   tag_reqKick
   pull_tagged_reqproc
