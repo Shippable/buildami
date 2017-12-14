@@ -3,7 +3,6 @@
 set -o pipefail
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
-readonly REL_VER="master" # TODO: remove this after testing the patch AMI job
 readonly SHIPPABLE_RELEASE_VERSION="$REL_VER"
 readonly KEY_STORE_LOCATION="/tmp/ssh"
 readonly NODE_TYPE_CODE=7001
