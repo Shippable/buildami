@@ -13,16 +13,16 @@ resources:
     type: integration
     integration: aws_prod_access
 
-  - name: baseami_params
-    type: params
-    version:
-      params:
-        SOURCE_AMI: "ami-772aa961"
-        VPC_ID: "vpc-266f3241"
-        SUBNET_ID: "subnet-6df12f24"
-        SECURITY_GROUP_ID: "sg-f634518c"
-        REGION: "us-east-1"
-        SHIPPABLE_NODE_INIT_SCRIPT: "x86_64__Ubuntu__14.04__Docker__17.06.sh"
+#  - name: baseami_params
+#    type: params
+#    version:
+#      params:
+#        SOURCE_AMI: "ami-772aa961"
+#        VPC_ID: "vpc-266f3241"
+#        SUBNET_ID: "subnet-6df12f24"
+#        SECURITY_GROUP_ID: "sg-f634518c"
+#        REGION: "us-east-1"
+#        SHIPPABLE_NODE_INIT_SCRIPT: "x86_64__Ubuntu__14.04__Docker__17.06.sh"
 
 jobs:
   - name: baseami_prep
