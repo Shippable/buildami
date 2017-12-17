@@ -100,3 +100,31 @@ jobs:
     on_failure:
       - script: echo 'failed'
       - NOTIFY: slack_rc
+
+  - name: finaladmiralami_prep
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: rel_prod
+        switch: off
+      - IN: bldami_repo
+        switch: off
+      - IN: baseadmiralami_prep
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - IN: ship_ecr_x86_64_Ubuntu_tag_push
+      - IN: ami_bits_access
+      - IN: ami_prod_access
+      - IN: admiralami_params
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd admiralPatch
+            - ./admiralPatchPack.sh finaladmiralami_prep baseadmiralami_prep rel_prod ami_bits_access ami_prod_access
+            - popd
+    on_success:
+      - script: echo 'SUCCESS'
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/admiralPatch/output.txt
