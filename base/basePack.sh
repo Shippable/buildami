@@ -47,19 +47,19 @@ build_ami() {
   echo "building AMI"
   echo "-----------------------------------"
 
-#    packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
-#      -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
-#      -var REGION=$REGION \
-#      -var VPC_ID=$VPC_ID \
-#      -var SUBNET_ID=$SUBNET_ID \
-#      -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
-#      -var SOURCE_AMI=$SOURCE_AMI \
-#      -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
-#      -var RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION \
-#      -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
-#      -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
-#      -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
-#      baseAMI.json 2>&1 | tee output.txt
+  packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
+    -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
+    -var REGION=$REGION \
+    -var VPC_ID=$VPC_ID \
+    -var SUBNET_ID=$SUBNET_ID \
+    -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
+    -var SOURCE_AMI=$SOURCE_AMI \
+    -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
+    -var RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION \
+    -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
+    -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
+    -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
+    baseAMI.json 2>&1 | tee output.txt
 
   # this is to get the ami from output
   echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
