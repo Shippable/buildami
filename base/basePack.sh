@@ -6,11 +6,18 @@ export CURR_JOB=$1
 export RES_AWS_CREDS=$2
 export SHIPPABLE_RELEASE_VERSION="master"
 
+# Now get AWS keys
+export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
+export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
+
 set_context(){
 
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field "$RES_AWS_CREDS" "ACCESS_KEY")
-  export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field "$RES_AWS_CREDS" "SECRET_KEY")
+  export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
+  export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_SECRETKEY")
+
+#  export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field "$RES_AWS_CREDS" "ACCESS_KEY")
+#  export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field "$RES_AWS_CREDS" "SECRET_KEY")
 
   echo "CURR_JOB=$CURR_JOB"
   echo "SOURCE_AMI=$SOURCE_AMI"
