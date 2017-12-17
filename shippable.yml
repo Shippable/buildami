@@ -40,7 +40,4 @@ jobs:
             - ./basePack.sh baseami_prep baseami_params
             - popd
     on_failure:
-      - script: |
-        pushd $(shipctl get_resource_state "bldami_repo")
-          cat ./base/output.txt
-        popd
+      - script: cat IN/bldami_repo/gitRepo/base/output.txt #TODO change to standard syntax
