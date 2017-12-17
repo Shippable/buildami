@@ -31,15 +31,15 @@ resources:
         REGION: "us-east-1"
         SHIPPABLE_NODE_INIT_SCRIPT: "x86_64__Ubuntu__14.04__Docker__17.06.sh"
 
-#  - name: admiralami_params
-#    type: params
-#    version:
-#      params:
-#        SOURCE_AMI: "ami-772aa961"
-#        VPC_ID: "vpc-2d9a894f"
-#        SUBNET_ID: "subnet-42bfef04"
-#        SECURITY_GROUP_ID: "sg-9df159f8"
-#        REGION: "us-east-1"
+  - name: admiralami_params
+    type: params
+    version:
+      params:
+        SOURCE_AMI: "ami-772aa961"
+        VPC_ID: "vpc-2d9a894f"
+        SUBNET_ID: "subnet-42bfef04"
+        SECURITY_GROUP_ID: "sg-9df159f8"
+        REGION: "us-east-1"
 
 jobs:
   - name: baseami_prep
@@ -147,8 +147,8 @@ jobs:
         switch: off
       - IN: ami_prod_access
         switch: off
-#      - IN: admiralami_params
-#        switch: off
+      - IN: admiralami_params
+        switch: off
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
@@ -174,8 +174,8 @@ jobs:
         switch: off
       - IN: rel_prod
         switch: off
-#      - IN: admiralami_params
-#        switch: off
+      - IN: admiralami_params
+        switch: off
       - IN: tag_push_img_genexec
       - IN: gh_ship_repos_tag_push
       - IN: ship_ecr_x86_64_Ubuntu_tag_push
