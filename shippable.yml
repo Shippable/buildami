@@ -37,7 +37,7 @@ jobs:
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "bldami_repo")
-            - ./basePack.sh baseami_prep baseami_params
+            - ./basePack.sh baseami_prep ami_bits_access_cli
             - popd
     on_failure:
       - script: cat IN/bldami_repo/gitRepo/base/output.txt #TODO change to standard syntax
