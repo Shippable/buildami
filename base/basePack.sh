@@ -66,7 +66,7 @@ build_ami() {
     | cut -d':' -f 2)
 
   shipctl post_resource_state_multi $CURR_JOB \
-    versionName $versionName
+    versionName $versionName \
     RES_IMG_VER_NAME $SHIPPABLE_RELEASE_VERSION \
     RES_IMG_VER_NAME_DASH $SHIPPABLE_RELEASE_VERSION \
     IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED \
