@@ -37,6 +37,7 @@ jobs:
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd base
             - ./basePack.sh baseami_prep ami_bits_access_cli
             - popd
     on_failure:
