@@ -1,0 +1,46 @@
+resources:
+  - name: ami_bits_access_cli
+    type: cliConfig
+    integration: aws_bits_access
+    pointer:
+      region: us-east-1
+
+jobs:
+  - name: baseami_prep
+    type: runSh
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: ami_bits_access_cli
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: u16cppall_img
+      - IN: u16phpall_img
+      - IN: u16ruball_img
+      - IN: u16scaall_img
+      - IN: u16javall_img
+      - IN: u16golall_img
+      - IN: u16cloall_img
+      - IN: u16pytall_img
+      - IN: u16nodall_img
+      - IN: u14nodall_img
+      - IN: u14pytall_img
+      - IN: u14cloall_img
+      - IN: u14golall_img
+      - IN: u14javall_img
+      - IN: u14scaall_img
+      - IN: u14ruball_img
+      - IN: u14phpall_img
+      - IN: u14cppall_img
+      - IN: node_repo
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - ./basePack.sh baseami_prep baseami_params
+            - popd
+    on_failure:
+      - script: |
+        pushd $(shipctl get_resource_state "bldami_repo")
+          cat ./base/output.txt
+        popd
