@@ -38,14 +38,14 @@ get_image_list() {
 }
 
 build_ami() {
-  pushd base
-    echo "-----------------------------------"
+  echo "-----------------------------------"
+  echo "validating AMI template"
+  echo "-----------------------------------"
 
-    echo "validating AMI template"
-    echo "-----------------------------------"
-    packer validate baseAMI.json
-    echo "building AMI"
-    echo "-----------------------------------"
+  packer validate baseAMI.json
+
+  echo "building AMI"
+  echo "-----------------------------------"
 
 #    packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
 #      -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
@@ -62,22 +62,22 @@ build_ami() {
 #      baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
-    export versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+  export versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
     | cut -d':' -f 2)
 
-    shipctl post_resource_state_multi $CURR_JOB \
-      versionName $versionName
-      RES_IMG_VER_NAME $SHIPPABLE_RELEASE_VERSION \
-      RES_IMG_VER_NAME_DASH $SHIPPABLE_RELEASE_VERSION \
-      IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED \
-      SHIPPABLE_NODE_INIT_SCRIPT $SHIPPABLE_NODE_INIT_SCRIPT
+  shipctl post_resource_state_multi $CURR_JOB \
+    versionName $versionName
+    RES_IMG_VER_NAME $SHIPPABLE_RELEASE_VERSION \
+    RES_IMG_VER_NAME_DASH $SHIPPABLE_RELEASE_VERSION \
+    IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED \
+    SHIPPABLE_NODE_INIT_SCRIPT $SHIPPABLE_NODE_INIT_SCRIPT
 
 #    echo "RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION" >> "$JOB_STATE/$CURR_JOB.env"
 #    echo "RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION" >> "$JOB_STATE/$CURR_JOB.env"
 #    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
 #    echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT" >> "$JOB_STATE/$CURR_JOB.env"
-    cat "$JOB_STATE/$CURR_JOB.env"
-  popd
+  cat "$JOB_STATE/$CURR_JOB.env"
+
 }
 
 main() {
