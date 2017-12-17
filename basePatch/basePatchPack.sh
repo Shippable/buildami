@@ -6,8 +6,6 @@ export CURR_JOB=$1
 export RES_AWS_CREDS=$2
 export RES_BASE_AMI=$3
 
-export RES_REPO="bldami_repo"
-
 # Now get AWS keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
@@ -23,18 +21,20 @@ set_context(){
 
   # get AMI_ID
   export AMI_ID=$(shipctl get_resource_version_name "$RES_BASE_AMI")
-  export RES_IMG_VER_NAME="$(shipctl get_resource_version_key "RES_BASE_AMI" "RES_IMG_VER_NAME")"
-  export RES_IMG_VER_NAME_DASH="$(shipctl get_resource_version_key "RES_BASE_AMI" "RES_IMG_VER_NAME_DASH")"
-  export IMAGE_NAMES_SPACED="$(shipctl get_resource_version_key "RES_BASE_AMI" "IMAGE_NAMES_SPACED")"
-  export SHIPPABLE_NODE_INIT_SCRIPT="$(shipctl get_resource_version_key "RES_BASE_AMI" "SHIPPABLE_NODE_INIT_SCRIPT")"
 
-#  # getting propertyBag values
-#  pushd $RES_BASE_AMI_PATH
-#  export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
-#  export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
-#  export IMAGE_NAMES_SPACED=$(jq -r '.version.propertyBag.IMAGE_NAMES_SPACED' version.json)
-#  export SHIPPABLE_NODE_INIT_SCRIPT=$(jq -r '.version.propertyBag.SHIPPABLE_NODE_INIT_SCRIPT' version.json)
-#  popd
+# TODO to be fixed
+#  export RES_IMG_VER_NAME="$(shipctl get_resource_version_key "RES_BASE_AMI" "RES_IMG_VER_NAME")"
+#  export RES_IMG_VER_NAME_DASH="$(shipctl get_resource_version_key "RES_BASE_AMI" "RES_IMG_VER_NAME_DASH")"
+#  export IMAGE_NAMES_SPACED="$(shipctl get_resource_version_key "RES_BASE_AMI" "IMAGE_NAMES_SPACED")"
+#  export SHIPPABLE_NODE_INIT_SCRIPT="$(shipctl get_resource_version_key "RES_BASE_AMI" "SHIPPABLE_NODE_INIT_SCRIPT")"
+
+  # getting propertyBag values
+  pushd $RES_BASE_AMI_PATH
+    export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
+    export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
+    export IMAGE_NAMES_SPACED=$(jq -r '.version.propertyBag.IMAGE_NAMES_SPACED' version.json)
+    export SHIPPABLE_NODE_INIT_SCRIPT=$(jq -r '.version.propertyBag.SHIPPABLE_NODE_INIT_SCRIPT' version.json)
+  popd
 
   echo "CURR_JOB=$CURR_JOB"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
