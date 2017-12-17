@@ -9,8 +9,8 @@ export SHIPPABLE_RELEASE_VERSION="master"
 set_context(){
 
   # now get the AWS keys
-  export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field "$RES_AWS_CREDS" "access_key")
-  export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field "$RES_AWS_CREDS" "secret_key")
+  export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field "$RES_AWS_CREDS" "ACCESS_KEY")
+  export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field "$RES_AWS_CREDS" "SECRET_KEY")
 
   echo "CURR_JOB=$CURR_JOB"
   echo "SOURCE_AMI=$SOURCE_AMI"
@@ -24,17 +24,14 @@ set_context(){
 }
 
 get_image_list() {
-  pushd "base"
-    export IMAGE_NAMES=$(cat images.txt)
-    export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
-  popd
-
+  export IMAGE_NAMES=$(cat images.txt)
+  export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
   echo "IMAGE_NAMES=$IMAGE_NAMES"
   echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 }
 
 build_ami() {
-  pushd "base"
+  pushd base
     echo "-----------------------------------"
 
     echo "validating AMI template"
