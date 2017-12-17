@@ -91,7 +91,7 @@ main() {
   which ssh-agent
 
   set_context
-#  build_ami
+  build_ami
 }
 
 main
