@@ -3,47 +3,27 @@
 set -o pipefail
 
 export CURR_JOB=$1
-export RES_PARAMS=$2
-export RES_REL=$3
-export RES_AWS_CREDS="aws_v2_bits_access"
-export RES_AWS_AMI_CREDS="aws_v2_prod_access"
+export RES_AWS_CREDS=$2
+export RES_AWS_AMI_CREDS=$3
+export RES_REL=$4
+export RES_REL_VER_NAME="master"
 
-export RES_REPO="bldami_repo"
-export REL_DASH_VER="master"
-
-# since resources here have dashes Shippable replaces them and UPPER cases them
-export RES_PARAMS_UP=$(echo $RES_PARAMS | awk '{print toupper($0)}')
-export RES_PARAMS_STR=$RES_PARAMS_UP"_PARAMS"
-
-# Now get ECR keys
+# TODO update standards Now get ECR keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
-# Now get keys for building AMI
+# TODO update standards Now get keys for building AMI
 export RES_AWS_AMI_CREDS_UP=$(echo $RES_AWS_AMI_CREDS | awk '{print toupper($0)}')
 export RES_AWS_AMI_CREDS_INT=$RES_AWS_AMI_CREDS_UP"_INTEGRATION"
-
-# set the repo path
-export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
-export RES_REPO_STATE=$(eval echo "$"$RES_REPO_UP"_STATE")
-
 
 set_context(){
   # get release
   if [ -z "$RES_REL" ] || [ "$RES_REL" == "" ]; then
-    export RES_REL_VER_NAME=master
     export RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME
   else
-    export RES_REL_UP=$(echo $RES_REL | awk '{print toupper($0)}')
-    export RES_REL_VER_NAME=$(eval echo "$"$RES_REL_UP"_VERSIONNAME")
+    export RES_REL_VER_NAME=$(shipctl get_resource_version_name "$RES_REL")
     export RES_REL_VER_NAME_DASH=${RES_REL_VER_NAME//./-}
   fi
-
-  # now get all the parameters for ami location
-  export REGION=$(eval echo "$"$RES_PARAMS_STR"_REGION")
-  export VPC_ID=$(eval echo "$"$RES_PARAMS_STR"_VPC_ID")
-  export SUBNET_ID=$(eval echo "$"$RES_PARAMS_STR"_SUBNET_ID")
-  export SOURCE_AMI=$(eval echo "$"$RES_PARAMS_STR"_SOURCE_AMI")
 
   # now get the ECR keys
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
@@ -53,34 +33,23 @@ set_context(){
   export AWS_AMI_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_AMI_CREDS_INT"_ACCESSKEY")
   export AWS_AMI_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_AMI_CREDS_INT"_SECRETKEY")
 
+  echo "CURR_JOB=$CURR_JOB"
   echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH"
   echo "RES_REL_VER_NAME=$RES_REL_VER_NAME"
-  echo "CURR_JOB=$CURR_JOB"
-  echo "RES_AWS_CREDS=$RES_AWS_CREDS"
-  echo "RES_PARAMS=$RES_PARAMS"
-  echo "RES_REPO=$RES_REPO"
-  echo "RES_PARAMS_UP=$RES_PARAMS_UP"
-  echo "RES_PARAMS_STR=$RES_PARAMS_STR"
-  echo "RES_AWS_CREDS_UP=$RES_AWS_CREDS_UP"
-  echo "RES_AWS_CREDS_INT=$RES_AWS_CREDS_INT"
-  echo "RES_REPO_UP=$RES_REPO_UP"
-  echo "RES_REPO_STATE=$RES_REPO_STATE"
 
   echo "SOURCE_AMI=$SOURCE_AMI"
   echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
   echo "SUBNET_ID=$SUBNET_ID"
+
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 
   echo "AWS_AMI_ACCESS_KEY_ID=${#AWS_AMI_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_AMI_SECRET_ACCESS_KEY=${#AWS_AMI_SECRET_ACCESS_KEY}" #print only length not value
-
 }
 
 build_ami() {
-  pushd "$RES_REPO_STATE/admiral"
-  echo "-----------------------------------"
 
   echo "validating AMI template"
   echo "-----------------------------------"
@@ -106,7 +75,6 @@ build_ami() {
     | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
 
     cat "$JOB_STATE/$CURR_JOB.env"
-  popd
 }
 
 main() {
