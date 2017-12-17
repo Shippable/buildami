@@ -81,6 +81,34 @@ jobs:
     on_failure:
       - script: cat IN/bldami_repo/gitRepo/basePatch/output.txt #TODO change to standard syntax
 
+  - name: finalami_prep
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: baseami_patch
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: dry_dh_x86_64_Ubuntu_tag_push
+      - IN: ship_ecr_x86_64_Ubuntu_tag_push
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPack.sh finalami_prep rel_prod baseami_patch ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
   - name: baseadmiralami_prep
     type: runSh
     triggerMode: parallel
@@ -89,8 +117,11 @@ jobs:
       - IN: bldami_repo
         switch: off
       - IN: ami_bits_access
+        switch: off
       - IN: ami_prod_access
+        switch: off
       - IN: admiralami_params
+        switch: off
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "bldami_repo")
@@ -106,18 +137,21 @@ jobs:
     dependencyMode: strict
     triggerMode: parallel
     steps:
-      - IN: rel_prod
-        switch: off
       - IN: bldami_repo
         switch: off
       - IN: baseadmiralami_prep
         switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: ami_prod_access
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: admiralami_params
+        switch: off
       - IN: tag_push_img_genexec
       - IN: gh_ship_repos_tag_push
       - IN: ship_ecr_x86_64_Ubuntu_tag_push
-      - IN: ami_bits_access
-      - IN: ami_prod_access
-      - IN: admiralami_params
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "bldami_repo")
