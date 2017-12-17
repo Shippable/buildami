@@ -125,7 +125,7 @@ jobs:
       - IN: ami_bits_access
         switch: off
       - IN: dry_dh_x86_64_Ubuntu_tag_push
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -176,7 +176,7 @@ jobs:
         switch: off
       - IN: admiralami_params
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: ship_ecr_x86_64_Ubuntu_tag_push
       - TASK:
@@ -203,7 +203,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -227,7 +227,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -251,7 +251,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -275,7 +275,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -299,7 +299,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -323,7 +323,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -347,7 +347,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -371,7 +371,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
@@ -395,7 +395,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: tag_push_img_genexec
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
