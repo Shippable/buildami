@@ -47,28 +47,35 @@ build_ami() {
     echo "building AMI"
     echo "-----------------------------------"
 
-    packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
-      -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
-      -var REGION=$REGION \
-      -var VPC_ID=$VPC_ID \
-      -var SUBNET_ID=$SUBNET_ID \
-      -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
-      -var SOURCE_AMI=$SOURCE_AMI \
-      -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
-      -var RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION \
-      -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
-      -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
-      -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
-      baseAMI.json 2>&1 | tee output.txt
+#    packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
+#      -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
+#      -var REGION=$REGION \
+#      -var VPC_ID=$VPC_ID \
+#      -var SUBNET_ID=$SUBNET_ID \
+#      -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
+#      -var SOURCE_AMI=$SOURCE_AMI \
+#      -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
+#      -var RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION \
+#      -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
+#      -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
+#      -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
+#      baseAMI.json 2>&1 | tee output.txt
 
     #this is to get the ami from output
-    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
+    export versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2)
 
-    echo "RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT" >> "$JOB_STATE/$CURR_JOB.env"
+    shipctl post_resource_state_multi $CURR_JOB \
+      versionName $versionName
+      RES_IMG_VER_NAME $SHIPPABLE_RELEASE_VERSION \
+      RES_IMG_VER_NAME_DASH $SHIPPABLE_RELEASE_VERSION \
+      IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED \
+      SHIPPABLE_NODE_INIT_SCRIPT $SHIPPABLE_NODE_INIT_SCRIPT
+
+#    echo "RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION" >> "$JOB_STATE/$CURR_JOB.env"
+#    echo "RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION" >> "$JOB_STATE/$CURR_JOB.env"
+#    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
+#    echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT" >> "$JOB_STATE/$CURR_JOB.env"
     cat "$JOB_STATE/$CURR_JOB.env"
   popd
 }
@@ -80,7 +87,7 @@ main() {
 
   set_context
   get_image_list
-#  build_ami
+  build_ami
 }
 
 main
