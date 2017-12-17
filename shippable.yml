@@ -97,7 +97,6 @@ jobs:
       - IN: ami_bits_access
         switch: off
       - IN: dry_dh_x86_64_Ubuntu_tag_push
-      - IN: ship_ecr_x86_64_Ubuntu_tag_push
       - IN: tag_push_img_genexec
       - IN: gh_ship_repos_tag_push
       - TASK:
@@ -162,3 +161,219 @@ jobs:
       - script: echo 'SUCCESS'
     on_failure:
       - script: cat /build/IN/bldami_repo/gitRepo/admiralPatch/output.txt
+
+  - name: v532_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh v532_update rel_prod ami-3b972d2d v532 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
+  - name: v541_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh v541_update rel_prod ami-90813b86 v541 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
+  - name: v551_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh v551_update rel_prod ami-4b36535d v551 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
+  - name: v561_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh v561_update rel_prod ami-c0a5f5d6 v561 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
+  - name: v573_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh v573_update rel_prod ami-b9cfdeaf v573 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
+  - name: v582_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh v582_update rel_prod ami-f9d6e782 v582 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
+  - name: v5104_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh v5104_update rel_prod ami-312b8d4b v5104 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
+  - name: stable_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh stable_update rel_prod ami-4ae41a5c stable Ubuntu_14.04_Docker_1.9.sh false ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
+
+  - name: unstable_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: bldami_repo
+        switch: off
+      - IN: rel_prod
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: tag_push_img_genexec
+      - IN: gh_ship_repos_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "bldami_repo")
+            - cd exec
+            - ./execPackTmp.sh unstable_update rel_prod ami-90fd0286 unstable Ubuntu_14.04_Docker_1.11.sh false ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/bldami_repo/gitRepo/exec/output.txt
