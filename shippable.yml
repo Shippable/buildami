@@ -125,7 +125,7 @@ jobs:
       - IN: ami_bits_access
         switch: off
       - IN: dry_dh_x86_64_Ubuntu_tag_push
-      # - IN: genexec_tag_push #TODO: remove after testing pm/9770
+      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - TASK:
           script:
