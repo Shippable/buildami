@@ -6,6 +6,13 @@ resources:
       sourceName: shippable/buildami
       branch: master
 
+  - name: foo
+    type: gitRepo
+    integration: ric03uec-github
+    pointer:
+      sourceName: shippable/buildami
+      branch: master
+
   - name: ami_bits_access_cli
     type: cliConfig
     integration: aws_bits_access
@@ -419,3 +426,5 @@ jobs:
             - echo $(shipctl get_resource_version_key "prepami_repo" "commit")
             - echo $PREPAMI_REPO_COMMIT
             - shipctl post_resource_state_multi "test" "HERO=SUPERMAN FOO=bar"
+            - shipctl post_resource_state_multi "foo" "HERO=SUPERMAN FOO=bar"
+      - OUT: foo
