@@ -422,8 +422,8 @@ jobs:
         switch: off
       - TASK:
           script:
-            - echo $(shipctl get_resource_version_key "prepami_repo" "COMMIT")
-            - echo $(shipctl get_resource_version_key "prepami_repo" "commit")
+            - echo $(shipctl get_resource_version_key "prepami_repo" "branch")
+            - echo $(shipctl get_resource_version_key "prepami_repo" "shaData.commitSha")
             - echo $PREPAMI_REPO_COMMIT
             - shipctl post_resource_state_multi "test" "HERO=SUPERMAN FOO=bar"
             - shipctl post_resource_state_multi "foo" "HERO=SUPERMAN FOO=bar"
