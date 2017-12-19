@@ -1,14 +1,14 @@
 resources:
   - name: prepami_repo
     type: gitRepo
-    integration: ric03uec-github
+    integration: avinci_gh
     pointer:
       sourceName: shippable/buildami
       branch: master
 
   - name: foo
     type: gitRepo
-    integration: ric03uec-github
+    integration: avinci_gh
     pointer:
       sourceName: shippable/buildami
       branch: master
@@ -48,6 +48,13 @@ resources:
         SECURITY_GROUP_ID: "sg-9df159f8"
         REGION: "us-east-1"
 
+#  - name: cexec_repo
+#    type: gitRepo
+#    integration: avinci_gh
+#    pointer:
+#      sourceName: shippable/cexec
+#      branch: master
+
 jobs:
   - name: baseami_prep
     type: runSh
@@ -81,7 +88,7 @@ jobs:
       - IN: node_repo
       - IN: reqProc_x86_64_Ubuntu_16_04_prep
       - IN: reqKick_repo
-      - IN: cexec_repo
+#      - IN: cexec_repo
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
@@ -102,7 +109,7 @@ jobs:
         switch: off
       - IN: baseami_params
         switch: off
-      - IN: cexec_repo
+#      - IN: cexec_repo
       - IN: node_repo
       - IN: reqProc_x86_64_Ubuntu_16_04_prep
       - IN: reqKick_repo
