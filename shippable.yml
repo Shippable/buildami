@@ -405,3 +405,15 @@ jobs:
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: test
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - TASK:
+          script:
+            - echo $(shipctl get_resource_version_key "prepami_repo" "COMMIT")
+            - echo $(shipctl get_resource_version_key "prepami_repo" "commit")
