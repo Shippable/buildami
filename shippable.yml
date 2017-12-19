@@ -418,4 +418,4 @@ jobs:
             - echo $(shipctl get_resource_version_key "prepami_repo" "COMMIT")
             - echo $(shipctl get_resource_version_key "prepami_repo" "commit")
             - echo $PREPAMI_REPO_COMMIT
-            - shipctl post_resource_state_multi "prepami_repo" "HERO=SUPERMAN FOO=bar"
+            - shipctl post_resource_state_multi "test" "HERO=SUPERMAN FOO=bar"
