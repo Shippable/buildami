@@ -6,11 +6,11 @@ resources:
       sourceName: shippable/buildami
       branch: master
 
-  - name: foo
+  - name: ami_reqKick_repo
     type: gitRepo
     integration: avinci_gh
     pointer:
-      sourceName: shippable/buildami
+      sourceName: shippable/reqKick
       branch: master
 
   - name: ami_bits_access_cli
@@ -95,7 +95,7 @@ jobs:
       - IN: node_repo
       - IN: cexec_repo
       - IN: reqProc_x86_64_Ubuntu_16_04_prep
-      - IN: reqKick_repo
+      - IN: ami_reqKick_repo
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
@@ -119,7 +119,7 @@ jobs:
       - IN: cexec_repo
       - IN: node_repo
       - IN: reqProc_x86_64_Ubuntu_16_04_prep
-      - IN: reqKick_repo
+      - IN: ami_reqKick_repo
       - IN: baseami_prep
       - TASK:
           script:
@@ -426,19 +426,3 @@ jobs:
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
-
-  - name: test
-    type: runSh
-    dependencyMode: strict
-    triggerMode: parallel
-    steps:
-      - IN: prepami_repo
-        switch: off
-      - TASK:
-          script:
-            - echo $(shipctl get_resource_version_key "prepami_repo" "branch")
-            - echo $(shipctl get_resource_version_key "prepami_repo" "shaData.commitSha")
-            - echo $PREPAMI_REPO_COMMIT
-            - shipctl post_resource_state_multi "test" "HERO=SUPERMAN FOO=bar"
-            - shipctl post_resource_state_multi "foo" "HERO=SUPERMAN FOO=bar"
-      - OUT: foo
