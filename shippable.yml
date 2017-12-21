@@ -139,7 +139,7 @@ jobs:
         switch: off
       - IN: baseami_patch
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -152,7 +152,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPack.sh finalami_prep rel_prod baseami_patch ami_bits_access
+            - ./execPack.sh finalami_prep prod_release baseami_patch ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -193,7 +193,7 @@ jobs:
         switch: off
       - IN: ami_prod_access
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: admiralami_params
         switch: off
@@ -204,7 +204,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd admiralPatch
-            - ./admiralPatchPack.sh finaladmiralami_prep baseadmiralami_prep rel_prod ami_bits_access ami_prod_access
+            - ./admiralPatchPack.sh finaladmiralami_prep baseadmiralami_prep prod_release ami_bits_access ami_prod_access
             - popd
     on_success:
       - script: echo 'SUCCESS'
@@ -218,7 +218,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -230,7 +230,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh v532_update rel_prod ami-3b972d2d v532 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - ./execPackTmp.sh v532_update prod_release ami-3b972d2d v532 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -242,7 +242,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -254,7 +254,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh v541_update rel_prod ami-90813b86 v541 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - ./execPackTmp.sh v541_update prod_release ami-90813b86 v541 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -266,7 +266,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -278,7 +278,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh v551_update rel_prod ami-4b36535d v551 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - ./execPackTmp.sh v551_update prod_release ami-4b36535d v551 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -290,7 +290,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -302,7 +302,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh v561_update rel_prod ami-c0a5f5d6 v561 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - ./execPackTmp.sh v561_update prod_release ami-c0a5f5d6 v561 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -314,7 +314,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -326,7 +326,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh v573_update rel_prod ami-b9cfdeaf v573 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
+            - ./execPackTmp.sh v573_update prod_release ami-b9cfdeaf v573 Ubuntu_14.04_Docker_1.13.sh true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -338,7 +338,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -350,7 +350,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh v582_update rel_prod ami-f9d6e782 v582 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
+            - ./execPackTmp.sh v582_update prod_release ami-f9d6e782 v582 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -362,7 +362,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -374,7 +374,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh v5104_update rel_prod ami-312b8d4b v5104 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
+            - ./execPackTmp.sh v5104_update prod_release ami-312b8d4b v5104 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -386,7 +386,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -398,7 +398,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh stable_update rel_prod ami-4ae41a5c stable Ubuntu_14.04_Docker_1.9.sh false ami_bits_access
+            - ./execPackTmp.sh stable_update prod_release ami-4ae41a5c stable Ubuntu_14.04_Docker_1.9.sh false ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -410,7 +410,7 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: rel_prod
+      - IN: prod_release
         switch: off
       - IN: baseami_params
         switch: off
@@ -422,7 +422,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh unstable_update rel_prod ami-90fd0286 unstable Ubuntu_14.04_Docker_1.11.sh false ami_bits_access
+            - ./execPackTmp.sh unstable_update prod_release ami-90fd0286 unstable Ubuntu_14.04_Docker_1.11.sh false ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
