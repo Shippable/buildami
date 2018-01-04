@@ -94,7 +94,7 @@ jobs:
       - IN: u14cppall_img
       - IN: node_repo
       - IN: cexec_repo
-      - IN: reqProc_x86_64_Ubuntu_16_04_prep
+      - IN: reqProc_x86_64_Ubuntu_14_04_prep
       - IN: ami_reqKick_repo
       - TASK:
           script:
