@@ -118,7 +118,7 @@ jobs:
         switch: off
       - IN: cexec_repo
       - IN: node_repo
-      - IN: reqProc_x86_64_Ubuntu_16_04_prep
+      - IN: reqProc_x86_64_Ubuntu_14_04_prep
       - IN: ami_reqKick_repo
       - IN: baseami_prep
       - TASK:
