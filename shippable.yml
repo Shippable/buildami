@@ -178,7 +178,7 @@ jobs:
             - popd
     on_failure:
       - script: echo 'failed'
-      - NOTIFY: slack_rc
+      - NOTIFY: rc_slack
 
   - name: finaladmiralami_prep
     type: runSh
