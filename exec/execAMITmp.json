@@ -49,10 +49,6 @@
     },
     {
       "type": "shell",
-      "script": "patchDockerOptsTmp.sh"
-    },
-    {
-      "type": "shell",
       "script": "patchNameServer.sh"
     },
     {
