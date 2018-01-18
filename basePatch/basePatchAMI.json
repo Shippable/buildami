@@ -45,10 +45,6 @@
     },
     {
       "type": "shell",
-      "script": "patchNameServer.sh"
-    },
-    {
-      "type": "shell",
       "script": "basePatchPull.sh",
       "environment_vars": [
         "AMI_ID={{user `AMI_ID`}}"
