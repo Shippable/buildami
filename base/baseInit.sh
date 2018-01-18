@@ -59,6 +59,9 @@ __process_error() {
   echo -e "     $error"
 }
 
+__process_msg "adding dns settings to the node"
+exec_cmd "echo 'supersede domain-name-servers 8.8.8.8, 8.8.4.4;' >> /etc/dhcp/dhclient.conf"
+
 __process_msg "downloading node scripts tarball"
 exec_cmd "wget '$NODE_TARBALL_URL' -O $NODE_SCRIPTS_DOWNLOAD_LOCATION"
 
