@@ -23,8 +23,10 @@ set_context(){
   # get AMI_ID
   export AMI_ID=$(shipctl get_resource_version_name "$RES_BASE_AMI")
 
+  export RES_BASE_AMI_UP=$(echo $RES_BASE_AMI | awk '{print toupper($0)}')
+  export RES_BASE_AMI_PATH=$(eval echo "$"$RES_BASE_AMI_UP"_PATH")
   # getting propertyBag values
-  pushd $(shipctl get_resource_state "$RES_BASE_AMI")
+  pushd $RES_BASE_AMI_PATH
     export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
     export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
     export IMAGE_NAMES_SPACED=$(jq -r '.version.propertyBag.IMAGE_NAMES_SPACED' version.json)
