@@ -398,7 +398,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackTmp.sh v614_update prod_release ami-3bcdca41 v614 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
+            - ./execPackTmp.sh v614_update prod_release ami-874d4bfd v614 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
