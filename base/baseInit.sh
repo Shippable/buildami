@@ -13,6 +13,8 @@ readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
 readonly INIT_SCRIPT_NAME="Docker_17.06.sh"
 readonly NODE_SCRIPTS_DOWNLOAD_LOCATION="/tmp/node.tar.gz"
 readonly NODE_TARBALL_URL="https://github.com/Shippable/node/archive/master.tar.gz"
+readonly REQKICK_DOWNLOAD_URL="https://github.com/Shippable/reqKick/archive/master.tar.gz"
+readonly CEXEC_DOWNLOAD_URL="https://github.com/Shippable/cexec/archive/master.tar.gz"
 readonly IS_SWAP_ENABLED=false
 
 check_envs() {
