@@ -48,6 +48,16 @@ resources:
         SECURITY_GROUP_ID: "sg-9df159f8"
         REGION: "us-east-1"
 
+  - name: windowsbaseami_params
+    type: params
+    version:
+      params:
+        REGION: "us-east-1"
+
+  - name: windowsbaseami_winrm_keys
+    type: integration
+    integrationName: winrm_creds
+
   - name: cexec_repo
     type: gitRepo
     integration: avinci_gh
@@ -450,3 +460,26 @@ jobs:
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: windowsbaseami_prep
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: ami_bits_access_cli
+        switch: off
+      - IN: windowsbaseami_params
+        switch: off
+      - IN: windowsbaseami_winrm_keys
+        switch: off
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd windowsBase
+            - shipctl replace bootstrap_win.txt
+            - ./windowsBasePack.sh windowsbaseami_prep ami_bits_access_cli
+            - popd
+    on_failure:
+      - script: cat IN/prepami_repo/gitRepo/base/output.txt
