@@ -483,4 +483,7 @@ jobs:
             - ./windowsBasePack.sh windowsbaseami_prep ami_bits_access_cli
             - popd
     on_failure:
-      - script: cat IN/prepami_repo/gitRepo/windowsBase/output.txt
+      - script: pushd $(shipctl get_resource_state "prepami_repo")
+      - script: cd windowsBase
+      - script: cat output.txt
+      - script: popd
