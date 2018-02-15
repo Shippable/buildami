@@ -29,7 +29,13 @@ build_ami() {
   echo "validating AMI template"
   echo "-----------------------------------"
 
-  packer validate windowsBaseAMI.json
+  packer validate -var aws_access_key=$AWS_ACCESS_KEY_ID \
+    -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
+    -var REGION=$REGION \
+    -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
+    -var WINRM_USERNAME=$WINRM_USERNAME \
+    -var WINRM_PASSWORD=$WINRM_PASSWORD \
+    windowsBaseAMI.json
 
   echo "building AMI"
   echo "-----------------------------------"

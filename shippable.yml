@@ -56,7 +56,7 @@ resources:
 
   - name: windowsbaseami_winrm_keys
     type: integration
-    integrationName: winrm_creds
+    integration: winrm_creds
 
   - name: cexec_repo
     type: gitRepo
