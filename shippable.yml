@@ -478,8 +478,9 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd windowsBase
-            - shipctl replace bootstrap_win.txt
+            - sed -i "s/{{%WINRM_USERNAME%}}/$WINRM_USERNAME/g" ./bootstrap_win.txt
+            - sed -i "s/{{%WINRM_PASSWORD%}}/$WINRM_PASSWORD/g" ./bootstrap_win.txt
             - ./windowsBasePack.sh windowsbaseami_prep ami_bits_access_cli
             - popd
     on_failure:
-      - script: cat IN/prepami_repo/gitRepo/base/output.txt
+      - script: cat IN/prepami_repo/gitRepo/windowsBase/output.txt
