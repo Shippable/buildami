@@ -32,19 +32,12 @@
   ],
   "provisioners": [
     {
-      "type": "powershell",
-      "environment_vars": ["DEVOPS_LIFE_IMPROVER=PACKER"],
-      "inline": [
-        "Write-Host \"WELCOME TO $Env:DEVOPS_LIFE_IMPROVER\""
-      ]
+      "script": "./windowsBaseInit.ps1",
+      "type": "powershell"
     },
     {
-      "type": "windows-restart"
-    },
-    {
-      "script": "./sample_script.ps1",
-      "type": "powershell",
-      "environment_vars": ["DEVOPS_LIFE_IMPROVER=PACKER"]
+      "script": "./windowsBasePull.ps1",
+      "type": "powershell"
     }
   ]
 }
