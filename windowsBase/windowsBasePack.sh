@@ -18,6 +18,7 @@ set_context(){
 
   echo "CURR_JOB=$CURR_JOB"
   echo "REGION=$REGION"
+  echo "SOURCE_AMI=$SOURCE_AMI"
   echo "WINRM_USERNAME=${#WINRM_USERNAME}" #print only length not value
   echo "WINRM_PASSWORD=${#WINRM_PASSWORD}" #print only length not value
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
@@ -32,6 +33,7 @@ build_ami() {
   packer validate -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
+    -var SOURCE_AMI=$SOURCE_AMI \
     -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
     -var WINRM_USERNAME=$WINRM_USERNAME \
     -var WINRM_PASSWORD=$WINRM_PASSWORD \
@@ -43,6 +45,7 @@ build_ami() {
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
+    -var SOURCE_AMI=$SOURCE_AMI \
     -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
     -var WINRM_USERNAME=$WINRM_USERNAME \
     -var WINRM_PASSWORD=$WINRM_PASSWORD \
