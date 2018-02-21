@@ -5,6 +5,10 @@ readonly NODE_SCRIPTS_LOCATION="/root/node"
 readonly BASE_DIR="/var/lib/shippable"
 readonly REQKICK_DIR="$BASE_DIR/reqKick"
 readonly REQPROC_MASTER_IMAGE="drydock/reqproc:master"
+readonly NODE_ARCHITECTURE="x86_64"
+readonly NODE_OPERATING_SYSTEM="Ubuntu_14.04"
+readonly SHIPPABLE_RELEASE_VERSION="master"
+readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$SHIPPABLE_RELEASE_VERSION/reports-$SHIPPABLE_RELEASE_VERSION-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 
 clean_cexec() {
   if [ -d "$CEXEC_LOCATION_ON_HOST" ]; then
@@ -15,6 +19,16 @@ clean_cexec() {
 clone_cexec() {
   sudo mkdir -p $CEXEC_LOCATION_ON_HOST
   sudo git clone https://github.com/Shippable/cexec.git $CEXEC_LOCATION_ON_HOST
+
+  local reports_dir="$LEGACY_CI_CEXEC_LOCATION_ON_HOST/bin"
+  local reports_tar_file="reports.tar.gz"
+  rm -rf $reports_dir
+  mkdir -p $reports_dir
+  pushd $reports_dir
+    wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
+    tar -xf $reports_tar_file
+    rm -rf $reports_tar_file
+  popd
 }
 
 clean_node_scripts() {

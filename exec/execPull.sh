@@ -25,6 +25,9 @@ readonly REQKICK_REPO="https://github.com/Shippable/reqKick.git"
 readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOC/shipctl"
 readonly NODE_ARCHITECTURE="x86_64"
 readonly NODE_OPERATING_SYSTEM="Ubuntu_14.04"
+# Note: There is a small chance that this URL might not exist if reports hasn't been tagged by the time the AMI starts.
+# If this happens too frequently, add the tagging of reports as a dependency.
+readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$REL_VER/reports-$REL_VER-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 
 #temporary zephyr build speed up....
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
@@ -96,6 +99,18 @@ tag_cexec() {
   sudo git checkout master
   sudo git pull --tags
   sudo git checkout $REL_VER
+  popd
+}
+
+fetch_reports() {
+  local reports_dir="$CEXEC_LOC/bin"
+  local reports_tar_file="reports.tar.gz"
+  rm -rf $reports_dir
+  mkdir -p $reports_dir
+  pushd $reports_dir
+    wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
+    tar -xf $reports_tar_file
+    rm -rf $reports_tar_file
   popd
 }
 
@@ -219,6 +234,7 @@ main() {
   pull_cpp_prod_image
   clone_cexec
   tag_cexec
+  fetch_reports
   clone_node_scripts
   tag_node_scripts
   update_envs
