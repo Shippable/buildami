@@ -25,8 +25,6 @@ readonly REQKICK_REPO="https://github.com/Shippable/reqKick.git"
 readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOC/shipctl"
 readonly NODE_ARCHITECTURE="x86_64"
 readonly NODE_OPERATING_SYSTEM="Ubuntu_14.04"
-# Note: There is a small chance that this URL might not exist if reports hasn't been tagged by the time the AMI starts.
-# If this happens too frequently, add the tagging of reports as a dependency.
 readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$REL_VER/reports-$REL_VER-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 
 #temporary zephyr build speed up....
