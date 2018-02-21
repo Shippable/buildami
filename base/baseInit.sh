@@ -15,6 +15,7 @@ readonly NODE_SCRIPTS_DOWNLOAD_LOCATION="/tmp/node.tar.gz"
 readonly NODE_TARBALL_URL="https://github.com/Shippable/node/archive/master.tar.gz"
 readonly REQKICK_DOWNLOAD_URL="https://github.com/Shippable/reqKick/archive/master.tar.gz"
 readonly CEXEC_DOWNLOAD_URL="https://github.com/Shippable/cexec/archive/master.tar.gz"
+readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$SHIPPABLE_RELEASE_VERSION/reports-$SHIPPABLE_RELEASE_VERSION-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 readonly IS_SWAP_ENABLED=false
 
 check_envs() {
