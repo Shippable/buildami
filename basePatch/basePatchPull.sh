@@ -22,12 +22,12 @@ clone_cexec() {
 
   local reports_dir="$CEXEC_LOCATION_ON_HOST/bin"
   local reports_tar_file="reports.tar.gz"
-  rm -rf $reports_dir
-  mkdir -p $reports_dir
+  sudo rm -rf $reports_dir
+  sudo mkdir -p $reports_dir
   pushd $reports_dir
-    wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
-    tar -xf $reports_tar_file
-    rm -rf $reports_tar_file
+    sudo wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
+    sudo tar -xf $reports_tar_file
+    sudo rm -rf $reports_tar_file
   popd
 }
 
