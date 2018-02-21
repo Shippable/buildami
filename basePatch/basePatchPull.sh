@@ -20,7 +20,7 @@ clone_cexec() {
   sudo mkdir -p $CEXEC_LOCATION_ON_HOST
   sudo git clone https://github.com/Shippable/cexec.git $CEXEC_LOCATION_ON_HOST
 
-  local reports_dir="$LEGACY_CI_CEXEC_LOCATION_ON_HOST/bin"
+  local reports_dir="$CEXEC_LOCATION_ON_HOST/bin"
   local reports_tar_file="reports.tar.gz"
   rm -rf $reports_dir
   mkdir -p $reports_dir
