@@ -3,8 +3,9 @@ $ErrorActionPreference = "Stop"
 Function pull_images() {
   echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
 
-  foreach ($line in Get-Content "images.txt") {
-    echo "line is $line"
+  foreach ($IMAGE_NAME in Get-Content "images.txt") {
+    echo "Pulling -------------------> ${IMAGE_NAME}:${RES_IMG_VER_NAME}"
+    docker pull "${IMAGE_NAME}:${RES_IMG_VER_NAME}"
   }
 }
 
