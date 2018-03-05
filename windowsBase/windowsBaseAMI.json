@@ -32,6 +32,15 @@
   ],
   "provisioners": [
     {
+      "type": "powershell",
+      "inline": [
+        "Install-WindowsFeature containers"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
       "script": "./windowsBaseInit.ps1",
       "type": "powershell"
     },
