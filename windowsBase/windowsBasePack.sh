@@ -25,6 +25,13 @@ set_context(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
 }
 
+get_image_list() {
+  export IMAGE_NAMES=$(cat images.txt)
+  export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
+  echo "IMAGE_NAMES=$IMAGE_NAMES"
+  echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
+}
+
 build_ami() {
   echo "-----------------------------------"
   echo "validating AMI template"
@@ -54,6 +61,7 @@ build_ami() {
 
 main() {
   set_context
+  get_image_list
   build_ami
 }
 

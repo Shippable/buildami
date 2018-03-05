@@ -5,7 +5,9 @@
     "REGION": "",
     "RES_IMG_VER_NAME_DASH": "",
     "WINRM_USERNAME": "",
-    "WINRM_PASSWORD": ""
+    "WINRM_PASSWORD": "",
+    "RES_IMG_VER_NAME": "",
+    "IMAGE_NAMES_SPACED": ""
   },
   "builders": [
     {
@@ -32,12 +34,25 @@
   ],
   "provisioners": [
     {
+      "type": "powershell",
+      "inline": [
+        "Install-WindowsFeature containers"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
       "script": "./windowsBaseInit.ps1",
       "type": "powershell"
     },
     {
       "script": "./windowsBasePull.ps1",
-      "type": "powershell"
+      "type": "powershell",
+      "environment_vars": [
+        "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}",
+        "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
+      ]
     }
   ]
 }
