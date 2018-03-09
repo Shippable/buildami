@@ -227,13 +227,13 @@ jobs:
     steps:
       - IN: prepami_repo
         switch: off
-      - IN: u16baseami_patch
+      - IN: baseami_patch
         switch: off
       - IN: prod_release
         switch: off
-      - IN: u16baseami_params
+      - IN: baseami_params
         switch: off
-      - IN: ami_bits_access_cli
+      - IN: ami_bits_access
         switch: off
       - IN: dry_dh_x86_64_Ubuntu_tag_push
       - IN: genexec_tag_push
@@ -242,8 +242,8 @@ jobs:
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
-            - cd u16Exec
-            - ./execPack.sh finalami_prep prod_release u16baseami_patch ami_bits_access_cli
+            - cd exec
+            - ./execPack.sh finalami_prep prod_release baseami_patch ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
