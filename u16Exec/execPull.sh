@@ -19,7 +19,7 @@ readonly GENEXEC_IMG="drydock/genexec"
 readonly CPP_IMAGE_NAME="drydock/u14cppall"
 readonly CPP_IMAGE_TAG="prod"
 
-readonly REQPROC_IMG="drydock/reqproc"
+readonly REQPROC_IMG="drydock/u16reqproc"
 readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly REQKICK_REPO="https://github.com/Shippable/reqKick.git"
 readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOC/shipctl"
