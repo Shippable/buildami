@@ -54,6 +54,12 @@
         "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}",
         "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
       ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeInstance.ps1 –Schedule"
+      ]
     }
   ]
 }
