@@ -66,6 +66,16 @@ resources:
         SOURCE_AMI: "ami-603b1c1a"
         REGION: "us-east-1"
 
+  - name: centosbaseami_params
+    type: params
+    version:
+      params:
+        SOURCE_AMI: "ami-ae7bfdb8"
+        VPC_ID: "vpc-266f3241"
+        SUBNET_ID: "subnet-6df12f24"
+        SECURITY_GROUP_ID: "sg-f634518c"
+        REGION: "us-east-1"
+
   - name: windowsbaseami_winrm_keys
     type: integration
     integration: winrm_creds
@@ -576,5 +586,36 @@ jobs:
     on_failure:
       - script: pushd $(shipctl get_resource_state "prepami_repo")
       - script: cd windowsBase
+      - script: cat output.txt
+      - script: popd
+
+  - name: centosbaseami_prep
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: ami_bits_access_cli
+        switch: off
+      - IN: centosbaseami_params
+        switch: off
+      - IN: c7nodall_img
+      - IN: c7cppall_img
+      - IN: c7pytall_img
+      - IN: c7javall_img
+      - IN: node_repo
+      - IN: cexec_repo
+      - IN: reqProc_x86_64_Ubuntu_14_04_prep
+      - IN: ami_reqKick_repo
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd centosBase
+            - ./centosBasePack.sh centosbaseami_prep ami_bits_access_cli
+            - popd
+    on_failure:
+      - script: pushd $(shipctl get_resource_state "prepami_repo")
+      - script: cd centosBase
       - script: cat output.txt
       - script: popd
