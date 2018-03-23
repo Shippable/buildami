@@ -502,6 +502,31 @@ jobs:
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
 
+  - name: v624_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: genexec_tag_push
+      - IN: gh_ship_repos_tag_push
+      - IN: reports_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackTmp.sh v624_update prod_release ami-32d5274f v624 Ubuntu_14.04_Docker_17.06.sh true ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
   - name: stable_update
     type: runSh
     dependencyMode: strict
