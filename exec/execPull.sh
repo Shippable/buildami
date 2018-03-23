@@ -41,6 +41,7 @@ set_context() {
 
   readonly GENEXEC_IMG_WITH_TAG="$GENEXEC_IMG:$REL_VER"
   readonly REQPROC_IMG_WITH_TAG="$REQPROC_IMG:$REL_VER"
+  readonly DEFAULT_MICROBASE_IMAGE_WITH_TAG="drydock/microbase:v6.2.4"
 }
 
 validate_envs() {
@@ -225,6 +226,11 @@ pull_tagged_reqproc() {
   sudo docker pull $REQPROC_IMG_WITH_TAG
 }
 
+pull_default_microbase() {
+  echo "Pulling $DEFAULT_MICROBASE_IMAGE_WITH_TAG"
+  sudo docker pull $DEFAULT_MICROBASE_IMAGE_WITH_TAG
+}
+
 main() {
   set_context
   validate_envs
@@ -243,6 +249,7 @@ main() {
   clone_reqKick
   tag_reqKick
   pull_tagged_reqproc
+  pull_default_microbase
 }
 
 echo "Running execPull script..."
