@@ -23,8 +23,8 @@
       "security_group_id": "{{user `SECURITY_GROUP_ID`}}",
       "source_ami": "{{user `SOURCE_AMI`}}",
       "instance_type": "c4.2xlarge",
-      "ssh_username": "ubuntu",
-      "ami_name": "centosbase-ami-{{user `RES_IMG_VER_NAME_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
+      "ssh_username": "centos",
+      "ami_name": "c7base-ami-{{user `RES_IMG_VER_NAME_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
       "ami_groups": "all",
       "launch_block_device_mappings": [
         {
@@ -48,7 +48,7 @@
     },
     {
       "type": "shell",
-      "script": "centosBaseInit.sh",
+      "script": "baseInit.sh",
       "environment_vars": [
         "SHIPPABLE_RELEASE_VERSION={{user `SHIPPABLE_RELEASE_VERSION`}}",
         "SHIPPABLE_NODE_INIT_SCRIPT={{user `SHIPPABLE_NODE_INIT_SCRIPT`}}"
@@ -57,7 +57,7 @@
     },
     {
       "type": "shell",
-      "script": "centosBasePull.sh",
+      "script": "basePull.sh",
       "environment_vars": [
         "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}",
         "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
