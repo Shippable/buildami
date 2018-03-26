@@ -39,7 +39,7 @@ build_ami() {
   echo "validating AMI template"
   echo "-----------------------------------"
 
-  packer validate centosBaseAMI.json
+  packer validate baseAMI.json
 
   echo "building AMI"
   echo "-----------------------------------"
@@ -56,7 +56,7 @@ build_ami() {
     -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
     -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
     -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
-    centosBaseAMI.json 2>&1 | tee output.txt
+    baseAMI.json 2>&1 | tee output.txt
 
   # this is to get the ami from output
   echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
