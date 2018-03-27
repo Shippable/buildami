@@ -1,0 +1,60 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "REGION": "",
+    "VPC_ID": "",
+    "SUBNET_ID": "",
+    "AMI_ID": "test",
+    "IMAGE_NAMES_SPACED":"test",
+    "REL_VER": "",
+    "REL_DASH_VER": "",
+    "SHIPPABLE_NODE_INIT_SCRIPT": "",
+    "SECURITY_GROUP_ID": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "{{user `REGION`}}",
+      "vpc_id": "{{user `VPC_ID`}}",
+      "subnet_id": "{{user `SUBNET_ID`}}",
+      "associate_public_ip_address": true,
+      "security_group_id": "{{user `SECURITY_GROUP_ID`}}",
+      "source_ami": "{{user `AMI_ID`}}",
+      "instance_type": "t2.micro",
+      "ssh_username": "centos",
+      "ami_name": "c7exec-ami-{{user `REL_DASH_VER`}}-{{isotime \"1504\"}}",
+      "ami_groups": "all",
+      "launch_block_device_mappings": [
+        {
+        "device_name": "/dev/sda1",
+        "volume_type": "gp2",
+        "volume_size": "150",
+        "delete_on_termination": true
+        }
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sleep 30",
+        "uname -a",
+        "uptime"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "execPull.sh",
+      "environment_vars": [
+        "REL_VER={{user `REL_VER`}}",
+        "SHIPPABLE_NODE_INIT_SCRIPT={{user `SHIPPABLE_NODE_INIT_SCRIPT`}}",
+        "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
+      ],
+      "execute_command": "echo 'packer' | sudo -S env {{ .Vars }} {{ .Path }}"
+    }
+  ]
+}
