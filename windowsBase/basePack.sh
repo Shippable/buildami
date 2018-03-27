@@ -46,7 +46,7 @@ build_ami() {
     -var WINRM_PASSWORD=$WINRM_PASSWORD \
     -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION \
-    windowsBaseAMI.json
+    baseAMI.json
 
   echo "building AMI"
   echo "-----------------------------------"
@@ -60,7 +60,7 @@ build_ami() {
     -var WINRM_PASSWORD=$WINRM_PASSWORD \
     -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION \
-    windowsBaseAMI.json 2>&1 | tee output.txt
+    baseAMI.json 2>&1 | tee output.txt
 
   # this is to get the ami from output
   echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
