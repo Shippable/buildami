@@ -1,0 +1,65 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "REGION": "",
+    "RES_IMG_VER_NAME_DASH": "",
+    "WINRM_USERNAME": "",
+    "WINRM_PASSWORD": "",
+    "RES_IMG_VER_NAME": "",
+    "IMAGE_NAMES_SPACED": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{ user `aws_access_key` }}",
+      "secret_key": "{{ user `aws_secret_key` }}",
+      "region": "{{ user `REGION` }}",
+      "instance_type": "c4.large",
+      "source_ami": "{{user `SOURCE_AMI`}}",
+      "ami_name": "windowsbase-ami-{{user `RES_IMG_VER_NAME_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
+      "ami_groups": "all",
+      "user_data_file": "./bootstrap_win.txt",
+      "communicator": "winrm",
+      "winrm_username": "{{ user `WINRM_USERNAME` }}",
+      "winrm_password": "{{ user `WINRM_PASSWORD` }}",
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2",
+          "volume_size": "120",
+          "delete_on_termination": true
+        }
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "inline": [
+        "Install-WindowsFeature containers"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "script": "./baseInit.ps1",
+      "type": "powershell"
+    },
+    {
+      "script": "./basePull.ps1",
+      "type": "powershell",
+      "environment_vars": [
+        "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}",
+        "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeInstance.ps1 -Schedule"
+      ]
+    }
+  ]
+}
