@@ -204,7 +204,7 @@ tag_reqKick() {
   sudo git checkout master
   sudo git pull --tags
   sudo git checkout $REL_VER
-  sudo PATH="$PATH:/usr/local/bin/" npm install
+  sudo /usr/local/bin/npm install
   popd
 }
 

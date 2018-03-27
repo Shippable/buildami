@@ -51,7 +51,7 @@ clone_reqKick () {
   
   pushd $REQKICK_DIR
     sudo git checkout $SHIPPABLE_RELEASE_VERSION
-    sudo PATH="$PATH:/usr/local/bin/" npm install
+    sudo /usr/local/bin/npm install
   popd
 }
 
