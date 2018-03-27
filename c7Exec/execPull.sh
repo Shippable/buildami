@@ -200,12 +200,11 @@ clone_reqKick() {
 
 tag_reqKick() {
   echo "tagging reqKick"
-  export PATH="$PATH:/usr/local/bin/"
   pushd $REQKICK_DIR
   sudo git checkout master
   sudo git pull --tags
   sudo git checkout $REL_VER
-  sudo npm install
+  sudo PATH="$PATH:/usr/local/bin/" npm install
   popd
 }
 
