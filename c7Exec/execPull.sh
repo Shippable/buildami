@@ -200,6 +200,7 @@ clone_reqKick() {
 
 tag_reqKick() {
   echo "tagging reqKick"
+  export PATH="$PATH:/usr/local/bin/"
   pushd $REQKICK_DIR
   sudo git checkout master
   sudo git pull --tags

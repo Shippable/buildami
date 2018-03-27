@@ -48,6 +48,7 @@ clean_reqKick () {
 clone_reqKick () {
   echo "Cloning reqKick..."
   sudo git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
+  export PATH="$PATH:/usr/local/bin/"
 
   pushd $REQKICK_DIR
     sudo git checkout $SHIPPABLE_RELEASE_VERSION
