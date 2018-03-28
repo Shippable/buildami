@@ -15,20 +15,14 @@ export RES_BASE_AMI_UP=$(echo $RES_BASE_AMI | awk '{print toupper($0)}')
 export RES_BASE_AMI_PATH=$(eval echo "$"$RES_BASE_AMI_UP"_PATH")
 
 set_context(){
+
   # now get the AWS keys
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
   export AWS_SECRET_ACCESS_KEY=$(eval echo "$"$RES_AWS_CREDS_INT"_SECRETKEY")
 
-  # get AMI_ID
+  # get the AMI ID
   export AMI_ID=$(shipctl get_resource_version_name "$RES_BASE_AMI")
 
-# TODO to be fixed
-#  export RES_IMG_VER_NAME="$(shipctl get_resource_version_key "RES_BASE_AMI" "RES_IMG_VER_NAME")"
-#  export RES_IMG_VER_NAME_DASH="$(shipctl get_resource_version_key "RES_BASE_AMI" "RES_IMG_VER_NAME_DASH")"
-#  export IMAGE_NAMES_SPACED="$(shipctl get_resource_version_key "RES_BASE_AMI" "IMAGE_NAMES_SPACED")"
-#  export SHIPPABLE_NODE_INIT_SCRIPT="$(shipctl get_resource_version_key "RES_BASE_AMI" "SHIPPABLE_NODE_INIT_SCRIPT")"
-
-  # getting propertyBag values
   pushd $RES_BASE_AMI_PATH
     export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
     export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
@@ -45,51 +39,54 @@ set_context(){
   echo "RES_BASE_AMI_UP=$RES_BASE_AMI_UP"
   echo "RES_BASE_AMI_PATH=$RES_BASE_AMI_PATH"
 
-  echo "VPC_ID=$VPC_ID"
   echo "REGION=$REGION"
-  echo "SUBNET_ID=$SUBNET_ID"
-  echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
+  echo "AMI_ID=$AMI_ID"
+  echo "WINRM_USERNAME=${#WINRM_USERNAME}" #print only length not value
+  echo "WINRM_PASSWORD=${#WINRM_PASSWORD}" #print only length not value
   echo "AWS_ACCESS_KEY_ID=${#AWS_ACCESS_KEY_ID}" #print only length not value
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
-  echo "AMI_ID=$AMI_ID"
-  echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
-  echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
-  echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT"
 }
 
 build_ami() {
+  echo "-----------------------------------"
   echo "validating AMI template"
   echo "-----------------------------------"
-  packer validate basePatchAMI.json
+
+  packer validate -var aws_access_key=$AWS_ACCESS_KEY_ID \
+    -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
+    -var REGION=$REGION \
+    -var WINRM_USERNAME=$WINRM_USERNAME \
+    -var WINRM_PASSWORD=$WINRM_PASSWORD \
+    -var AMI_ID=$AMI_ID \
+    -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
+    basePatchAMI.json
+
   echo "building AMI"
   echo "-----------------------------------"
 
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
-    -var VPC_ID=$VPC_ID \
-    -var SUBNET_ID=$SUBNET_ID \
-    -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var AMI_ID=$AMI_ID \
     -var RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH \
+    -var WINRM_USERNAME=$WINRM_USERNAME \
+    -var WINRM_PASSWORD=$WINRM_PASSWORD \
+    -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     basePatchAMI.json 2>&1 | tee output.txt
 
-    #putting AMI-ID as the versionName of this job
-    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env" #adding version state
+  # this is to get the ami from output
+  echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
 
-    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT" >> "$JOB_STATE/$CURR_JOB.env"
-    cat "$JOB_STATE/$CURR_JOB.env"
+  echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
+  echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
+  echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
+  echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT" >> "$JOB_STATE/$CURR_JOB.env"
+
+  cat "$JOB_STATE/$CURR_JOB.env"
 }
 
 main() {
-  eval `ssh-agent -s`
-  ps -eaf | grep ssh
-  which ssh-agent
-
   set_context
   build_ami
 }
