@@ -56,7 +56,6 @@ set_context(){
   echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
   echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
   echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
-  echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT"
 }
 
 build_ami() {
@@ -76,7 +75,6 @@ build_ami() {
     -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
-    -var SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT \
     execAMI.json 2>&1 | tee output.txt
 
   #this is to get the ami from output

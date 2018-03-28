@@ -59,13 +59,6 @@ validate_envs() {
   else
     echo "KERNEL_DOWN: $KERNEL_DOWN"
   fi
-
-  if [ -z "$SHIPPABLE_NODE_INIT_SCRIPT" ] || [ "$SHIPPABLE_NODE_INIT_SCRIPT" == "" ]; then
-    echo "SHIPPABLE_NODE_INIT_SCRIPT env not defined, exiting"
-    exit 1
-  else
-    echo "SHIPPABLE_NODE_INIT_SCRIPT: $SHIPPABLE_NODE_INIT_SCRIPT"
-  fi
 }
 
 pull_images() {
@@ -143,7 +136,6 @@ update_envs() {
   sudo mkdir -p $NODE_DATA_LOCATION
   ## Setting the build time envs
   sudo sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template | sudo tee $node_env
-  sudo sed -i "s#{{SHIPPABLE_NODE_INIT_SCRIPT}}#$SHIPPABLE_NODE_INIT_SCRIPT#g" $node_env
   sudo sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
   sudo sed -i "s#{{COMPONENT}}#$COMPONENT#g" $node_env
   sudo sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$SHIPPABLE_RELEASE_VERSION#g" $node_env

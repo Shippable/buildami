@@ -61,12 +61,6 @@ validate_envs() {
     echo "KERNEL_DOWN: $KERNEL_DOWN"
   fi
 
-  if [ -z "$SHIPPABLE_NODE_INIT_SCRIPT" ] || [ "$SHIPPABLE_NODE_INIT_SCRIPT" == "" ]; then
-    echo "SHIPPABLE_NODE_INIT_SCRIPT env not defined, exiting"
-    exit 1
-  else
-    echo "SHIPPABLE_NODE_INIT_SCRIPT: $SHIPPABLE_NODE_INIT_SCRIPT"
-  fi
 }
 
 pull_images() {

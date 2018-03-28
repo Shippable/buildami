@@ -22,18 +22,11 @@ set_context(){
   # get AMI_ID
   export AMI_ID=$(shipctl get_resource_version_name "$RES_BASE_AMI")
 
-# TODO to be fixed
-#  export RES_IMG_VER_NAME="$(shipctl get_resource_version_key "RES_BASE_AMI" "RES_IMG_VER_NAME")"
-#  export RES_IMG_VER_NAME_DASH="$(shipctl get_resource_version_key "RES_BASE_AMI" "RES_IMG_VER_NAME_DASH")"
-#  export IMAGE_NAMES_SPACED="$(shipctl get_resource_version_key "RES_BASE_AMI" "IMAGE_NAMES_SPACED")"
-#  export SHIPPABLE_NODE_INIT_SCRIPT="$(shipctl get_resource_version_key "RES_BASE_AMI" "SHIPPABLE_NODE_INIT_SCRIPT")"
-
   # getting propertyBag values
   pushd $RES_BASE_AMI_PATH
     export RES_IMG_VER_NAME=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME' version.json)
     export RES_IMG_VER_NAME_DASH=$(jq -r '.version.propertyBag.RES_IMG_VER_NAME_DASH' version.json)
     export IMAGE_NAMES_SPACED=$(jq -r '.version.propertyBag.IMAGE_NAMES_SPACED' version.json)
-    export SHIPPABLE_NODE_INIT_SCRIPT=$(jq -r '.version.propertyBag.SHIPPABLE_NODE_INIT_SCRIPT' version.json)
   popd
 
   echo "CURR_JOB=$CURR_JOB"
@@ -54,7 +47,6 @@ set_context(){
   echo "AMI_ID=$AMI_ID"
   echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
   echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
-  echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT"
 }
 
 build_ami() {
@@ -81,7 +73,6 @@ build_ami() {
     echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
     echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
     echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "SHIPPABLE_NODE_INIT_SCRIPT=$SHIPPABLE_NODE_INIT_SCRIPT" >> "$JOB_STATE/$CURR_JOB.env"
     cat "$JOB_STATE/$CURR_JOB.env"
 }
 
