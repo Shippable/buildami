@@ -11,7 +11,10 @@ $REPORTS_DOWNLOAD_URL = "https://s3.amazonaws.com/shippable-artifacts/reports/$S
 
 
 Function clean_node_scripts() {
-  rm -rf $NODE_SCRIPTS_LOCATION
+  if (Test-Path $NODE_SCRIPTS_LOCATION) {
+    Write-Output "Cleaning node scripts"
+    Remove-Item -recur -force $NODE_SCRIPTS_LOCATION
+  }
 }
 
 Function clone_node_scripts() {
@@ -20,12 +23,14 @@ Function clone_node_scripts() {
 }
 
 Function clean_reqKick () {
-  echo "Cleaning reqKick..."
-  rm -rf $REQKICK_DIR || true
+  if (Test-Path $REQKICK_DIR) {
+    Write-Output "Cleaning reqKick..."
+    Remove-Item -recur -force $REQKICK_DIR
+  }
 }
 
 Function clone_reqKick () {
-  echo "Cloning reqKick..."
+  Write-Output "Cloning reqKick..."
   git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
 
   pushd $REQKICK_DIR
