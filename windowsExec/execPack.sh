@@ -95,8 +95,6 @@ build_ami() {
   echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
   echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
   cat "$JOB_STATE/$CURR_JOB.env"
-
-  cat "$JOB_STATE/$CURR_JOB.env"
 }
 
 main() {

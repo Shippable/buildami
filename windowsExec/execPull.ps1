@@ -151,10 +151,6 @@ Function update_envs() {
   cat $node_env
 }
 
-Function pull_zephyr() {
-  docker pull $ZEPHYR_IMG
-}
-
 Function install_nodejs() {
   pushd /tmp
     echo "Installing node 4.8.5"
@@ -200,15 +196,12 @@ Function pull_tagged_reqproc() {
 set_context
 validate_envs
 pull_images
-pull_cpp_prod_image
 clone_cexec
 tag_cexec
 fetch_reports
 clone_node_scripts
 tag_node_scripts
 update_envs
-pull_exec
-pull_zephyr
 install_nodejs
 install_shipctl
 clone_reqKick
