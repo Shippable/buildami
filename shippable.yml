@@ -269,7 +269,7 @@ jobs:
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
-            - cd exec
+            - cd u16Exec
             - ./execPack.sh u16finalami_prep prod_release u16baseami_patch ami_bits_access
             - popd
     on_failure:
