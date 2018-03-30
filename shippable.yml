@@ -679,6 +679,8 @@ jobs:
         switch: off
       - IN: windowsbaseami_patch
         switch: off
+      - IN: prod_release
+        switch: off
       - IN: dry_dh_x86_64_Windows_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
@@ -768,7 +770,6 @@ jobs:
       - IN: ami_bits_access
         switch: off
       - IN: dry_dh_x86_64_c7_tag_push
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
