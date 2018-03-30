@@ -65,21 +65,22 @@ Function tag_cexec() {
   popd
 }
 
-Function fetch_reports() {
-  $reports_dir = "$CEXEC_LOC/bin"
-  $reports_tar_file = "reports.tar.gz"
-  if (Test-Path $reports_dir) {
-    Write-Output "Cleaning reports dir..."
-    Remove-Item -recur -force $reports_dir
-  }
-  mkdir -p $reports_dir
+# CI not yet supported in windows. no need for reports package
+# Function fetch_reports() {
+#   $reports_dir = "$CEXEC_LOC/bin"
+#   $reports_tar_file = "reports.tar.gz"
+#   if (Test-Path $reports_dir) {
+#     Write-Output "Cleaning reports dir..."
+#     Remove-Item -recur -force $reports_dir
+#   }
+#   mkdir -p $reports_dir
   
-  pushd $reports_dir
-    wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
-    tar -xf $reports_tar_file
-    Remove-Item -force $reports_tar_file
-  popd
-}
+#   pushd $reports_dir
+#     wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
+#     tar -xf $reports_tar_file
+#     Remove-Item -force $reports_tar_file
+#   popd
+# }
 
 Function clone_node_scripts() {
   if (Test-Path $NODE_SCRIPTS_LOC) {
@@ -190,7 +191,7 @@ validate_envs
 pull_images
 clone_cexec
 tag_cexec
-fetch_reports
+# fetch_reports
 clone_node_scripts
 tag_node_scripts
 update_envs
