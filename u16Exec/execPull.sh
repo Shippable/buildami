@@ -11,13 +11,9 @@ readonly NODE_DATA_LOCATION="/etc/shippable"
 readonly NODE_LOGS_LOCATION="$NODE_DATA_LOCATION/logs"
 readonly EXEC_REPO="https://github.com/Shippable/cexec.git"
 readonly NODE_SCRIPTS_REPO="https://github.com/Shippable/node.git"
-readonly COMPONENT="genExec"
 
 readonly CEXEC_LOC="/home/shippable/cexec"
 readonly NODE_SCRIPTS_LOC="/root/node"
-readonly GENEXEC_IMG="drydock/genexec"
-readonly CPP_IMAGE_NAME="drydock/u14cppall"
-readonly CPP_IMAGE_TAG="prod"
 
 readonly REQPROC_IMG="drydock/u16reqproc"
 readonly REQKICK_DIR="/var/lib/shippable/reqKick"
@@ -34,12 +30,10 @@ set_context() {
   echo "Setting context for AMI"
 
   echo "REL_VER=$REL_VER"
-  echo "GENEXEC_IMG=$GENEXEC_IMG"
   echo "REQPROC_IMG=$REQPROC_IMG"
   echo "CEXEC_LOC=$CEXEC_LOC"
   echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 
-  readonly GENEXEC_IMG_WITH_TAG="$GENEXEC_IMG:$REL_VER"
   readonly REQPROC_IMG_WITH_TAG="$REQPROC_IMG:$REL_VER"
 }
 
@@ -66,16 +60,6 @@ pull_images() {
     echo "Pulling -------------------> $IMAGE_NAME:$REL_VER"
     sudo docker pull $IMAGE_NAME:$REL_VER
   done
-}
-
-pull_cpp_prod_image() {
-  if [ -n "$CPP_IMAGE_NAME" ] && [ -n "$CPP_IMAGE_TAG" ]; then
-    echo "CPP_IMAGE_NAME=$CPP_IMAGE_NAME"
-    echo "CPP_IMAGE_TAG=$CPP_IMAGE_TAG"
-
-    echo "Pulling -------------------> $CPP_IMAGE_NAME:$CPP_IMAGE_TAG"
-    sudo docker pull $CPP_IMAGE_NAME:$CPP_IMAGE_TAG
-  fi
 }
 
 clone_cexec() {
@@ -137,12 +121,12 @@ update_envs() {
   ## Setting the build time envs
   sudo sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template | sudo tee $node_env
   sudo sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
-  sudo sed -i "s#{{COMPONENT}}#$COMPONENT#g" $node_env
   sudo sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$SHIPPABLE_RELEASE_VERSION#g" $node_env
   sudo sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
 
   ## Setting the runtime values to empty
   local default_value=""
+  sudo sed -i "s#{{COMPONENT}}#$default_value#g" $node_env
   sudo sed -i "s#{{LISTEN_QUEUE}}#$default_value#g" $node_env
   sudo sed -i "s#{{SUBSCRIPTION_ID}}#$default_value#g" $node_env
   sudo sed -i "s#{{NODE_ID}}#$default_value#g" $node_env
@@ -161,10 +145,6 @@ update_envs() {
 
   echo "Successfully update node specific envs to $node_env"
   sudo cat $node_env
-}
-
-pull_exec() {
-  sudo docker pull $GENEXEC_IMG_WITH_TAG
 }
 
 pull_zephyr() {
@@ -221,14 +201,12 @@ main() {
   set_context
   validate_envs
   pull_images
-  pull_cpp_prod_image
   clone_cexec
   tag_cexec
   fetch_reports
   clone_node_scripts
   tag_node_scripts
   update_envs
-  pull_exec
   pull_zephyr
   install_nodejs
   install_shipctl
