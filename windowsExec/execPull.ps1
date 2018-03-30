@@ -19,7 +19,7 @@ $REQKICK_REPO = "https://github.com/Shippable/reqKick.git"
 $NODE_SHIPCTL_LOCATION = "$NODE_SCRIPTS_LOC/shipctl"
 $NODE_ARCHITECTURE = "x86_64"
 $NODE_OPERATING_SYSTEM = "WindowsServer_2016"
-$REPORTS_DOWNLOAD_URL = "https://s3.amazonaws.com/shippable-artifacts/reports/$REL_VER/reports-$REL_VER-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
+$REPORTS_DOWNLOAD_URL = "https://s3.amazonaws.com/shippable-artifacts/reports/$env:REL_VER/reports-$env:REL_VER-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 
 Function set_context() {
   echo "Setting context for AMI"
