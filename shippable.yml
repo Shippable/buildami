@@ -774,7 +774,7 @@ jobs:
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
-            - cd c7exec
+            - cd c7Exec
             - ./execPack.sh c7finalami_prep prod_release c7baseami_patch ami_bits_access
             - popd
     on_failure:
