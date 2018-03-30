@@ -167,7 +167,7 @@ install_nodejs() {
   sudo cp -Rf node-v4.8.5-linux-x64/{bin,include,lib,share} /usr/local
 
   echo "Checking node version"
-  node -v
+  /usr/local/bin/node -v
   popd
 }
 
