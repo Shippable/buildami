@@ -264,7 +264,6 @@ jobs:
       - IN: ami_bits_access
         switch: off
       - IN: dry_dh_x86_64_u16_tag_push
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -775,7 +774,7 @@ jobs:
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
-            - cd exec
+            - cd c7exec
             - ./execPack.sh c7finalami_prep prod_release c7baseami_patch ami_bits_access
             - popd
     on_failure:
