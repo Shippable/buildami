@@ -9,7 +9,6 @@ $NODE_DATA_LOCATION = "/etc/shippable"
 $NODE_LOGS_LOCATION = "$NODE_DATA_LOCATION/logs"
 $EXEC_REPO = "https://github.com/Shippable/cexec.git"
 $NODE_SCRIPTS_REPO = "https://github.com/Shippable/node.git"
-$COMPONENT = "genExec"
 
 $CEXEC_LOC = "/home/shippable/cexec"
 $NODE_SCRIPTS_LOC = "/root/node"
@@ -30,7 +29,7 @@ Function set_context() {
   echo "CEXEC_LOC=$CEXEC_LOC"
   echo "IMAGE_NAMES_SPACED=$env:IMAGE_NAMES_SPACED"
 
-  $REQPROC_IMG_WITH_TAG = "$REQPROC_IMG:$SHIPPABLE_RELEASE_VERSION"
+  $REQPROC_IMG_WITH_TAG = "${REQPROC_IMG}:${SHIPPABLE_RELEASE_VERSION}"
 }
 
 Function validate_envs() {
@@ -52,8 +51,8 @@ Function validate_envs() {
 
 Function pull_images() {
   foreach ($IMAGE_NAME in $env:IMAGE_NAMES_SPACED.Split(" ")) {
-    echo "Pulling -------------------> $IMAGE_NAME:$SHIPPABLE_RELEASE_VERSION"
-    docker pull $IMAGE_NAME:$SHIPPABLE_RELEASE_VERSION
+    echo "Pulling -------------------> ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}"
+    docker pull ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}
   }
 }
 
@@ -75,7 +74,7 @@ Function tag_cexec() {
 
 Function fetch_reports() {
   $reports_dir = "$CEXEC_LOC/bin"
-  $local reports_tar_file = "reports.tar.gz"
+  $reports_tar_file = "reports.tar.gz"
   if (Test-Path $reports_dir) {
     Write-Output "Cleaning reports dir..."
     Remove-Item -recur -force $reports_dir
@@ -109,8 +108,8 @@ Function tag_node_scripts() {
 }
 
 Function update_envs() {
-  $node_env_template=$NODE_SCRIPTS_LOC/usr/node.env.template
-  $node_env=$NODE_DATA_LOCATION/node.env
+  $node_env_template = "$NODE_SCRIPTS_LOC/usr/node.env.template"
+  $node_env = "$NODE_DATA_LOCATION/node.env"
 
   if (!(Test-Path $node_env_template)) {
     echo "Node environment template file not found: $node_env_template"
@@ -125,12 +124,13 @@ Function update_envs() {
   ## Setting the build time envs
   sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template | sudo tee $node_env
   sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
-  sed -i "s#{{COMPONENT}}#$COMPONENT#g" $node_env
+  
   sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$SHIPPABLE_RELEASE_VERSION#g" $node_env
   sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
 
   ## Setting the runtime values to empty
-  local default_value=""
+  $default_value = ""
+  sed -i "s#{{COMPONENT}}#$default_value#g" $node_env
   sed -i "s#{{LISTEN_QUEUE}}#$default_value#g" $node_env
   sed -i "s#{{SUBSCRIPTION_ID}}#$default_value#g" $node_env
   sed -i "s#{{NODE_ID}}#$default_value#g" $node_env
@@ -154,9 +154,9 @@ Function update_envs() {
 Function install_nodejs() {
   pushd /tmp
     echo "Installing node 4.8.5"
-    wget https://nodejs.org/dist/v4.8.5/node-v4.8.5-linux-x64.tar.xz
-    tar -xf node-v4.8.5-linux-x64.tar.xz
-    cp -Rf node-v4.8.5-linux-x64/{bin,include,lib,share} /usr/local
+    wget "https://nodejs.org/dist/v4.8.5/node-v4.8.5-linux-x64.tar.xz"
+    tar -xf "node-v4.8.5-linux-x64.tar.xz"
+    cp -Rf "node-v4.8.5-linux-x64/{bin,include,lib,share}" "/usr/local"
 
     echo "Checking node version"
     node -v
