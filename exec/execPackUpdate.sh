@@ -62,7 +62,7 @@ build_ami() {
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
     -var KERNEL_DOWN=$KERNEL_DOWN \
-    execAMITmp.json 2>&1 | tee output.txt
+    execAMIUpdate.json 2>&1 | tee output.txt
 
   #this is to get the ami from output
   echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
