@@ -47,7 +47,7 @@ set_context(){
 build_ami() {
   echo "validating AMI template"
   echo "-----------------------------------"
-  packer validate execAMITmp.json
+  packer validate execAMIUpdate.json
   echo "building AMI"
   echo "-----------------------------------"
 
