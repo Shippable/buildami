@@ -72,7 +72,7 @@ clone_cexec() {
 tag_cexec() {
   pushd $CEXEC_LOC
   sudo git checkout master
-  sudo git pull --tags
+  sudo git fetch --tags
   sudo git checkout $REL_VER
   popd
 }
@@ -99,7 +99,7 @@ clone_node_scripts() {
 tag_node_scripts() {
   pushd $NODE_SCRIPTS_LOC
   sudo git checkout master
-  sudo git pull --tags
+  sudo git fetch --tags
   sudo git checkout $REL_VER
   popd
 }
@@ -186,7 +186,7 @@ tag_reqKick() {
   echo "tagging reqKick"
   pushd $REQKICK_DIR
   sudo git checkout master
-  sudo git pull --tags
+  sudo git fetch --tags
   sudo git checkout $REL_VER
   sudo /usr/local/bin/npm install
   popd
