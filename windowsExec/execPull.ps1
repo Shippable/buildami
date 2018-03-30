@@ -71,9 +71,8 @@ Function fetch_reports() {
   if (Test-Path $reports_dir) {
     Write-Output "Cleaning reports dir..."
     Remove-Item -recur -force $reports_dir
-  } else {
-    mkdir -p $reports_dir
   }
+  mkdir -p $reports_dir
   
   pushd $reports_dir
     wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
