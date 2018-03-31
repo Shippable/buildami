@@ -9,6 +9,7 @@ $NODE_DATA_LOCATION = "/etc/shippable"
 $NODE_LOGS_LOCATION = "$NODE_DATA_LOCATION/logs"
 $EXEC_REPO = "https://github.com/Shippable/cexec.git"
 $NODE_SCRIPTS_REPO = "https://github.com/Shippable/node.git"
+$NODE_JS_VERSION = "4.8.5"
 
 $CEXEC_LOC = "/home/shippable/cexec"
 $NODE_SCRIPTS_LOC = "/root/node"
@@ -146,15 +147,12 @@ Function update_envs() {
 }
 
 Function install_nodejs() {
-  pushd /tmp
-    echo "Installing node 4.8.5"
-    wget "https://nodejs.org/dist/v4.8.5/node-v4.8.5-linux-x64.tar.xz"
-    tar -xf "node-v4.8.5-linux-x64.tar.xz"
-    cp -Rf "node-v4.8.5-linux-x64/{bin,include,lib,share}" "/usr/local"
-
-    echo "Checking node version"
-    node -v
-  popd
+  Write-Output "Checking for node.js v$NODE_JS_VERSION"
+  $nodejs_package = Get-Package nodejs -provider ChocolateyGet -ErrorAction SilentlyContinue
+  if (!$nodejs_package -or ($nodejs_package.Version -ne "$NODE_JS_VERSION")) {
+    Write-Output "Installing node.js v$NODE_JS_VERSION"
+    Install-Package -ProviderName ChocolateyGet -Name nodejs -RequiredVersion $NODE_JS_VERSION -Force
+  }
 }
 
 Function install_shipctl() {
