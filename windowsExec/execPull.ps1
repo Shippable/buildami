@@ -74,7 +74,7 @@ Function tag_cexec() {
 #     Remove-Item -recur -force $reports_dir
 #   }
 #   mkdir -p $reports_dir
-  
+
 #   pushd $reports_dir
 #     wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
 #     tar -xf $reports_tar_file
@@ -114,31 +114,32 @@ Function update_envs() {
   if (!(Test-Path $NODE_DATA_LOCATION)) {
     mkdir -p $NODE_DATA_LOCATION
   }
+
+  $default_value = ""
+  $template = (Get-Content $node_env_template)
+
   ## Setting the build time envs
-  sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template | sudo tee $node_env
-  sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
-  
-  sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$SHIPPABLE_RELEASE_VERSION#g" $node_env
-  sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
+  $template = $template.replace("{{NODE_TYPE_CODE}}", $NODE_TYPE_CODE)
+  $template = $template.replace("{{SHIPPABLE_NODE_INIT}}", $SHIPPABLE_NODE_INIT)
+  $template = $template.replace("{{SHIPPABLE_RELEASE_VERSION}}", $SHIPPABLE_RELEASE_VERSION)
+  $template = $template.replace("{{EXEC_REPO}}", $EXEC_REPO)
 
   ## Setting the runtime values to empty
-  $default_value = ""
-  sed -i "s#{{COMPONENT}}#$default_value#g" $node_env
-  sed -i "s#{{LISTEN_QUEUE}}#$default_value#g" $node_env
-  sed -i "s#{{SUBSCRIPTION_ID}}#$default_value#g" $node_env
-  sed -i "s#{{NODE_ID}}#$default_value#g" $node_env
-  sed -i "s#{{SHIPPABLE_AMQP_URL}}#$default_value#g" $node_env
-  sed -i "s#{{SHIPPABLE_API_URL}}#$default_value#g" $node_env
-  sed -i "s#{{SHIPPABLE_API_TOKEN}}#$default_value#g" $node_env
-  sed -i "s#{{SHIPPABLE_AMQP_DEFAULT_EXCHANGE}}#$default_value#g" $node_env
-  sed -i "s#{{RUN_MODE}}#$default_value#g" $node_env
-  sed -i "s#{{JOB_TYPE}}#$default_value#g" $node_env
-  sed -i "s#{{EXEC_MOUNTS}}#$default_value#g" $node_env
-  sed -i "s#{{EXEC_OPTS}}#$default_value#g" $node_env
-  sed -i "s#{{EXEC_CONTAINER_NAME}}#$default_value#g" $node_env
-  sed -i "s#{{EXEC_CONTAINER_NAME_PATTERN}}#$default_value#g" $node_env
-  sed -i "s#{{EXEC_IMAGE}}#$default_value#g" $node_env
-  sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
+  $template = $template.replace("{{LISTEN_QUEUE}}", $default_value)
+  $template = $template.replace("{{SUBSCRIPTION_ID}}", $default_value)
+  $template = $template.replace("{{NODE_ID}}", $default_value)
+  $template = $template.replace("{{SHIPPABLE_AMQP_URL}}", $default_value)
+  $template = $template.replace("{{SHIPPABLE_API_URL}}", $default_value)
+  $template = $template.replace("{{SHIPPABLE_API_TOKEN}}", $default_value)
+  $template = $template.replace("{{SHIPPABLE_AMQP_DEFAULT_EXCHANGE}}", $default_value)
+  $template = $template.replace("{{RUN_MODE}}", $default_value)
+  $template = $template.replace("{{JOB_TYPE}}", $default_value)
+  $template = $template.replace("{{EXEC_MOUNTS}}", $default_value)
+  $template = $template.replace("{{EXEC_OPTS}}", $default_value)
+  $template = $template.replace("{{EXEC_CONTAINER_NAME}}", $default_value)
+  $template = $template.replace("{{EXEC_CONTAINER_NAME_PATTERN}}", $default_value)
+  $template = $template.replace("{{EXEC_IMAGE}}", $default_value)
+  $template = $template.replace("{{IS_DOCKER_LEGACY}}", $default_value) | Set-Content $node_env
 
   echo "Successfully update node specific envs to $node_env"
   cat $node_env
