@@ -542,7 +542,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v634_update prod_release ami-9e8521e3 v634 true ami_bits_access
+            - ./execPackUpdate.sh v634_update prod_release ami-f156f78c v634 true ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -654,7 +654,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd u16Exec
-            - ./execPackUpdate.sh u16_v634_update prod_release ami-1662c66b v634 false ami_bits_access
+            - ./execPackUpdate.sh u16_v634_update prod_release ami-6158f91c v634 false ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/u16Exec/output.txt
