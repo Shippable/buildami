@@ -267,7 +267,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh stable_update prod_release ami-4ae41a5c stable false ami_bits_access
+            - ./execPackUpdate.sh stable_update prod_release ami-4ae41a5c stable ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -292,7 +292,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh unstable_update prod_release ami-90fd0286 unstable false ami_bits_access
+            - ./execPackUpdate.sh unstable_update prod_release ami-90fd0286 unstable ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -317,7 +317,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v532_update prod_release ami-3b972d2d v532 true ami_bits_access
+            - ./execPackUpdate.sh v532_update prod_release ami-3b972d2d v532 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -342,7 +342,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v541_update prod_release ami-90813b86 v541 true ami_bits_access
+            - ./execPackUpdate.sh v541_update prod_release ami-90813b86 v541 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -367,7 +367,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v551_update prod_release ami-4b36535d v551 true ami_bits_access
+            - ./execPackUpdate.sh v551_update prod_release ami-4b36535d v551 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -392,7 +392,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v561_update prod_release ami-c0a5f5d6 v561 true ami_bits_access
+            - ./execPackUpdate.sh v561_update prod_release ami-c0a5f5d6 v561 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -417,7 +417,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v573_update prod_release ami-b9cfdeaf v573 true ami_bits_access
+            - ./execPackUpdate.sh v573_update prod_release ami-b9cfdeaf v573 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -442,7 +442,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v582_update prod_release ami-f9d6e782 v582 true ami_bits_access
+            - ./execPackUpdate.sh v582_update prod_release ami-f9d6e782 v582 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -467,7 +467,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v5104_update prod_release ami-312b8d4b v5104 true ami_bits_access
+            - ./execPackUpdate.sh v5104_update prod_release ami-312b8d4b v5104 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -492,7 +492,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v614_update prod_release ami-874d4bfd v614 true ami_bits_access
+            - ./execPackUpdate.sh v614_update prod_release ami-874d4bfd v614 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -517,7 +517,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v624_update prod_release ami-32d5274f v624 true ami_bits_access
+            - ./execPackUpdate.sh v624_update prod_release ami-32d5274f v624 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
@@ -542,7 +542,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd exec
-            - ./execPackUpdate.sh v634_update prod_release ami-f156f78c v634 true ami_bits_access
+            - ./execPackUpdate.sh v634_update prod_release ami-f156f78c v634 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
