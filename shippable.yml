@@ -235,7 +235,6 @@ jobs:
         switch: off
       - IN: dry_dh_x86_64_Ubuntu_tag_push
       - IN: dry_dh_x86_64_u16_tag_push
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -260,7 +259,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -285,7 +283,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -310,7 +307,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -335,7 +331,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -360,7 +355,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -385,7 +379,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -410,7 +403,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -435,7 +427,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -460,7 +451,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -485,7 +475,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -510,7 +499,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -535,7 +523,6 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: genexec_tag_push
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - TASK:
@@ -654,7 +641,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd u16Exec
-            - ./execPackUpdate.sh u16_v634_update prod_release ami-6158f91c v634 false ami_bits_access
+            - ./execPackUpdate.sh u16_v634_update prod_release ami-6158f91c v634 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/u16Exec/output.txt
@@ -861,7 +848,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd c7Exec
-            - ./execPackUpdate.sh c7_v634_update prod_release ami-a86dc9d5 v634 false ami_bits_access
+            - ./execPackUpdate.sh c7_v634_update prod_release ami-a86dc9d5 v634 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/c7Exec/output.txt

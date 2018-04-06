@@ -101,51 +101,6 @@ Function tag_node_scripts() {
   popd
 }
 
-Function update_envs() {
-  $node_env_template = "$NODE_SCRIPTS_LOC/usr/node.env.template"
-  $node_env = "$NODE_DATA_LOCATION/node.env"
-
-  if (!(Test-Path $node_env_template)) {
-    echo "Node environment template file not found: $node_env_template"
-    exit 1
-  }
-  echo "Node environment template file found: $node_env_template"
-
-  echo "Writing node specific envs to $node_env"
-  if (!(Test-Path $NODE_DATA_LOCATION)) {
-    mkdir -p $NODE_DATA_LOCATION
-  }
-
-  $default_value = ""
-  $template = (Get-Content $node_env_template)
-
-  ## Setting the build time envs
-  $template = $template.replace("{{NODE_TYPE_CODE}}", $NODE_TYPE_CODE)
-  $template = $template.replace("{{SHIPPABLE_NODE_INIT}}", $SHIPPABLE_NODE_INIT)
-  $template = $template.replace("{{SHIPPABLE_RELEASE_VERSION}}", $SHIPPABLE_RELEASE_VERSION)
-  $template = $template.replace("{{EXEC_REPO}}", $EXEC_REPO)
-
-  ## Setting the runtime values to empty
-  $template = $template.replace("{{LISTEN_QUEUE}}", $default_value)
-  $template = $template.replace("{{SUBSCRIPTION_ID}}", $default_value)
-  $template = $template.replace("{{NODE_ID}}", $default_value)
-  $template = $template.replace("{{SHIPPABLE_AMQP_URL}}", $default_value)
-  $template = $template.replace("{{SHIPPABLE_API_URL}}", $default_value)
-  $template = $template.replace("{{SHIPPABLE_API_TOKEN}}", $default_value)
-  $template = $template.replace("{{SHIPPABLE_AMQP_DEFAULT_EXCHANGE}}", $default_value)
-  $template = $template.replace("{{RUN_MODE}}", $default_value)
-  $template = $template.replace("{{JOB_TYPE}}", $default_value)
-  $template = $template.replace("{{EXEC_MOUNTS}}", $default_value)
-  $template = $template.replace("{{EXEC_OPTS}}", $default_value)
-  $template = $template.replace("{{EXEC_CONTAINER_NAME}}", $default_value)
-  $template = $template.replace("{{EXEC_CONTAINER_NAME_PATTERN}}", $default_value)
-  $template = $template.replace("{{EXEC_IMAGE}}", $default_value)
-  $template = $template.replace("{{IS_DOCKER_LEGACY}}", $default_value) | Set-Content $node_env
-
-  echo "Successfully update node specific envs to $node_env"
-  cat $node_env
-}
-
 Function install_nodejs() {
   Write-Output "Checking for node.js v$NODE_JS_VERSION"
   $nodejs_package = Get-Package nodejs -provider ChocolateyGet -ErrorAction SilentlyContinue
@@ -193,7 +148,6 @@ tag_cexec
 # fetch_reports
 clone_node_scripts
 tag_node_scripts
-update_envs
 install_nodejs
 install_shipctl
 clone_reqKick
