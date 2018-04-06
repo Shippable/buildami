@@ -97,49 +97,6 @@ tag_node_scripts() {
   popd
 }
 
-update_envs() {
-  local node_env_template=$NODE_SCRIPTS_LOC/usr/node.env.template
-  local node_env=$NODE_DATA_LOCATION/node.env
-
-  if [ ! -f "$node_env_template" ]; then
-    echo "Node environment template file not found: $node_env_template"
-    exit 1
-  else
-    echo "Node environment template file found: $node_env_template"
-  fi
-
-  echo "Writing node specific envs to $node_env"
-
-  sudo mkdir -p $NODE_DATA_LOCATION
-  ## Setting the build time envs
-  sudo sed "s#{{NODE_TYPE_CODE}}#$NODE_TYPE_CODE#g" $node_env_template | sudo tee $node_env
-  sudo sed -i "s#{{SHIPPABLE_NODE_INIT}}#$SHIPPABLE_NODE_INIT#g" $node_env
-  sudo sed -i "s#{{SHIPPABLE_RELEASE_VERSION}}#$SHIPPABLE_RELEASE_VERSION#g" $node_env
-  sudo sed -i "s#{{EXEC_REPO}}#$EXEC_REPO#g" $node_env
-
-  ## Setting the runtime values to empty
-  local default_value=""
-  sudo sed -i "s#{{COMPONENT}}#$default_value#g" $node_env
-  sudo sed -i "s#{{LISTEN_QUEUE}}#$default_value#g" $node_env
-  sudo sed -i "s#{{SUBSCRIPTION_ID}}#$default_value#g" $node_env
-  sudo sed -i "s#{{NODE_ID}}#$default_value#g" $node_env
-  sudo sed -i "s#{{SHIPPABLE_AMQP_URL}}#$default_value#g" $node_env
-  sudo sed -i "s#{{SHIPPABLE_API_URL}}#$default_value#g" $node_env
-  sudo sed -i "s#{{SHIPPABLE_API_TOKEN}}#$default_value#g" $node_env
-  sudo sed -i "s#{{SHIPPABLE_AMQP_DEFAULT_EXCHANGE}}#$default_value#g" $node_env
-  sudo sed -i "s#{{RUN_MODE}}#$default_value#g" $node_env
-  sudo sed -i "s#{{JOB_TYPE}}#$default_value#g" $node_env
-  sudo sed -i "s#{{EXEC_MOUNTS}}#$default_value#g" $node_env
-  sudo sed -i "s#{{EXEC_OPTS}}#$default_value#g" $node_env
-  sudo sed -i "s#{{EXEC_CONTAINER_NAME}}#$default_value#g" $node_env
-  sudo sed -i "s#{{EXEC_CONTAINER_NAME_PATTERN}}#$default_value#g" $node_env
-  sudo sed -i "s#{{EXEC_IMAGE}}#$default_value#g" $node_env
-  sudo sed -i "s#{{IS_DOCKER_LEGACY}}#$default_value#g" $node_env
-
-  echo "Successfully update node specific envs to $node_env"
-  sudo cat $node_env
-}
-
 pull_zephyr() {
   sudo docker pull $ZEPHYR_IMG
 }
@@ -190,6 +147,12 @@ pull_tagged_reqproc() {
   sudo docker pull $REQPROC_IMG_WITH_TAG
 }
 
+clean_genexec() {
+  echo "Remove any existing genExec image and related configs..."
+  sudo docker images | grep drydock/genexec | awk '{print $3}' | xargs sudo docker rmi || true
+  sudo rm -rf /etc/shippable || true
+}
+
 main() {
   set_context
   validate_envs
@@ -199,13 +162,13 @@ main() {
   fetch_reports
   clone_node_scripts
   tag_node_scripts
-  update_envs
   pull_zephyr
   install_nodejs
   install_shipctl
   clone_reqKick
   tag_reqKick
   pull_tagged_reqproc
+  clean_genexec
 }
 
 echo "Running execPull script..."
