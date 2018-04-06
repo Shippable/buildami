@@ -9,7 +9,6 @@
     "AMI_TYPE": "test",
     "REL_VER": "",
     "REL_DASH_VER": "",
-    "KERNEL_DOWN": "false",
     "SECURITY_GROUP_ID": ""
   },
   "builders": [
@@ -50,8 +49,7 @@
       "type": "shell",
       "script": "execPull.sh",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}",
-        "KERNEL_DOWN={{user `KERNEL_DOWN`}}"
+        "REL_VER={{user `REL_VER`}}"
       ],
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     }

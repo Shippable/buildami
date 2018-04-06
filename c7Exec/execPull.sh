@@ -46,13 +46,6 @@ validate_envs() {
   else
     echo "SHIPPABLE_RELEASE_VERSION: $SHIPPABLE_RELEASE_VERSION"
   fi
-
-  if [ -z "$KERNEL_DOWN" ] || [ "$KERNEL_DOWN" == "" ]; then
-    echo "KERNEL_DOWN env not defined, setting it to false"
-    export KERNEL_DOWN="false"
-  else
-    echo "KERNEL_DOWN: $KERNEL_DOWN"
-  fi
 }
 
 pull_images() {

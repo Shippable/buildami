@@ -6,8 +6,7 @@ export CURR_JOB=$1
 export RES_REL=$2
 export AMI_ID=$3
 export AMI_TYPE=$4
-export KERNEL_DOWN=$5
-export RES_AWS_CREDS=$6
+export RES_AWS_CREDS=$5
 
 # since resources here have dashes Shippable replaces them and UPPER cases them
 export RES_REL_VER_NAME=$(shipctl get_resource_version_name "$RES_REL")
@@ -41,7 +40,6 @@ set_context(){
   echo "AWS_SECRET_ACCESS_KEY=${#AWS_SECRET_ACCESS_KEY}" #print only length not value
   echo "AMI_ID=$AMI_ID"
   echo "AMI_TYPE=$AMI_TYPE"
-  echo "KERNEL_DOWN=$KERNEL_DOWN"
 }
 
 build_ami() {
@@ -61,7 +59,6 @@ build_ami() {
     -var AMI_TYPE=$AMI_TYPE \
     -var REL_VER=$RES_REL_VER_NAME \
     -var REL_DASH_VER=$RES_REL_VER_NAME_DASH \
-    -var KERNEL_DOWN=$KERNEL_DOWN \
     execAMIUpdate.json 2>&1 | tee output.txt
 
   #this is to get the ami from output
