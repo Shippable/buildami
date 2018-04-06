@@ -165,6 +165,12 @@ pull_default_microbase() {
   sudo docker pull $DEFAULT_MICROBASE_IMAGE_WITH_TAG
 }
 
+clean_genexec() {
+  echo "Remove any existing genExec image and related configs..."
+  sudo docker images | grep drydock/genexec | awk '{print $3}' | xargs sudo docker rmi || true
+  sudo rm -rf /etc/shippable || true
+}
+
 main() {
   set_context
   validate_envs
@@ -182,6 +188,7 @@ main() {
   tag_reqKick
   pull_tagged_reqproc
   pull_default_microbase
+  clean_genexec
 }
 
 echo "Running execPull script..."

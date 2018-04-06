@@ -147,6 +147,12 @@ pull_tagged_reqproc() {
   sudo docker pull $REQPROC_IMG_WITH_TAG
 }
 
+clean_genexec() {
+  echo "Remove any existing genExec image and related configs..."
+  sudo docker images | grep drydock/genexec | awk '{print $3}' | xargs sudo docker rmi || true
+  sudo rm -rf /etc/shippable || true
+}
+
 main() {
   set_context
   validate_envs
@@ -156,13 +162,13 @@ main() {
   fetch_reports
   clone_node_scripts
   tag_node_scripts
-  update_envs
   pull_zephyr
   install_nodejs
   install_shipctl
   clone_reqKick
   tag_reqKick
   pull_tagged_reqproc
+  clean_genexec
 }
 
 echo "Running execPull script..."
