@@ -154,18 +154,19 @@ jobs:
                 - PROJECT_ID: "ship-bits"
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - SHIP_REL_VER: "master"
+                - FAM_NAME: "prep-u16-x86-64"
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16prep
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export IMAGE_NAMES=$(cat images.txt)
             - export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var source_image_family=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" -var RES_IMG_VER_NAME=$SHIP_REL_VER -var RES_IMG_VER_NAME_DASH=$SHIP_REL_VER -var SHIP_REL_VER=$SHIP_REL_VER packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var source_image_family=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" -var RES_IMG_VER_NAME=$SHIP_REL_VER -var RES_IMG_VER_NAME_DASH=$SHIP_REL_VER -var SHIP_REL_VER=$SHIP_REL_VER packer.json 2>&1 | tee output.txt
+            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var source_image_family=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" -var RES_IMG_VER_NAME=$SHIP_REL_VER -var RES_IMG_VER_NAME_DASH=$SHIP_REL_VER -var SHIP_REL_VER=$SHIP_REL_VER -var FAM_NAME=$FAM_NAME packer.json
+            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var source_image_family=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" -var RES_IMG_VER_NAME=$SHIP_REL_VER -var RES_IMG_VER_NAME_DASH=$SHIP_REL_VER -var SHIP_REL_VER=$SHIP_REL_VER -var FAM_NAME=$FAM_NAME packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER" "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER" "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
         - shipctl put_resource_state $JOB_NAME IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED
     on_failure:
       script:
