@@ -100,7 +100,6 @@ resources:
 
 jobs:
 
-######################### GCP U16 Image ##################################
   - name: trig_gcp_img_prep
     type: runSh
     steps:
@@ -131,6 +130,8 @@ jobs:
       - TASK:
           script:
             - ls -al
+
+######################### GCP U16 Image ##################################
 
   - name: u16_x86_64_gcp_img_prep
     type: runSh
@@ -166,11 +167,49 @@ jobs:
             - popd
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER" "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
         - shipctl put_resource_state $JOB_NAME IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED
     on_failure:
       script:
         - cat $(shipctl get_resource_state prepami_repo)/gcp/u16prep/output.txt
+
+  - name: u16_x86_64_gcp_img_patch
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u16_x86_64_gcp_img_prep
+      - IN: prepami_repo
+        switch: off
+      - IN: ship_bits_gcp
+        switch: off
+      - TASK:
+          name: patch_u16_gce_image
+          runtime:
+            options:
+              env:
+                - SOURCE_IMAGE_FAMILY: "prep-u16-x86-64"
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - SHIP_REL_VER: "master"
+                - FAM_NAME: "patch-u16-x86-64"
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16patch
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var source_image_family=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var -var RES_IMG_VER_NAME=$SHIP_REL_VER -var RES_IMG_VER_NAME_DASH=$SHIP_REL_VER -var SHIP_REL_VER=$SHIP_REL_VER -var FAM_NAME=$FAM_NAME packer.json
+            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var source_image_family=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var RES_IMG_VER_NAME=$SHIP_REL_VER -var RES_IMG_VER_NAME_DASH=$SHIP_REL_VER -var SHIP_REL_VER=$SHIP_REL_VER -var FAM_NAME=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+            - popd
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
+        - shipctl put_resource_state $JOB_NAME IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED
+    on_failure:
+      script:
+        - cat $(shipctl get_resource_state prepami_repo)/gcp/u16patch/output.txt
 
 ######################### Admiral Image ##################################
   - name: baseadmiralami_prep
