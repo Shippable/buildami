@@ -29,6 +29,7 @@ resources:
 
   - name: ship_bits_gcp
     type: cliConfig
+    integration: ship_bits_gcp_svc
     versionTemplate:
       region: "us-west1-a"
 
