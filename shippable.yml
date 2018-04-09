@@ -161,11 +161,15 @@ jobs:
             - popd
     on_success:
       script:
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16prep
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
-        - shipctl put_resource_state $JOB_NAME IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED
+        - shipctl copy_file_to_state images.txt
+        - popd
     on_failure:
       script:
-        - cat $(shipctl get_resource_state prepami_repo)/gcp/u16prep/output.txt
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16prep
+        - cat output.txt
+        - popd
 
   - name: u16_x86_64_gcp_img_patch
     type: runSh
@@ -185,7 +189,6 @@ jobs:
           runtime:
             options:
               env:
-                - SOURCE_IMAGE_FAMILY: "prep-u16-x86-64"
                 - MACHINE_TYPE: "n1-standard-8"
                 - REGION: "us-east1"
                 - ZONE: "us-east1-b"
@@ -194,6 +197,9 @@ jobs:
                 - FAM_NAME: "patch-u16-x86-64"
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16patch
+            - shipctl copy_file_from_resource_state "u16_x86_64_gcp_img_prep" "images.txt" .
+            - ls -al
+            - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key u16_x86_64_gcp_img_prep IMAGE_FAM_NAME)
             - export RES_IMG_VER_NAME=$(shipctl get_resource_version_key u16_x86_64_gcp_img_prep RES_IMG_VER_NAME)
             - export RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key u16_x86_64_gcp_img_prep RES_IMG_VER_NAME_DASH)
             - export IMAGE_NAMES_SPACED=$(shipctl get_resource_version_key u16_x86_64_gcp_img_prep IMAGE_NAMES_SPACED)
@@ -204,11 +210,15 @@ jobs:
             - popd
     on_success:
       script:
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16patch
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
-        - shipctl put_resource_state $JOB_NAME IMAGE_NAMES_SPACED $IMAGE_NAMES_SPACED
+        - shipctl copy_file_to_state images.txt
+        - popd
     on_failure:
       script:
-        - cat $(shipctl get_resource_state prepami_repo)/gcp/u16patch/output.txt
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16patch
+        - cat output.txt
+        - popd
 
 ######################### Admiral Image ##################################
   - name: baseadmiralami_prep
