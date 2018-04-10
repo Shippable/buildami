@@ -151,7 +151,7 @@ jobs:
                 - SHIP_REL_VER: "master"
                 - FAM_NAME: "prep-u16-x86-64"
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16prep
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/prep
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export IMAGE_NAMES=$(cat images.txt)
             - export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
@@ -161,13 +161,13 @@ jobs:
             - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16prep
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/prep
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
         - shipctl copy_file_to_state images.txt
         - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16prep
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/prep
         - cat output.txt
         - popd
 
@@ -196,7 +196,7 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - FAM_NAME: "patch-u16-x86-64"
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16patch
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/patch
             - shipctl copy_file_from_resource_state "u16_x86_64_gcp_img_prep" "images.txt" .
             - ls -al
             - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key u16_x86_64_gcp_img_prep IMAGE_FAM_NAME)
@@ -210,13 +210,13 @@ jobs:
             - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16patch
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/patch
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
         - shipctl copy_file_to_state images.txt
         - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/u16patch
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/patch
         - cat output.txt
         - popd
 
