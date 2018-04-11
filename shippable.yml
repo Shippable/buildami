@@ -386,7 +386,7 @@ jobs:
       - IN: ship_bits_gcp
         switch: off
       - TASK:
-          name: prep_u16_gce_image
+          name: prep_c7_gce_image
           runtime:
             options:
               env:
