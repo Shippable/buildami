@@ -1,10 +1,10 @@
 #!/bin/bash -e
 pull_images() {
-  echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
+  echo "REL_VER=$REL_VER"
 
   for IMAGE_NAME in $IMAGE_NAMES_SPACED; do
-    echo "Pulling -------------------> $IMAGE_NAME:$RES_IMG_VER_NAME"
-    sudo docker pull $IMAGE_NAME:$RES_IMG_VER_NAME
+    echo "Pulling -------------------> $IMAGE_NAME:$REL_VER"
+    sudo docker pull $IMAGE_NAME:$REL_VER
   done
 }
 
