@@ -5,7 +5,7 @@ set -o pipefail
 readonly NODE_ARCHITECTURE="x86_64"
 readonly NODE_OPERATING_SYSTEM="Ubuntu_16.04"
 readonly LEGACY_CI_CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
-readonly SHIPPABLE_RELEASE_VERSION="master"
+readonly SHIPPABLE_RELEASE_VERSION="$REL_VER"
 readonly EXEC_IMAGE="drydock/u16reqproc:master"
 readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly NODE_SCRIPTS_LOCATION="/root/node"

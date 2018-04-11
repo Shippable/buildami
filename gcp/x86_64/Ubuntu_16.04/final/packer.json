@@ -6,7 +6,7 @@
     "project_id": "var",
     "service_account_json": "var",
     "REL_VER": "",
-    "IMAGE_NAMES_SPACED": "",
+    "IMAGE_NAMES_SPACED":"test",
     "SOURCE_IMAGE_FAMILY": "var",
     "FAM_NAME": ""
   },
@@ -18,7 +18,7 @@
       "source_image_family": "{{user `SOURCE_IMAGE_FAMILY`}}",
       "region": "{{user `region`}}",
       "zone": "{{user `zone`}}",
-      "image_description": "Prep Image for {{user `FAM_NAME`}}",
+      "image_description": "Final Image for {{user `FAM_NAME`}}",
       "image_family": "{{user `FAM_NAME`}}",
       "image_name": "{{user `FAM_NAME`}}-{{isotime \"2006-01-02-1504\"}}",
       "disk_size": 100,
@@ -38,19 +38,12 @@
     },
     {
       "type": "shell",
-      "script": "init.sh",
-      "environment_vars": [
-        "REL_VER={{user `REL_VER`}}"
-      ],
-      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
-    },
-    {
-      "type": "shell",
-      "script": "imagesPull.sh",
+      "script": "codePull.sh",
       "environment_vars": [
         "REL_VER={{user `REL_VER`}}",
         "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
-      ]
+      ],
+      "execute_command": "echo 'packer' | sudo -S env {{ .Vars }} {{ .Path }}"
     }
   ]
 }

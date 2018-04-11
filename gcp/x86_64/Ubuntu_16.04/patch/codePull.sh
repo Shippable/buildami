@@ -7,7 +7,7 @@ readonly REQKICK_DIR="$BASE_DIR/reqKick"
 readonly REQPROC_MASTER_IMAGE="drydock/u16reqproc:master"
 readonly NODE_ARCHITECTURE="x86_64"
 readonly NODE_OPERATING_SYSTEM="Ubuntu_16.04"
-readonly SHIPPABLE_RELEASE_VERSION="master"
+readonly SHIPPABLE_RELEASE_VERSION="$REL_VER"
 readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$SHIPPABLE_RELEASE_VERSION/reports-$SHIPPABLE_RELEASE_VERSION-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 
 clean_cexec() {
