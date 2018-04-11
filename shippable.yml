@@ -173,13 +173,7 @@ jobs:
     on_success:
       script:
         - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/prep
-        - >
-            shipctl put_resource_state_multi $JOB_NAME
-              "versionName=$IMAGE_NAME"
-              "IMAGE_NAME=$IMAGE_NAME"
-              "IMAGE_FAM_NAME=$FAM_NAME-$SHIP_REL_VER"
-              "RES_IMG_VER_NAME=$SHIP_REL_VER"
-              "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME-$SHIP_REL_VER" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
         - shipctl copy_file_to_state images.txt
         - popd
     on_failure:
@@ -226,13 +220,7 @@ jobs:
     on_success:
       script:
         - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/patch
-        - >
-            shipctl put_resource_state_multi $JOB_NAME
-              "versionName=$IMAGE_NAME"
-              "IMAGE_NAME=$IMAGE_NAME"
-              "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH"
-              "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
-              "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
         - shipctl copy_file_to_state images.txt
         - popd
     on_failure:
@@ -277,13 +265,7 @@ jobs:
     on_success:
       script:
         - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/prep
-        - >
-            shipctl put_resource_state_multi $JOB_NAME
-              "versionName=$IMAGE_NAME"
-              "IMAGE_NAME=$IMAGE_NAME"
-              "IMAGE_FAM_NAME=$FAM_NAME-$SHIP_REL_VER"
-              "RES_IMG_VER_NAME=$SHIP_REL_VER"
-              "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME-$SHIP_REL_VER" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
         - shipctl copy_file_to_state images.txt
         - popd
     on_failure:
@@ -330,13 +312,7 @@ jobs:
     on_success:
       script:
         - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/patch
-        - >
-            shipctl put_resource_state_multi $JOB_NAME
-              "versionName=$IMAGE_NAME"
-              "IMAGE_NAME=$IMAGE_NAME"
-              "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH"
-              "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
-              "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
         - shipctl copy_file_to_state images.txt
         - popd
     on_failure:
@@ -381,13 +357,7 @@ jobs:
     on_success:
       script:
         - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/prep
-        - >
-            shipctl put_resource_state_multi $JOB_NAME
-              "versionName=$IMAGE_NAME"
-              "IMAGE_NAME=$IMAGE_NAME"
-              "IMAGE_FAM_NAME=$FAM_NAME-$SHIP_REL_VER"
-              "RES_IMG_VER_NAME=$SHIP_REL_VER"
-              "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME-$SHIP_REL_VER" "RES_IMG_VER_NAME=$SHIP_REL_VER" "RES_IMG_VER_NAME_DASH=$SHIP_REL_VER"
         - shipctl copy_file_to_state images.txt
         - popd
     on_failure:
@@ -434,13 +404,7 @@ jobs:
     on_success:
       script:
         - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/patch
-        - >
-            shipctl put_resource_state_multi
-              $JOB_NAME "versionName=$IMAGE_NAME"
-              "IMAGE_NAME=$IMAGE_NAME"
-              "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH"
-              "RES_IMG_VER_NAME=$RES_IMG_VER_NAME"
-              "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$IMAGE_NAME-$RES_IMG_VER_NAME_DASH" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
         - shipctl copy_file_to_state images.txt
         - popd
     on_failure:
