@@ -64,6 +64,12 @@ pull_images() {
     echo "Pulling -------------------> $IMAGE_NAME:$IMG_VER"
     sudo docker pull $IMAGE_NAME:$IMG_VER
   done
+
+  for IMAGE_NAME in $IMAGE_NAMES_SPACED; do
+    echo "Removing -------------------> $IMAGE_NAME:$REL_VER"
+    sudo docker rmi $IMAGE_NAME:$REL_VER
+    sudo docker rmi $IMAGE_NAME:master
+  done
 }
 
 pull_cpp_prod_image() {
