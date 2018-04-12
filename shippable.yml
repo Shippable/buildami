@@ -1104,7 +1104,7 @@ jobs:
         - cat output.txt
         - popd
 
-  - name: uc7_x86_64_gcp_img_v634
+  - name: c7_x86_64_gcp_img_v634
     type: runSh
     dependencyMode: strict
     triggerMode: parallel
