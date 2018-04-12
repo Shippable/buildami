@@ -306,6 +306,105 @@ jobs:
             - export REL_VER=$(shipctl get_resource_version_name "prod_release")
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+            - popd
+    on_success:
+      script:
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
+        - popd
+    on_failure:
+      script:
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
+        - cat output.txt
+        - popd
+
+  - name: u14_x86_64_gcp_img_v541
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: gh_ship_repos_tag_push
+      - IN: reports_tag_push
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: ship_bits_gcp
+        switch: off
+      - IN: u14_x86_64_gcp_img_final
+        switch: off
+      - TASK:
+          name: v541_u14_gce_image
+          runtime:
+            options:
+              env:
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - SSH_USER: "root"
+                - IMG_VER: "v5.4.1"
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
+            - cp -R ../../../templates/final/* .
+            - shipctl copy_file_from_resource_state "u14_x86_64_gcp_img_final" "images.txt" .
+            - export REL_VER=$(shipctl get_resource_version_name "prod_release")
+            - export IMG_VER_DASH=${IMG_VER//./-}
+            - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
+            - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key u14_x86_64_gcp_img_final IMAGE_FAM_NAME)
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+            - popd
+    on_success:
+      script:
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
+        - popd
+    on_failure:
+      script:
+        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
+        - cat output.txt
+        - popd
+
+  - name: u14_x86_64_gcp_img_v551
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: gh_ship_repos_tag_push
+      - IN: reports_tag_push
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: ship_bits_gcp
+        switch: off
+      - IN: u14_x86_64_gcp_img_final
+        switch: off
+      - TASK:
+          name: v551_u14_gce_image
+          runtime:
+            options:
+              env:
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - SSH_USER: "root"
+                - IMG_VER: "v5.5.1"
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
+            - cp -R ../../../templates/final/* .
+            - shipctl copy_file_from_resource_state "u14_x86_64_gcp_img_final" "images.txt" .
+            - export REL_VER=$(shipctl get_resource_version_name "prod_release")
+            - export IMG_VER_DASH=${IMG_VER//./-}
+            - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key u14_x86_64_gcp_img_final IMAGE_FAM_NAME)
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
