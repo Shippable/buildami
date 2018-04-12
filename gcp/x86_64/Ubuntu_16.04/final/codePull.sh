@@ -154,7 +154,7 @@ patch_name_server() {
 
 clean_genexec() {
   echo "Remove any existing genExec image and related configs..."
-  sudo docker images | grep drydock/genexec | awk '{print $3}' | xargs sudo docker rmi || true
+#  sudo docker images | grep drydock/genexec | awk '{print $3}' | xargs sudo docker rmi || true
   sudo rm -rf /etc/shippable || true
 }
 
