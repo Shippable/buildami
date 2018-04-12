@@ -7,7 +7,6 @@
     "service_account_json": "var",
     "ssh_username": "",
     "REL_VER": "",
-    "IMAGE_NAMES_SPACED": "",
     "SOURCE_IMAGE_FAMILY": "var",
     "FAM_NAME": ""
   },
@@ -46,11 +45,15 @@
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     },
     {
+      "destination": "/tmp/images.txt",
+      "source": "images.txt",
+      "type": "file"
+    },
+    {
       "type": "shell",
       "script": "imagesPull.sh",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}",
-        "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}"
+        "REL_VER={{user `REL_VER`}}"
       ]
     }
   ]

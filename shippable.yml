@@ -152,12 +152,10 @@ jobs:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/prep
             - cp -R ../../../templates/prep/* .
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - export IMAGE_NAMES=$(cat images.txt)
-            - export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-u16-x86-64"
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
+            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -302,12 +300,10 @@ jobs:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/prep
             - cp -R ../../../templates/prep/* .
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - export IMAGE_NAMES=$(cat images.txt)
-            - export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-u16-x86-64"
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
+            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -452,12 +448,10 @@ jobs:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/prep
             - cp -R ../../../templates/prep/* .
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - export IMAGE_NAMES=$(cat images.txt)
-            - export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < images.txt))
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-c7-x86-64"
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED=${IMAGE_NAMES_SPACED} -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var IMAGE_NAMES_SPACED=${IMAGE_NAMES_SPACED} -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
+            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
