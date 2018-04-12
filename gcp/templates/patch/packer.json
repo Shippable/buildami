@@ -5,6 +5,8 @@
     "zone": "var",
     "project_id": "var",
     "service_account_json": "var",
+    "ssh_username": "",
+    "disk_size": 100,
     "REL_VER": "",
     "SOURCE_IMAGE_FAMILY": "var",
     "FAM_NAME": ""
@@ -20,9 +22,9 @@
       "image_description": "Patch Image for {{user `FAM_NAME`}}",
       "image_family": "{{user `FAM_NAME`}}",
       "image_name": "{{user `FAM_NAME`}}-{{isotime \"2006-01-02-1504\"}}",
-      "disk_size": 120,
+      "disk_size": "{{ user `disk_size`}}",
       "disk_type": "pd-ssd",
-      "ssh_username": "root",
+      "ssh_username": "{{ user `ssh_username`}}",
       "account_file": "{{ user `service_account_json`}}"
     }
   ],
