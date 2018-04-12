@@ -13,6 +13,7 @@
   "builders": [
     {
       "type": "googlecompute",
+      "state_timeout": "15m",
       "project_id": "{{user `project_id`}}",
       "machine_type": "{{user `machine_type`}}",
       "source_image_family": "{{user `SOURCE_IMAGE_FAMILY`}}",
