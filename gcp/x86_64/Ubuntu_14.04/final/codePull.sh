@@ -14,27 +14,28 @@ readonly NODE_SCRIPTS_REPO="https://github.com/Shippable/node.git"
 
 readonly CEXEC_LOC="/home/shippable/cexec"
 readonly NODE_SCRIPTS_LOC="/root/node"
+readonly CPP_IMAGE_NAME="drydock/u14cppall"
+readonly CPP_IMAGE_TAG="prod"
 
-readonly REQPROC_IMG="drydock/u16reqproc"
+readonly REQPROC_IMG="drydock/u14reqproc"
 readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly REQKICK_REPO="https://github.com/Shippable/reqKick.git"
 readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOC/shipctl"
 readonly NODE_ARCHITECTURE="x86_64"
-readonly NODE_OPERATING_SYSTEM="Ubuntu_16.04"
+readonly NODE_OPERATING_SYSTEM="Ubuntu_14.04"
 readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$REL_VER/reports-$REL_VER-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 
-#temporary zephyr build speed up....
+# Temporary zephyr build speed up....
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
 
 set_context() {
   echo "Setting context for AMI"
-
-  echo "REL_VER=$REL_VER"
+  echo "SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION"
   echo "REQPROC_IMG=$REQPROC_IMG"
   echo "CEXEC_LOC=$CEXEC_LOC"
-  echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 
   readonly REQPROC_IMG_WITH_TAG="$REQPROC_IMG:$REL_VER"
+  readonly DEFAULT_MICROBASE_IMAGE_WITH_TAG="drydock/microbase:v6.2.4"
 }
 
 validate_envs() {
@@ -58,6 +59,16 @@ pull_images() {
   done
 }
 
+pull_cpp_prod_image() {
+  if [ -n "$CPP_IMAGE_NAME" ] && [ -n "$CPP_IMAGE_TAG" ]; then
+    echo "CPP_IMAGE_NAME=$CPP_IMAGE_NAME"
+    echo "CPP_IMAGE_TAG=$CPP_IMAGE_TAG"
+
+    echo "Pulling -------------------> $CPP_IMAGE_NAME:$CPP_IMAGE_TAG"
+    sudo docker pull $CPP_IMAGE_NAME:$CPP_IMAGE_TAG
+  fi
+}
+
 clone_cexec() {
   if [ -d "$CEXEC_LOC" ]; then
     sudo rm -rf $CEXEC_LOC
@@ -67,9 +78,9 @@ clone_cexec() {
 
 tag_cexec() {
   pushd $CEXEC_LOC
-  sudo git checkout master
-  sudo git pull --tags
-  sudo git checkout $REL_VER
+    sudo git checkout master
+    sudo git pull --tags
+    sudo git checkout $REL_VER
   popd
 }
 
@@ -94,9 +105,9 @@ clone_node_scripts() {
 
 tag_node_scripts() {
   pushd $NODE_SCRIPTS_LOC
-  sudo git checkout master
-  sudo git pull --tags
-  sudo git checkout $REL_VER
+    sudo git checkout master
+    sudo git pull --tags
+    sudo git checkout $REL_VER
   popd
 }
 
@@ -105,7 +116,7 @@ pull_zephyr() {
 }
 
 before_exit() {
-  ## flush any remaining console
+  # Flush any remaining console
   echo $1
   echo $2
 
@@ -114,13 +125,13 @@ before_exit() {
 
 install_nodejs() {
   pushd /tmp
-  echo "Installing node 4.8.5"
-  sudo wget https://nodejs.org/dist/v4.8.5/node-v4.8.5-linux-x64.tar.xz
-  sudo tar -xf node-v4.8.5-linux-x64.tar.xz
-  sudo cp -Rf node-v4.8.5-linux-x64/{bin,include,lib,share} /usr/local
+    echo "Installing node 4.8.5"
+    sudo wget https://nodejs.org/dist/v4.8.5/node-v4.8.5-linux-x64.tar.xz
+    sudo tar -xf node-v4.8.5-linux-x64.tar.xz
+    sudo cp -Rf node-v4.8.5-linux-x64/{bin,include,lib,share} /usr/local
 
-  echo "Checking node version"
-  node -v
+    echo "Checking node version"
+    node -v
   popd
 }
 
@@ -130,24 +141,29 @@ install_shipctl() {
 }
 
 clone_reqKick() {
-  echo "cloning reqKick"
+  echo "Cloning reqKick..."
   sudo rm -rf $REQKICK_DIR || true
   sudo git clone $REQKICK_REPO $REQKICK_DIR
 }
 
 tag_reqKick() {
-  echo "tagging reqKick"
-  pushd $REQKICK_DIR
-  sudo git checkout master
-  sudo git pull --tags
-  sudo git checkout $REL_VER
-  sudo npm install
+  echo "Tagging reqKick..."
+    pushd $REQKICK_DIR
+    sudo git checkout master
+    sudo git pull --tags
+    sudo git checkout $REL_VER
+    sudo npm install
   popd
 }
 
 pull_tagged_reqproc() {
-  echo "pulling tagged reqproc image: $REQPROC_IMG_WITH_TAG"
+  echo "Pulling tagged reqProc image: $REQPROC_IMG_WITH_TAG"
   sudo docker pull $REQPROC_IMG_WITH_TAG
+}
+
+pull_default_microbase() {
+  echo "Pulling default microbase image: $DEFAULT_MICROBASE_IMAGE_WITH_TAG"
+  sudo docker pull $DEFAULT_MICROBASE_IMAGE_WITH_TAG
 }
 
 patch_name_server() {
@@ -164,6 +180,7 @@ main() {
   set_context
   validate_envs
   pull_images
+  pull_cpp_prod_image
   clone_cexec
   tag_cexec
   fetch_reports
@@ -175,6 +192,7 @@ main() {
   clone_reqKick
   tag_reqKick
   pull_tagged_reqproc
+  pull_default_microbase
   patch_name_server
   clean_genexec
 }

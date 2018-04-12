@@ -28,11 +28,9 @@ readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
 
 set_context() {
   echo "Setting context for AMI"
-
-  echo "REL_VER=$REL_VER"
+  echo "SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION"
   echo "REQPROC_IMG=$REQPROC_IMG"
   echo "CEXEC_LOC=$CEXEC_LOC"
-  echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 
   readonly REQPROC_IMG_WITH_TAG="$REQPROC_IMG:$REL_VER"
 }
