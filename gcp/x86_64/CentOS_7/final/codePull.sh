@@ -3,7 +3,8 @@
 set -o pipefail
 
 readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
-readonly SHIPPABLE_RELEASE_VERSION="$REL_VER"
+readonly REL_VER="$REL_VER"
+readonly IMG_VER="$IMG_VER"
 readonly KEY_STORE_LOCATION="/tmp/ssh"
 readonly NODE_TYPE_CODE=7001
 readonly SHIPPABLE_NODE_INIT=true
@@ -28,11 +29,8 @@ readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
 
 set_context() {
   echo "Setting context for AMI"
-
-  echo "REL_VER=$REL_VER"
   echo "REQPROC_IMG=$REQPROC_IMG"
   echo "CEXEC_LOC=$CEXEC_LOC"
-  echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
 
   readonly REQPROC_IMG_WITH_TAG="$REQPROC_IMG:$REL_VER"
 }
@@ -40,11 +38,18 @@ set_context() {
 validate_envs() {
   echo "Validating environment variables for AMI"
 
-  if [ -z "$SHIPPABLE_RELEASE_VERSION" ] || [ "$SHIPPABLE_RELEASE_VERSION" == "" ]; then
-    echo "SHIPPABLE_RELEASE_VERSION env not defined, exiting"
+  if [ -z "$REL_VER" ] || [ "$REL_VER" == "" ]; then
+    echo "REL_VER env not defined, exiting"
     exit 1
   else
-    echo "SHIPPABLE_RELEASE_VERSION: $SHIPPABLE_RELEASE_VERSION"
+    echo "REL_VER: $REL_VER"
+  fi
+
+  if [ -z "$IMG_VER" ] || [ "$IMG_VER" == "" ]; then
+    echo "IMG_VER env not defined, exiting"
+    exit 1
+  else
+    echo "IMG_VER: $IMG_VER"
   fi
 }
 
@@ -53,8 +58,8 @@ pull_images() {
   echo $IMAGE_NAMES_SPACED
 
   for IMAGE_NAME in $IMAGE_NAMES_SPACED; do
-    echo "Pulling -------------------> $IMAGE_NAME:$REL_VER"
-    sudo docker pull $IMAGE_NAME:$REL_VER
+    echo "Pulling -------------------> $IMAGE_NAME:$IMG_VER"
+    sudo docker pull $IMAGE_NAME:$IMG_VER
   done
 }
 
@@ -157,8 +162,8 @@ clean_genexec() {
 }
 
 main() {
-  set_context
   validate_envs
+  set_context
   pull_images
   clone_cexec
   tag_cexec
