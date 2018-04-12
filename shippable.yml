@@ -1129,7 +1129,7 @@ jobs:
                 - ZONE: "us-east1-b"
                 - PROJECT_ID: "ship-bits"
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
-                - SSH_USER: "root"
+                - SSH_USER: "centos"
                 - IMG_VER: "v6.3.4"
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/final
