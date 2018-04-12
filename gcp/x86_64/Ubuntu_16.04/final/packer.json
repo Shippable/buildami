@@ -6,6 +6,7 @@
     "project_id": "var",
     "service_account_json": "var",
     "REL_VER": "",
+    "IMAGE_NAMES_SPACED": "",
     "SOURCE_IMAGE_FAMILY": "var",
     "FAM_NAME": ""
   },
