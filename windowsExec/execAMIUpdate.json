@@ -1,0 +1,65 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "REGION": "",
+    "VPC_ID": "",
+    "SUBNET_ID": "",
+    "AMI_ID": "test",
+    "AMI_TYPE": "test",
+    "REL_VER": "",
+    "REL_DASH_VER": "",
+    "WINRM_USERNAME": "",
+    "WINRM_PASSWORD": "",
+    "SHIPPABLE_NODE_INIT_SCRIPT": "",
+    "SECURITY_GROUP_ID": ""
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{ user `aws_access_key` }}",
+      "secret_key": "{{ user `aws_secret_key` }}",
+      "region": "{{ user `REGION` }}",
+      "instance_type": "t2.micro",
+      "source_ami": "{{user `AMI_ID`}}",
+      "ami_name": "windowsexec-ami-{{user `AMI_TYPE`}}-{{user `REL_DASH_VER`}}-{{isotime \"1504\"}}",
+      "ami_groups": "all",
+      "user_data_file": "./bootstrap_win.txt",
+      "communicator": "winrm",
+      "winrm_username": "{{ user `WINRM_USERNAME` }}",
+      "winrm_password": "{{ user `WINRM_PASSWORD` }}",
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2",
+          "volume_size": "150",
+          "delete_on_termination": true
+        }
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "inline": [
+        "Install-WindowsFeature containers"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    },
+    {
+      "script": "./execPull.ps1",
+      "type": "powershell",
+      "environment_vars": [
+        "REL_VER={{user `REL_VER`}}"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeInstance.ps1 -Schedule"
+      ]
+    }
+  ]
+}

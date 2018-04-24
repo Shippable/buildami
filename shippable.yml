@@ -1802,6 +1802,36 @@ jobs:
       - script: cat output.txt
       - script: popd
 
+  - name: windows_v634_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: windowsbaseami_params
+        switch: off
+      - IN: windowsbaseami_winrm_keys
+        switch: off
+      - IN: windowsfinalami_prep
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: gh_ship_repos_tag_push
+      - IN: reports_tag_push
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd windowsExec
+            - ./execPackUpdate.sh windows_v634_update prod_release ami-489c3535 v634 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/windowsExec/output.txt
+
   ###################
   # c7 AMI jobs
   ###################
