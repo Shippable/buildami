@@ -3,16 +3,12 @@
     "aws_access_key": "",
     "aws_secret_key": "",
     "REGION": "",
-    "VPC_ID": "",
-    "SUBNET_ID": "",
     "AMI_ID": "test",
     "AMI_TYPE": "test",
     "REL_VER": "",
     "REL_DASH_VER": "",
     "WINRM_USERNAME": "",
-    "WINRM_PASSWORD": "",
-    "SHIPPABLE_NODE_INIT_SCRIPT": "",
-    "SECURITY_GROUP_ID": ""
+    "WINRM_PASSWORD": ""
   },
   "builders": [
     {
