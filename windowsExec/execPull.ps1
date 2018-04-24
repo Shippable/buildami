@@ -112,7 +112,7 @@ Function install_nodejs() {
 
 Function install_shipctl() {
   echo "Installing shipctl components"
-  Invoke-Expression "$NODE_SHIPCTL_LOCATION/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/install.sh"
+  Invoke-Expression "$NODE_SHIPCTL_LOCATION/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/install.ps1"
 }
 
 Function clone_reqKick() {
