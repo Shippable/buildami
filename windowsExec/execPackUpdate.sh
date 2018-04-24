@@ -35,10 +35,7 @@ set_context(){
   echo "RES_AWS_CREDS_INT=$RES_AWS_CREDS_INT"
 
   echo "REGION=$REGION"
-  echo "VPC_ID=$VPC_ID"
-  echo "SUBNET_ID=$SUBNET_ID"
-  echo "SECURITY_GROUP_ID=$SECURITY_GROUP_ID"
-
+  
   echo "AMI_ID=$AMI_ID"
   echo "AMI_TYPE=$AMI_TYPE"
   echo "WINRM_USERNAME=${#WINRM_USERNAME}" #print only length not value
@@ -67,9 +64,6 @@ build_ami() {
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
-    -var VPC_ID=$VPC_ID \
-    -var SUBNET_ID=$SUBNET_ID \
-    -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var AMI_ID=$AMI_ID \
     -var AMI_TYPE=$AMI_TYPE \
     -var REL_VER=$RES_REL_VER_NAME \

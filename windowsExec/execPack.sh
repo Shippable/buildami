@@ -74,9 +74,6 @@ build_ami() {
   packer build -machine-readable -var aws_access_key=$AWS_ACCESS_KEY_ID \
     -var aws_secret_key=$AWS_SECRET_ACCESS_KEY \
     -var REGION=$REGION \
-    -var VPC_ID=$VPC_ID \
-    -var SUBNET_ID=$SUBNET_ID \
-    -var SECURITY_GROUP_ID=$SECURITY_GROUP_ID \
     -var AMI_ID=$AMI_ID \
     -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     -var REL_VER=$RES_REL_VER_NAME \
