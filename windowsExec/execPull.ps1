@@ -29,8 +29,6 @@ Function set_context() {
   echo "REQPROC_IMG=$REQPROC_IMG"
   echo "CEXEC_LOC=$CEXEC_LOC"
   echo "IMAGE_NAMES_SPACED=$env:IMAGE_NAMES_SPACED"
-
-  $REQPROC_IMG_WITH_TAG = "${REQPROC_IMG}:${SHIPPABLE_RELEASE_VERSION}"
 }
 
 Function validate_envs() {
@@ -135,8 +133,8 @@ Function tag_reqKick() {
 }
 
 Function pull_tagged_reqproc() {
-  echo "pulling tagged reqproc image: $REQPROC_IMG_WITH_TAG"
-  docker pull $REQPROC_IMG_WITH_TAG
+  echo "pulling tagged reqproc image: ${REQPROC_IMG}:${SHIPPABLE_RELEASE_VERSION}"
+  docker pull ${REQPROC_IMG}:${SHIPPABLE_RELEASE_VERSION}
 }
 
 
