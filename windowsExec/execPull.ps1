@@ -42,9 +42,11 @@ Function validate_envs() {
 }
 
 Function pull_images() {
-  foreach ($IMAGE_NAME in $env:IMAGE_NAMES_SPACED.Split(" ")) {
-    echo "Pulling -------------------> ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}"
-    docker pull ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}
+  if ($env:IMAGE_NAMES_SPACED) {
+    foreach ($IMAGE_NAME in $env:IMAGE_NAMES_SPACED.Split(" ")) {
+      echo "Pulling -------------------> ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}"
+      docker pull ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}
+    }
   }
 }
 
