@@ -1827,7 +1827,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd windowsExec
-            - ./execPackUpdate.sh windows_v634_update prod_release ami-489c3535 v634 ami_bits_access
+            - ./execPackUpdate.sh windows_v634_update prod_release ami-460cab3b v634 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/prepami_repo/gitRepo/windowsExec/output.txt
