@@ -1167,7 +1167,7 @@ jobs:
           runtime:
             options:
               env:
-                - SOURCE_IMAGE_FAMILY: "centos-7"
+                - SOURCE_IMAGE_FAMILY: "windows-2016"
                 - MACHINE_TYPE: "n1-standard-8"
                 - REGION: "us-east1"
                 - ZONE: "us-east1-b"
