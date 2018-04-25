@@ -1151,6 +1151,48 @@ jobs:
         - cat output.txt
         - popd
 
+######################### GCP Win 2016 Image ##################################
+  - name: w2k16_x86_64_gcp_img_prep
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: trig_gcp_img_prep
+      - IN: prepami_repo
+        switch: off
+      - IN: ship_bits_gcp
+        switch: off
+      - TASK:
+          name: prep_w2k16_gce_image
+          runtime:
+            options:
+              env:
+                - SOURCE_IMAGE_FAMILY: "centos-7"
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - REL_VER: "master"
+                - WINRM_USERNAME: "packer_user"
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/prep
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - export REL_VER_DASH=${REL_VER//./-}
+            - export FAM_NAME=$REL_VER_DASH"-prep-w2k16-x86-64"
+            - shipctl replace vars.json
+            - cat vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
+        - shipctl copy_file_to_state images.txt
+    on_failure:
+      script:
+        - cat output.txt
+
 ######################### Admiral Image ##################################
   - name: baseadmiralami_prep
     type: runSh
