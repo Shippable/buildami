@@ -1763,6 +1763,9 @@ jobs:
         switch: off
       - IN: windowsbaseami_winrm_keys
         switch: off
+      - IN: w16_img
+      - IN: w16_dotnetcore_img
+      - IN: w16_aspnetcore_img
       - IN: reqProc_x86_64_WindowsServer_2016_prep
       - TASK:
           script:
