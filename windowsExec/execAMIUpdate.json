@@ -16,7 +16,7 @@
       "access_key": "{{ user `aws_access_key` }}",
       "secret_key": "{{ user `aws_secret_key` }}",
       "region": "{{ user `REGION` }}",
-      "instance_type": "t2.micro",
+      "instance_type": "c4.large",
       "source_ami": "{{user `AMI_ID`}}",
       "ami_name": "windowsexec-ami-{{user `AMI_TYPE`}}-{{user `REL_DASH_VER`}}-{{isotime \"1504\"}}",
       "ami_groups": "all",
