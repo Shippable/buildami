@@ -36,15 +36,6 @@
   ],
   "provisioners": [
     {
-      "type": "powershell",
-      "inline": [
-        "Install-WindowsFeature containers"
-      ]
-    },
-    {
-      "type": "windows-restart"
-    },
-    {
       "script": "./execPull.ps1",
       "type": "powershell",
       "environment_vars": [

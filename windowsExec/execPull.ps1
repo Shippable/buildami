@@ -104,10 +104,12 @@ Function tag_node_scripts() {
 Function install_nodejs() {
   Write-Output "Checking for node.js v$NODE_JS_VERSION"
   $nodejs_package = Get-Package nodejs -provider ChocolateyGet -ErrorAction SilentlyContinue
+  Write-Output "DEBUG: Get-Package node.js done"
   if (!$nodejs_package -or ($nodejs_package.Version -ne "$NODE_JS_VERSION")) {
     Write-Output "Installing node.js v$NODE_JS_VERSION"
     Install-Package -ProviderName ChocolateyGet -Name nodejs -RequiredVersion $NODE_JS_VERSION -Force
   }
+  Write-Output "DEBUG: node.js version check completed"
 }
 
 Function install_shipctl() {
