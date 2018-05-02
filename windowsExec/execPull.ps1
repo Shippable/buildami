@@ -102,9 +102,9 @@ Function tag_node_scripts() {
 }
 
 Function install_nodejs() {
-  Write-Output "Checking for node.js v$NODE_JS_VERSION"
+  Write-Output "DEBUG: Checking for node.js v$NODE_JS_VERSION"
   $nodejs_package=$null
-  
+
   try {
     $nodejs_package = Get-Package nodejs -provider ChocolateyGet -ErrorAction SilentlyContinue
   }
