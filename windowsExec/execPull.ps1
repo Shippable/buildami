@@ -103,7 +103,16 @@ Function tag_node_scripts() {
 
 Function install_nodejs() {
   Write-Output "Checking for node.js v$NODE_JS_VERSION"
-  $nodejs_package = Get-Package nodejs -provider ChocolateyGet -ErrorAction SilentlyContinue
+  $nodejs_package=$null
+  
+  try {
+    $nodejs_package = Get-Package nodejs -provider ChocolateyGet -ErrorAction SilentlyContinue
+  }
+  catch {
+    Write-Output "DEBUG: Failed to get-package nodejs"
+    $ErrorMessage = $_.Exception.Message
+    Write-Output "DEBUG: $ErrorMessage"
+  }
   Write-Output "DEBUG: Get-Package node.js done"
   if (!$nodejs_package -or ($nodejs_package.Version -ne "$NODE_JS_VERSION")) {
     Write-Output "Installing node.js v$NODE_JS_VERSION"
