@@ -106,7 +106,7 @@ Function install_nodejs() {
   $nodejs_package=$null
 
   try {
-    $nodejs_package = Get-Package nodejs -provider ChocolateyGet # -ErrorAction SilentlyContinue
+    $nodejs_package = Get-Package nodejs -provider ChocolateyGet -ErrorAction SilentlyContinue
   }
   catch {
     Write-Output "DEBUG: Failed to get-package nodejs"
