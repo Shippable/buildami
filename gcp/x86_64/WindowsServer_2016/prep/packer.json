@@ -25,7 +25,6 @@
       "winrm_password": "{{ user `winrm_password` }}",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
-      "winrm_wait_timeout": "5m",
       "metadata": {
         "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add {{user `winrm_username`}} & net localgroup administrators {{user `winrm_username`}} /add & winrm set winrm/config/service/auth @{Basic=\"true\"}"
       },
