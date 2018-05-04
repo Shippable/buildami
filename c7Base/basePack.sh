@@ -5,6 +5,7 @@ set -o pipefail
 export CURR_JOB=$1
 export RES_AWS_CREDS=$2
 export SHIPPABLE_RELEASE_VERSION="master"
+export SHIPPABLE_AMI_VERSION="master"
 
 # Now get AWS keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
@@ -54,6 +55,7 @@ build_ami() {
     -var RES_IMG_VER_NAME=$SHIPPABLE_RELEASE_VERSION \
     -var RES_IMG_VER_NAME_DASH=$SHIPPABLE_RELEASE_VERSION \
     -var SHIPPABLE_RELEASE_VERSION=$SHIPPABLE_RELEASE_VERSION \
+    -var SHIPPABLE_AMI_VERSION=$SHIPPABLE_AMI_VERSION \
     baseAMI.json 2>&1 | tee output.txt
 
   # this is to get the ami from output

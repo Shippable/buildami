@@ -48,7 +48,7 @@ clean_reqKick () {
 clone_reqKick () {
   echo "Cloning reqKick..."
   sudo git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
-  
+
   pushd $REQKICK_DIR
     sudo git checkout $SHIPPABLE_RELEASE_VERSION
     sudo /usr/local/bin/npm install

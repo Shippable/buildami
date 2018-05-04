@@ -5,6 +5,7 @@ set -o pipefail
 export CURR_JOB=$1
 export RES_AWS_CREDS=$2
 export SHIPPABLE_RELEASE_VERSION="master"
+export SHIPPABLE_AMI_VERSION="master"
 
 # Now get AWS keys
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
