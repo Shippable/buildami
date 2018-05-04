@@ -1175,13 +1175,13 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - REL_VER: "master"
                 - WINRM_USERNAME: "packer_user"
+                - WINRM_PASSWORD: "phoBac!@#"
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/prep
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-w2k16-x86-64"
             - shipctl replace vars.json
-            - cat vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
