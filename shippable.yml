@@ -1174,7 +1174,7 @@ jobs:
                 - PROJECT_ID: "ship-bits"
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - REL_VER: "master"
-                - WINRM_USERNAME: "packer_user"
+                - WINRM_USERNAME: "Administrator"
                 - WINRM_PASSWORD: "phoBac!@#"
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/prep

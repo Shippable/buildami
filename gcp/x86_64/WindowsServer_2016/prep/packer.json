@@ -6,7 +6,6 @@
     "project_id": "var",
     "service_account_json": "var",
     "winrm_username": "",
-    "winrm_password": "",
     "REL_VER": "",
     "SOURCE_IMAGE_FAMILY": "var",
     "FAM_NAME": ""
@@ -22,12 +21,11 @@
       "zone": "{{user `zone`}}",
       "communicator": "winrm",
       "winrm_username": "{{user `winrm_username`}}",
-      "winrm_password": "{{ user `winrm_password` }}",
       "winrm_insecure": true,
       "winrm_use_ssl": true,
       "metadata": {
-        "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add {{user `winrm_username`}} & net localgroup administrators {{user `winrm_username`}} /add & winrm set winrm/config/service/auth @{Basic=\"true\"}"
-      },
+        "windows-startup-script-cmd": "Enable-PSRemoting -Force & winrm quickconfig -quiet & net user /add {{user `winrm_username`}} & net localgroup administrators {{user `winrm_username`}} /add & winrm set winrm/config/service/auth @{Basic=\"true\"} & winrm set winrm/config/client/auth @{Basic=\"true\"} & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/winrs @{MaxMemoryPerShellMB=\"1024\"} & winrm set winrm/config/winrs @{MaxProcessesPerShell=\"100\"} & winrm set winrm/config/winrs @{MaxConcurrentUsers=\"30\"} & winrm set winrm/config/winrs @{MaxShellsPerUser=\"100\"} & winrm set winrm/config @{MaxTimeoutms=\"7200000\"}"
+    },
       "image_description": "Prep Image for {{user `FAM_NAME`}}",
       "image_family": "{{user `FAM_NAME`}}",
       "image_name": "{{user `FAM_NAME`}}-{{isotime \"2006-01-02-1504\"}}",
@@ -40,12 +38,6 @@
     {
       "type": "powershell",
       "inline": [
-        "Start-Sleep -s 15"
-      ]
-    },
-    {
-      "type": "powershell",
-      "inline": [
         "Install-WindowsFeature containers"
       ]
     },
@@ -53,18 +45,23 @@
       "type": "windows-restart"
     },
     {
+      "type": "powershell",
       "script": "./init.ps1",
-      "type": "powershell"
+      "environment_vars": [
+        "WINRM_USERNAME={{user `winrm_username`}}"
+      ]
     },
     {
       "type": "file",
       "source": "images.txt",
-      "destination": "C:\\tmp"
+      "destination": "images.txt"
     },
     {
       "type": "powershell",
-      "inline": ["dir c:\\tmp"]
+      "script": "./imagesPull.ps1",
+      "environment_vars": [
+        "REL_VER={{user `REL_VER`}}"
+      ]
     }
-
   ]
 }
