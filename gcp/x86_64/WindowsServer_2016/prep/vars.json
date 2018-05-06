@@ -7,6 +7,5 @@
   "service_account_json": "${SERVICE_ACCOUNT_JSON}",
   "REL_VER": "${REL_VER}",
   "winrm_username": "${WINRM_USERNAME}",
-  "winrm_password": "${WINRM_PASSWORD}",
   "FAM_NAME": "${FAM_NAME}"
 }
