@@ -1220,6 +1220,51 @@ jobs:
       script:
         - cat output.txt
 
+  - name: w2k16_x86_64_gcp_img_v634
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: gh_ship_repos_tag_push
+      - IN: reports_tag_push
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: ship_bits_gcp
+        switch: off
+      - IN: w2k16_x86_64_gcp_img_final
+        switch: off
+      - TASK:
+          name: v634_w2k16_gce_image
+          runtime:
+            options:
+              env:
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - WINRM_USERNAME: "packer_user"
+                - IMG_VER: "v6.3.4"
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/final
+            - shipctl copy_file_from_resource_state "w2k16_x86_64_gcp_img_final" "images.txt" .
+            - export REL_VER=$(shipctl get_resource_version_name "prod_release")
+            - export IMG_VER_DASH=${IMG_VER//./-}
+            - export FAM_NAME=$IMG_VER_DASH"-final-w2k16-x86-64"
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
+    on_failure:
+      script:
+        - cat output.txt
+
 ######################### Admiral Image ##################################
   - name: baseadmiralami_prep
     type: runSh
