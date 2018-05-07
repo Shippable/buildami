@@ -33,9 +33,7 @@ Function clone_reqKick () {
 
   cd $REQKICK_DIR
   git checkout $SHIPPABLE_RELEASE_VERSION
-  start-sleep -s 30
   npm install -dd
-  start-sleep -s 30
 }
 
 Function pull_reqProc () {
