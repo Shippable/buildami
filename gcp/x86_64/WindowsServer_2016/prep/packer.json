@@ -46,7 +46,7 @@
     },
     {
       "type": "powershell",
-      "script": "./init.ps1",
+      "script": "init.ps1",
       "environment_vars": [
         "WINRM_USERNAME={{user `winrm_username`}}"
       ]
@@ -58,7 +58,7 @@
     },
     {
       "type": "powershell",
-      "script": "./imagesPull.ps1",
+      "script": "imagesPull.ps1",
       "environment_vars": [
         "REL_VER={{user `REL_VER`}}"
       ]
