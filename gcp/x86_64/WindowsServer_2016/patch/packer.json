@@ -1,0 +1,51 @@
+{
+  "variables": {
+    "machine_type": "var",
+    "region": "var",
+    "zone": "var",
+    "project_id": "var",
+    "service_account_json": "var",
+    "winrm_username": "",
+    "REL_VER": "",
+    "SOURCE_IMAGE_FAMILY": "var",
+    "FAM_NAME": ""
+  },
+  "builders": [
+    {
+      "type": "googlecompute",
+      "state_timeout": "15m",
+      "project_id": "{{user `project_id`}}",
+      "machine_type": "{{user `machine_type`}}",
+      "source_image_family": "{{user `SOURCE_IMAGE_FAMILY`}}",
+      "region": "{{user `region`}}",
+      "zone": "{{user `zone`}}",
+      "communicator": "winrm",
+      "winrm_username": "{{user `winrm_username`}}",
+      "winrm_insecure": true,
+      "winrm_use_ssl": true,
+      "metadata": {
+        "windows-startup-script-cmd": "Enable-PSRemoting -Force & winrm quickconfig -quiet & net user /add {{user `winrm_username`}} & net localgroup administrators {{user `winrm_username`}} /add & winrm set winrm/config/service/auth @{Basic=\"true\"} & winrm set winrm/config/client/auth @{Basic=\"true\"} & winrm set winrm/config/service @{AllowUnencrypted=\"true\"} & winrm set winrm/config/winrs @{MaxMemoryPerShellMB=\"1024\"} & winrm set winrm/config/winrs @{MaxProcessesPerShell=\"100\"} & winrm set winrm/config/winrs @{MaxConcurrentUsers=\"30\"} & winrm set winrm/config/winrs @{MaxShellsPerUser=\"100\"} & winrm set winrm/config @{MaxTimeoutms=\"7200000\"}"
+      },
+      "image_description": "Prep Image for {{user `FAM_NAME`}}",
+      "image_family": "{{user `FAM_NAME`}}",
+      "image_name": "{{user `FAM_NAME`}}-{{isotime \"2006-01-02-1504\"}}",
+      "disk_size": 150,
+      "disk_type": "pd-ssd",
+      "account_file": "{{ user `service_account_json`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "images.txt",
+      "destination": "images.txt"
+    },
+    {
+      "script": "./codePull.ps1",
+      "type": "powershell",
+      "environment_vars": [
+        "REL_VER={{user `REL_VER`}}"
+      ]
+    }
+  ]
+}
