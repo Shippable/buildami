@@ -45,5 +45,5 @@ Write-Output "RES_IMG_VER_NAME=$env:RES_IMG_VER_NAME"
 clean_node_scripts
 clone_node_scripts
 clean_reqKick
-clone_reqKick
+#clone_reqKick
 pull_reqProc
