@@ -33,7 +33,8 @@ Function clone_reqKick () {
 
   cd $REQKICK_DIR
   git checkout $SHIPPABLE_RELEASE_VERSION
-  npm install
+  start-sleep -s 30
+  npm install -dd
   start-sleep -s 30
 }
 
@@ -45,5 +46,5 @@ Write-Output "RES_IMG_VER_NAME=$env:RES_IMG_VER_NAME"
 clean_node_scripts
 clone_node_scripts
 clean_reqKick
-#clone_reqKick
+clone_reqKick
 pull_reqProc
