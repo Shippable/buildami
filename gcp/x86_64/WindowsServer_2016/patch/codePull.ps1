@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
-$NODE_SCRIPTS_LOCATION = "$env:USERPROFILE/node"
-$REQKICK_DIR = "$env:USERPROFILE/Shippable/reqKick"
+$NODE_SCRIPTS_LOCATION = "$env:USERPROFILE\node"
+$REQKICK_DIR = "$env:USERPROFILE\Shippable\reqKick"
 $REQPROC_MASTER_IMAGE = "drydock/w16reqproc:master"
 $NODE_ARCHITECTURE = "x86_64"
 $NODE_OPERATING_SYSTEM = "WindowsServer_2016"
