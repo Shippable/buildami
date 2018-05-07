@@ -37,12 +37,7 @@
   "provisioners": [
     {
       "script": "./basePatchPull.ps1",
-      "type": "powershell",
-      "environment_vars": [
-        "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}",
-        "IMAGE_NAMES_SPACED={{user `IMAGE_NAMES_SPACED`}}",
-        "AMI_ID={{user `AMI_ID`}}"
-      ]
+      "type": "powershell"
     },
     {
       "type": "powershell",

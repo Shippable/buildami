@@ -57,7 +57,6 @@ build_ami() {
     -var WINRM_USERNAME=$WINRM_USERNAME \
     -var WINRM_PASSWORD=$WINRM_PASSWORD \
     -var AMI_ID=$AMI_ID \
-    -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     basePatchAMI.json
 
   echo "building AMI"
@@ -70,7 +69,6 @@ build_ami() {
     -var RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH \
     -var WINRM_USERNAME=$WINRM_USERNAME \
     -var WINRM_PASSWORD=$WINRM_PASSWORD \
-    -var IMAGE_NAMES_SPACED="${IMAGE_NAMES_SPACED}" \
     basePatchAMI.json 2>&1 | tee output.txt
 
   # this is to get the ami from output
