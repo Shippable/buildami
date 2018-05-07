@@ -15,7 +15,7 @@
       "access_key": "{{ user `aws_access_key` }}",
       "secret_key": "{{ user `aws_secret_key` }}",
       "region": "{{ user `REGION` }}",
-      "instance_type": "c5.large",
+      "instance_type": "c4.xlarge",
       "source_ami": "{{user `AMI_ID`}}",
       "ami_name": "windowsbase-ami-{{user `RES_IMG_VER_NAME_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
       "ami_groups": "all",
