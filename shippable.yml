@@ -1154,7 +1154,6 @@ jobs:
                 - SSH_USER: "centos"
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/patch
-            - cp -R ../../../templates/patch/* .
             - shipctl copy_file_from_resource_state "w2k16_x86_64_gcp_img_prep" "images.txt" .
             - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key w2k16_x86_64_gcp_img_prep IMAGE_FAM_NAME)
             - export REL_VER=$(shipctl get_resource_version_key w2k16_x86_64_gcp_img_prep REL_VER)
