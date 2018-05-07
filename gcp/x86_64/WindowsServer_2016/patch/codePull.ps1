@@ -36,6 +36,8 @@ Function clone_reqKick () {
 
   cd $REQKICK_DIR
   git checkout $SHIPPABLE_RELEASE_VERSION
+  node -v
+  npm -v
   npm install
 }
 
