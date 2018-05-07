@@ -7,6 +7,7 @@
     "service_account_json": "var",
     "winrm_username": "",
     "REL_VER": "",
+    "IMG_VER": "",
     "SOURCE_IMAGE_FAMILY": "var",
     "FAM_NAME": ""
   },
@@ -44,7 +45,8 @@
       "script": "codePull.ps1",
       "type": "powershell",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}"
+        "REL_VER={{user `REL_VER`}}",
+        "IMG_VER={{user `IMG_VER`}}"
       ]
     }
   ]
