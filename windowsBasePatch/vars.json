@@ -1,0 +1,10 @@
+{
+  "aws_access_key": "${AWS_ACCESS_KEY_ID}",
+  "aws_secret_key": "${AWS_SECRET_ACCESS_KEY}",
+  "REGION": "${REGION}",
+  "RES_IMG_VER_NAME_DASH": "${RES_IMG_VER_NAME_DASH}",
+  "RES_IMG_VER_NAME": "${RES_IMG_VER_NAME}",
+  "WINRM_USERNAME": "${WINRM_USERNAME}",
+  "WINRM_PASSWORD": "${WINRM_PASSWORD}",
+  "AMI_ID": "${AMI_ID}"
+}
