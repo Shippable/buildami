@@ -7,8 +7,7 @@
     "RES_IMG_VER_NAME_DASH": "",
     "WINRM_USERNAME": "",
     "WINRM_PASSWORD": "",
-    "RES_IMG_VER_NAME": "",
-    "IMAGE_NAMES_SPACED": ""
+    "RES_IMG_VER_NAME": ""
   },
   "builders": [
     {
@@ -35,6 +34,11 @@
     }
   ],
   "provisioners": [
+    {
+      "type": "file",
+      "source": "images.txt",
+      "destination": "images.txt"
+    },
     {
       "script": "./basePatchPull.ps1",
       "type": "powershell"

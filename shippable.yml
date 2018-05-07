@@ -1779,30 +1779,25 @@ jobs:
       - IN: ami_reqKick_repo
       - IN: windowsbaseami_prep
       - TASK:
+          name: patch_w16_aws_image
           script:
-            - echo "Existing packer version $(packer --version)" 
-            # Try upgrading packer to debug 
-            - export PK_VERSION=1.2.3
-            - export PK_FILE=packer_"$PK_VERSION"_linux_amd64.zip
-            - rm -rf /tmp/packer
-            - mkdir -p /tmp/packer
-            - wget -nv https://releases.hashicorp.com/packer/$PK_VERSION/$PK_FILE
-            - unzip -o $PK_FILE -d /tmp/packer
-            - sudo chmod +x /tmp/packer/packer
-            - mv /tmp/packer/packer /usr/bin/packer
-            - echo "Packer version is now $(packer --version)" 
-            # End of packer upgrade
-            - pushd $(shipctl get_resource_state "prepami_repo")
-            - cd windowsBasePatch
-            - sed -i "s/{{%WINRM_USERNAME%}}/$WINRM_USERNAME/g" ./bootstrap_win.txt
-            - sed -i "s/{{%WINRM_PASSWORD%}}/$WINRM_PASSWORD/g" ./bootstrap_win.txt
-            - ./basePatchPack.sh windowsbaseami_patch ami_bits_access_cli windowsbaseami_prep
-            - popd
+            - pushd $(shipctl get_resource_state "prepami_repo")/windowsBasePatch
+            - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
+            - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
+            - export AMI_ID=$(shipctl get_resource_version_key windowsbaseami_prep versionName)
+            - export RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME_DASH)
+            - export RES_IMG_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME)
+            - shipctl replace bootstrap_win.txt vars.json
+            - packer validate -var-file=vars.json basePatchAMI.json
+            - packer build -machine-readable -var-file=vars.json basePatchAMI.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+        - shipctl copy_file_to_state images.txt
     on_failure:
-      - script: pushd $(shipctl get_resource_state "prepami_repo")
-      - script: cd windowsBasePatch
-      - script: cat output.txt
-      - script: popd
+      script:
+        - cat output.txt
 
   - name: windowsfinalami_prep
     type: runSh
