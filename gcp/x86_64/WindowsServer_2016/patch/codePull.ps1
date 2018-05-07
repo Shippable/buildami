@@ -33,12 +33,10 @@ Function clean_reqKick () {
 Function clone_reqKick () {
   Write-Output "Cloning reqKick..."
   git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
-  start-sleep 5
 
-  Push-Location $REQKICK_DIR
-    git checkout $SHIPPABLE_RELEASE_VERSION
-    npm install
-  Pop-Location
+  cd $REQKICK_DIR
+  git checkout $SHIPPABLE_RELEASE_VERSION
+  npm install
 }
 
 Function pull_reqProc () {
@@ -48,6 +46,7 @@ Function pull_reqProc () {
 Write-Output "REL_VER=$env:REL_VER"
 clean_node_scripts
 clone_node_scripts
+pull_reqProc
 clean_reqKick
 clone_reqKick
-pull_reqProc
+
