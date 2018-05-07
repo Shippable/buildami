@@ -33,7 +33,7 @@ Function clone_reqKick () {
 
   cd $REQKICK_DIR
   git checkout $SHIPPABLE_RELEASE_VERSION
-  npm install -dd
+  npm install
 }
 
 Function pull_reqProc () {
