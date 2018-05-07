@@ -1800,6 +1800,18 @@ jobs:
       - IN: windowsbaseami_prep
       - TASK:
           script:
+            - echo "Existing packer version $(packer --version)" 
+            # Try upgrading packer to debug 
+            - export PK_VERSION=1.2.3
+            - export PK_FILE=packer_"$PK_VERSION"_linux_amd64.zip
+            - rm -rf /tmp/packer
+            - mkdir -p /tmp/packer
+            - wget -nv https://releases.hashicorp.com/packer/$PK_VERSION/$PK_FILE
+            - unzip -o $PK_FILE -d /tmp/packer
+            - sudo chmod +x /tmp/packer/packer
+            - mv /tmp/packer/packer /usr/bin/packer
+            - echo "Packer version is now $(packer --version)" 
+            # End of packer upgrade
             - pushd $(shipctl get_resource_state "prepami_repo")
             - cd windowsBasePatch
             - sed -i "s/{{%WINRM_USERNAME%}}/$WINRM_USERNAME/g" ./bootstrap_win.txt
