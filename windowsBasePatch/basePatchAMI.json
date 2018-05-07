@@ -37,10 +37,7 @@
   "provisioners": [
     {
       "script": "./basePatchPull.ps1",
-      "type": "powershell",
-      "environment_vars": [
-        "AMI_ID={{user `AMI_ID`}}"
-      ]
+      "type": "powershell"
     },
     {
       "type": "powershell",
