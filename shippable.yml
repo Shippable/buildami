@@ -154,8 +154,9 @@ jobs:
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-u14-x86-64"
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -203,8 +204,9 @@ jobs:
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-patch-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID  -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -257,7 +259,9 @@ jobs:
             - export FAM_NAME=$REL_VER_DASH"-final-u14-x86-64"
             - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key u14_x86_64_gcp_img_patch IMAGE_FAM_NAME)
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -307,7 +311,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -356,7 +362,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -405,7 +413,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -454,7 +464,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -503,7 +515,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -552,7 +566,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -601,7 +617,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -650,7 +668,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -699,7 +719,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -748,7 +770,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -792,8 +816,9 @@ jobs:
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-u16-x86-64"
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -841,8 +866,9 @@ jobs:
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-patch-u16-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID  -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -895,7 +921,9 @@ jobs:
             - export FAM_NAME=$REL_VER_DASH"-final-u16-x86-64"
             - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key u16_x86_64_gcp_img_patch IMAGE_FAM_NAME)
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -945,7 +973,9 @@ jobs:
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-u16-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$FAM_NAME packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -987,8 +1017,9 @@ jobs:
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-c7-x86-64"
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -1036,8 +1067,9 @@ jobs:
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-patch-c7-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer validate -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID  -var REL_VER=$REL_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -1089,7 +1121,9 @@ jobs:
             - export FAM_NAME=$REL_VER_DASH"-final-c7-x86-64"
             - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key c7_x86_64_gcp_img_patch IMAGE_FAM_NAME)
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - packer build -machine-readable -var service_account_json=$SERVICE_ACCOUNT_JSON -var region=$REGION -var ssh_username=$SSH_USER -var machine_type=$MACHINE_TYPE -var zone=$ZONE -var project_id=$PROJECT_ID -var REL_VER=$REL_VER -var IMG_VER=$IMG_VER -var FAM_NAME=$FAM_NAME -var SOURCE_IMAGE_FAMILY=$SOURCE_IMAGE_FAMILY packer.json 2>&1 | tee output.txt
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
             - popd
     on_success:
@@ -1133,12 +1167,12 @@ jobs:
                 - IMG_VER: "v6.3.4"
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/final
-            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - cp -R ../../../templates/final/* .
             - shipctl copy_file_from_resource_state "c7_x86_64_gcp_img_final" "images.txt" .
             - export REL_VER=$(shipctl get_resource_version_name "prod_release")
             - export IMG_VER_DASH=${IMG_VER//./-}
             - export FAM_NAME=$IMG_VER_DASH"-final-c7-x86-64"
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
@@ -1179,9 +1213,9 @@ jobs:
                 - WINRM_USERNAME: "Administrator"
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/prep
-            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-w2k16-x86-64"
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
