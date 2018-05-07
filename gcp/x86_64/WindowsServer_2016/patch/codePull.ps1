@@ -12,21 +12,18 @@ Function clean_node_scripts() {
   if (Test-Path $NODE_SCRIPTS_LOCATION) {
     Write-Output "Cleaning node scripts"
     Remove-Item -recur -force $NODE_SCRIPTS_LOCATION
-    start-sleep 5
   }
 }
 
 Function clone_node_scripts() {
   mkdir -p $NODE_SCRIPTS_LOCATION
   git clone https://github.com/Shippable/node.git $NODE_SCRIPTS_LOCATION
-  start-sleep 5
 }
 
 Function clean_reqKick () {
   if (Test-Path $REQKICK_DIR) {
     Write-Output "Cleaning reqKick..."
     Remove-Item -recur -force $REQKICK_DIR
-    start-sleep 5
   }
 }
 
