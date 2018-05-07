@@ -158,18 +158,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/prep
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/prep
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_patch
     type: runSh
@@ -208,18 +203,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/patch
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/patch
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_final
     type: runSh
@@ -263,18 +253,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v532
     type: runSh
@@ -315,17 +300,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v541
     type: runSh
@@ -366,17 +346,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v551
     type: runSh
@@ -417,17 +392,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v561
     type: runSh
@@ -468,17 +438,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v573
     type: runSh
@@ -519,17 +484,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v582
     type: runSh
@@ -570,17 +530,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v5104
     type: runSh
@@ -621,17 +576,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v614
     type: runSh
@@ -672,17 +622,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v624
     type: runSh
@@ -723,17 +668,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
   - name: u14_x86_64_gcp_img_v634
     type: runSh
@@ -774,17 +714,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/final
         - cat output.txt
-        - popd
 
 ######################### GCP U16 Image ##################################
   - name: u16_x86_64_gcp_img_prep
@@ -820,18 +755,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/prep
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/prep
         - cat output.txt
-        - popd
 
   - name: u16_x86_64_gcp_img_patch
     type: runSh
@@ -870,18 +800,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/patch
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/patch
         - cat output.txt
-        - popd
 
   - name: u16_x86_64_gcp_img_final
     type: runSh
@@ -925,18 +850,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/final
         - cat output.txt
-        - popd
 
   - name: u16_x86_64_gcp_img_v634
     type: runSh
@@ -977,15 +897,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_16.04/final
         - cat output.txt
-        - popd
 
 ######################### GCP CentOS 7 Image ##################################
   - name: c7_x86_64_gcp_img_prep
@@ -1021,18 +938,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/prep
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/prep
         - cat output.txt
-        - popd
 
   - name: c7_x86_64_gcp_img_patch
     type: runSh
@@ -1071,18 +983,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/patch
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/patch
         - cat output.txt
-        - popd
 
   - name: c7_x86_64_gcp_img_final
     type: runSh
@@ -1125,18 +1032,13 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/final
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
         - shipctl copy_file_to_state images.txt
-        - popd
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/final
         - cat output.txt
-        - popd
 
   - name: c7_x86_64_gcp_img_v634
     type: runSh
@@ -1177,15 +1079,12 @@ jobs:
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
-            - popd
     on_success:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
     on_failure:
       script:
-        - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/CentOS_7/final
         - cat output.txt
-        - popd
 
 ######################### GCP Win 2016 Image ##################################
   - name: w2k16_x86_64_gcp_img_prep
@@ -1215,6 +1114,52 @@ jobs:
             - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/prep
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-w2k16-x86-64"
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
+        - shipctl copy_file_to_state images.txt
+    on_failure:
+      script:
+        - cat output.txt
+
+  - name: w2k16_x86_64_gcp_img_patch
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: w2k16_x86_64_gcp_img_prep
+      - IN: node_repo
+      - IN: cexec_repo
+      - IN: reqProc_x86_64_WindowsServer_2016_prep
+      - IN: ami_reqKick_repo
+      - IN: prepami_repo
+        switch: off
+      - IN: ship_bits_gcp
+        switch: off
+      - TASK:
+          name: patch_c7_gce_image
+          runtime:
+            options:
+              env:
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - SSH_USER: "centos"
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/patch
+            - cp -R ../../../templates/patch/* .
+            - shipctl copy_file_from_resource_state "w2k16_x86_64_gcp_img_prep" "images.txt" .
+            - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key w2k16_x86_64_gcp_img_prep IMAGE_FAM_NAME)
+            - export REL_VER=$(shipctl get_resource_version_key w2k16_x86_64_gcp_img_prep REL_VER)
+            - export REL_VER_DASH=${REL_VER//./-}
+            - export FAM_NAME=$REL_VER_DASH"-patch-w2k16-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
