@@ -13,7 +13,7 @@ $NODE_DOWNLOAD_URL = "http://shippable-artifacts.s3.amazonaws.com/node/master/no
 $REQKICK_DOWNLOAD_URL = "http://shippable-artifacts.s3.amazonaws.com/reqKick/master/reqKick-master.zip"
 $SHIPPABLE_FIREWALL_RULE_NAME = "shippable-docker"
 
-#Write-Output "|___Set username and password"
+Write-Output "|___Set username and password"
 wmic useraccount where "name='$env:WINRM_USERNAME'" set PasswordExpires=FALSE
 
 Write-Output "|___Configure UAC to allow privilege elevation in remote shells"
@@ -21,11 +21,8 @@ $Key = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
 $Setting = 'LocalAccountTokenFilterPolicy'
 Set-ItemProperty -Path $Key -Name $Setting -Value 1 -Force
 
-#Write-Output "|___Configure and restart the WinRM Service; Enable the required firewall exception"
-#Stop-Service -Name WinRM
-#Set-Service -Name WinRM -StartupType Automatic
+Write-Output "|___Configure and restart the WinRM Service; Enable the required firewall exception"
 netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" new action=allow localip=any remoteip=any
-#Start-Service -Name WinRM
 
 Write-Output "|___downloading node scripts zip package"
 Invoke-RestMethod "$NODE_DOWNLOAD_URL" -OutFile $NODE_SCRIPTS_DOWNLOAD_LOCATION
