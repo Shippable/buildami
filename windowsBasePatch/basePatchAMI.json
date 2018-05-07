@@ -41,7 +41,10 @@
     },
     {
       "script": "./basePatchPull.ps1",
-      "type": "powershell"
+      "type": "powershell",
+      "environment_vars": [
+        "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}"
+      ]
     },
     {
       "type": "powershell",
