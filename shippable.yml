@@ -1982,10 +1982,10 @@ jobs:
         switch: off
       - IN: c7baseami_params
         switch: off
-      - IN: c7nodall_img
-      - IN: c7cppall_img
-      - IN: c7pytall_img
-      - IN: c7javall_img
+      - IN: c7nodall_dd_img
+      - IN: c7cppall_dd_img
+      - IN: c7pytall_dd_img
+      - IN: c7javall_dd_img
       - IN: node_repo
       - IN: cexec_repo
       - IN: u16_reqProc_x8664_build
