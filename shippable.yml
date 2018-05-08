@@ -1352,15 +1352,14 @@ jobs:
       - IN: u16cloall_img
       - IN: u16pytall_img
       - IN: u16nodall_img
-      - IN: u14nodall_img
-      - IN: u14pytall_img
-      - IN: u14cloall_img
-      - IN: u14golall_img
-      - IN: u14javall_img
-      - IN: u14scaall_img
-      - IN: u14ruball_img
-      - IN: u14phpall_img
-      - IN: u14cppall_img
+      - IN: u14nodall_dd_img
+      - IN: u14pytall_dd_img
+      - IN: u14cloall_dd_img
+      - IN: u14golall_dd_img
+      - IN: u14scaall_dd_img
+      - IN: u14ruball_dd_img
+      - IN: u14phpall_dd_img
+      - IN: u14cppall_dd_img
       - IN: node_repo
       - IN: cexec_repo
       - IN: reqProc_x86_64_Ubuntu_14_04_prep
