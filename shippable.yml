@@ -132,9 +132,15 @@ jobs:
     steps:
       - IN: trig_gcp_img_prep
       - IN: prepami_repo
-        switch: off
       - IN: ship_bits_gcp
-        switch: off
+      - IN: u14nodall_dd_img
+      - IN: u14pytall_dd_img
+      - IN: u14cloall_dd_img
+      - IN: u14golall_dd_img
+      - IN: u14scaall_dd_img
+      - IN: u14ruball_dd_img
+      - IN: u14phpall_dd_img
+      - IN: u14cppall_dd_img
       - TASK:
           name: prep_u14_gce_image
           runtime:
