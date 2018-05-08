@@ -104,21 +104,6 @@ resources:
     seed:
       versionName: master
 
-  - name: u14cppall_dd_repo
-    type: gitRepo
-    integration: avinci_gh
-    pointer:
-      sourceName: dry-dock/u14cppall
-      branch: master
-
-  - name: u14phpall_dd_img
-    type: image
-    integration: shipDH
-    pointer:
-      sourceName: "drydock/u14phpall"
-    seed:
-      versionName: master
-
   - name: u14phpall_dd_repo
     type: gitRepo
     integration: avinci_gh
@@ -176,21 +161,6 @@ resources:
     integration: shipDH
     pointer:
       sourceName: "drydock/u14golall"
-    seed:
-      versionName: master
-
-  - name: u14cppall_dd_repo
-    type: gitRepo
-    integration: avinci_gh
-    pointer:
-      sourceName: dry-dock/u14cppall
-      branch: master
-
-  - name: u14cppall_dd_img
-    type: image
-    integration: shipDH
-    pointer:
-      sourceName: "drydock/u14cppall"
     seed:
       versionName: master
 
