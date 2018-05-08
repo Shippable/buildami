@@ -1,0 +1,45 @@
+resources:
+  - name: c7_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    pointer:
+      sourceName: dry-dock/c7
+      branch: master
+
+  - name: c7_dd_img
+    type: image
+    integration: shipDH
+    pointer:
+      sourceName: "drydock/c7"
+    seed:
+      versionName: master
+
+jobs:
+  - name: c7_x8664_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: c7_dd_repo
+      - TASK:
+          name: c7_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+          script:
+            - pushd $(shipctl get_resource_state "c7_dd_repo")
+            - REPO_COMMIT=$(shipctl get_resource_version_key "c7_dd_repo" "shaData.commitSha")
+            - IMG_OUT="c7_dd_img"
+            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
+            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
+            - sudo docker push $IMG_NAME:$REL_VER
+            - popd
+      - OUT: c7_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
