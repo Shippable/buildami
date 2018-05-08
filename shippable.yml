@@ -778,7 +778,7 @@ jobs:
       - IN: u16_x86_64_gcp_img_prep
       - IN: node_repo
       - IN: cexec_repo
-      - IN: reqProc_x86_64_Ubuntu_16_04_prep
+      - IN: u16_reqProc_x8664_build
       - IN: prepami_repo
         switch: off
       - IN: ship_bits_gcp
@@ -966,7 +966,7 @@ jobs:
       - IN: c7_x86_64_gcp_img_prep
       - IN: node_repo
       - IN: cexec_repo
-      - IN: reqProc_x86_64_Ubuntu_16_04_prep
+      - IN: u16_reqProc_x8664_build
       - IN: prepami_repo
         switch: off
       - IN: ship_bits_gcp
@@ -1744,7 +1744,7 @@ jobs:
       - IN: u16nodall_dd_img
       - IN: node_repo
       - IN: cexec_repo
-      - IN: reqProc_x86_64_Ubuntu_16_04_prep
+      - IN: u16_reqProc_x8664_build
       - IN: ami_reqKick_repo
       - TASK:
           script:
@@ -1768,7 +1768,7 @@ jobs:
         switch: off
       - IN: cexec_repo
       - IN: node_repo
-      - IN: reqProc_x86_64_Ubuntu_16_04_prep
+      - IN: u16_reqProc_x8664_build
       - IN: ami_reqKick_repo
       - IN: u16baseami_prep
       - TASK:
@@ -1988,7 +1988,7 @@ jobs:
       - IN: c7javall_img
       - IN: node_repo
       - IN: cexec_repo
-      - IN: reqProc_x86_64_Ubuntu_16_04_prep
+      - IN: u16_reqProc_x8664_build
       - IN: ami_reqKick_repo
       - TASK:
           script:
@@ -2015,7 +2015,7 @@ jobs:
         switch: off
       - IN: cexec_repo
       - IN: node_repo
-      - IN: reqProc_x86_64_Ubuntu_16_04_prep
+      - IN: u16_reqProc_x8664_build
       - IN: ami_reqKick_repo
       - IN: c7baseami_prep
       - TASK:
