@@ -65,9 +65,9 @@ jobs:
             - $script:DH_USR_NAME=$(shipctl get_integration_resource_field "$env:IMG_OUT" "userName")
             - $script:DH_PASS=$(shipctl get_integration_resource_field "$env:IMG_OUT" "password")
             - pushd $(shipctl get_resource_state "$env:RES_REPO")
-            - docker build -t=$IMG_NAME:"$env:REL_VER" --pull .
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker push $IMG_NAME:"$env:REL_VER"
+            - docker build -t="$IMG_NAME:$env:REL_VER" --pull .
+            - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
+            - docker push "$IMG_NAME:$env:REL_VER"
       - OUT: w2k16_dd_img
 #    on_success:
 #      script:
