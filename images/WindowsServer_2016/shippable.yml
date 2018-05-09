@@ -69,7 +69,7 @@ jobs:
             - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
             - docker push "$IMG_NAME":"$env:REL_VER"
       - OUT: w2k16_dd_img
-#    on_success:
-#      script:
-#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-#        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$env:BUILD_NUMBER"
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=""$env:REL_VER" "IMG_REPO_COMMIT_SHA=""$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=""$env:REL_VER" "IMG_REPO_COMMIT_SHA=""$REPO_COMMIT" "BUILD_NUMBER=""$env:BUILD_NUMBER"
