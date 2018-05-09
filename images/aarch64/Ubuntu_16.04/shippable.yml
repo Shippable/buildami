@@ -137,15 +137,16 @@ jobs:
           runtime:
             options:
               env:
-                - REL_VER: "master"
+                - IMG_BASE: "u16_aarch64_dd_img"
                 - IMG_OUT: "u16all_aarch64_dd_img"
                 - RES_REPO: "u16all_aarch64_dd_repo"
           script:
-            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
             - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
             - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
             - sudo docker login -u $DH_USR_NAME -p $DH_PASS
             - sudo docker push $IMG_NAME:$REL_VER
@@ -170,15 +171,16 @@ jobs:
           runtime:
             options:
               env:
-                - REL_VER: "master"
+                - IMG_BASE: "u16all_aarch64_dd_img"
                 - IMG_OUT: "u16nodall_aarch64_dd_img"
                 - RES_REPO: "u16nodall_aarch64_dd_repo"
           script:
-            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
             - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
             - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
             - sudo docker login -u $DH_USR_NAME -p $DH_PASS
             - sudo docker push $IMG_NAME:$REL_VER
@@ -203,15 +205,16 @@ jobs:
           runtime:
             options:
               env:
-                - REL_VER: "master"
+                - IMG_BASE: "u16all_aarch64_dd_img"
                 - IMG_OUT: "u16pytall_aarch64_dd_img"
                 - RES_REPO: "u16pytall_aarch64_dd_repo"
           script:
-            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
             - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
             - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
             - sudo docker login -u $DH_USR_NAME -p $DH_PASS
             - sudo docker push $IMG_NAME:$REL_VER
@@ -236,15 +239,16 @@ jobs:
           runtime:
             options:
               env:
-                - REL_VER: "master"
+                - IMG_BASE: "u16all_aarch64_dd_img"
                 - IMG_OUT: "u16javall_aarch64_dd_img"
                 - RES_REPO: "u16javall_aarch64_dd_repo"
           script:
-            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
             - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
             - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
             - sudo docker login -u $DH_USR_NAME -p $DH_PASS
             - sudo docker push $IMG_NAME:$REL_VER
@@ -269,15 +273,16 @@ jobs:
           runtime:
             options:
               env:
-                - REL_VER: "master"
+                - IMG_BASE: "u16all_aarch64_dd_img"
                 - IMG_OUT: "u16cppall_aarch64_dd_img"
                 - RES_REPO: "u16cppall_aarch64_dd_repo"
           script:
-            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
             - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
             - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
             - sudo docker login -u $DH_USR_NAME -p $DH_PASS
             - sudo docker push $IMG_NAME:$REL_VER
