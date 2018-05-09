@@ -60,7 +60,9 @@ jobs:
                 - IMG_OUT: "w16"
                 - RES_REPO: "w16_repo"
           script:
-            - $REPO_COMMIT=$(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
+            - $env:RES_REPO
+            - $env:IMG_OUT
+            - $REPO_COMMIT=$(shipctl get_resource_version_key "w16_repo" "shaData.commitSha")
             - echo $REPO_COMMIT
 #            - IMG_NAME=$(shipctl get_resource_version_key "$IMG_OUT" "sourceName")
 #            - DH_USR_NAME=$(shipctl get_integration_resource_field "$IMG_OUT" "userName")
