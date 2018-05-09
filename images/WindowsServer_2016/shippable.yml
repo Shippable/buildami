@@ -60,14 +60,14 @@ jobs:
                 - IMG_OUT: "w16"
                 - RES_REPO: "w16_repo"
           script:
-            - REPO_COMMIT=$(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
-            - IMG_NAME=$(shipctl get_resource_version_key $env:IMG_OUT "sourceName")
-            - DH_USR_NAME=$(shipctl get_integration_resource_field $env:IMG_OUT "userName")
-            - DH_PASS=$(shipctl get_integration_resource_field $env:IMG_OUT "password")
-            - pushd $(shipctl get_resource_state "$env:RES_REPO")
-            - docker build -t=$env:IMG_NAME:$env:REL_VER --pull .
-            - docker login -u $env:DH_USR_NAME -p $env:DH_PASS
-            - docker push $env:IMG_NAME:$env:REL_VER
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - IMG_NAME=$(shipctl get_resource_version_key "$IMG_OUT" "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field "$IMG_OUT" "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field "$IMG_OUT" "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - docker build -t=$IMG_NAME:$REL_VER --pull .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
       - OUT: w16_img
 #    on_success:
 #      script:
