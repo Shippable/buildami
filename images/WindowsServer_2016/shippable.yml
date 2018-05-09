@@ -99,10 +99,9 @@ jobs:
             - $script:DH_USR_NAME=$(shipctl get_integration_resource_field "$env:IMG_OUT" "userName")
             - $script:DH_PASS=$(shipctl get_integration_resource_field "$env:IMG_OUT" "password")
             - pushd $(shipctl get_resource_state "$env:RES_REPO")
-            - $script:IMG="${IMG_NAME}:${REL_VER}"
-            - docker build -t="$IMG" --pull .
+            - docker build -t=drydock/w16dotnetcore:master --pull .
             - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
-            - docker push "$IMG"
+            - docker push drydock/w16dotnetcore:master
       - OUT: w2k16dotnetcore_dd_img
     on_success:
       script:
