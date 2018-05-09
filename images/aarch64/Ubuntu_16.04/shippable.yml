@@ -1,0 +1,270 @@
+resources:
+  - name: u16_aarch64_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    pointer:
+      sourceName: "dry-dock/aarch64_u16"
+      branch: master
+
+  - name: u16_aarch64_dd_img
+    type: image
+    integration: shipDH
+    pointer:
+      sourceName: "drydock/aarch64_u16"
+    seed:
+      versionName: master
+
+  - name: u16all_aarch64_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    pointer:
+      sourceName: "dry-dock/aarch64_u16all"
+      branch: master
+
+  - name: u16all_aarch64_dd_img
+    type: image
+    integration: shipDH
+    pointer:
+      sourceName: "drydock/aarch64_u16all"
+    seed:
+      versionName: master
+
+  - name: u16nodall_aarch64_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    pointer:
+      sourceName: "dry-dock/aarch64_u16nodall"
+      branch: master
+
+  - name: u16nodall_aarch64_dd_img
+    type: image
+    integration: shipDH
+    pointer:
+      sourceName: "drydock/aarch64_u16nodall"
+    seed:
+      versionName: master
+
+  - name: u16pytall_aarch64_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    pointer:
+      sourceName: "dry-dock/aarch64_u16pytall"
+      branch: master
+
+  - name: u16pytall_aarch64_dd_img
+    type: image
+    integration: shipDH
+    pointer:
+      sourceName: "drydock/aarch64_u16pytall"
+    seed:
+      versionName: master
+
+  - name: u16javall_aarch64_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    pointer:
+      sourceName: "dry-dock/aarch64_u16javall"
+      branch: master
+
+  - name: u16javall_aarch64_dd_img
+    type: image
+    integration: shipDH
+    pointer:
+      sourceName: "drydock/aarch64_u16javall"
+    seed:
+      versionName: master
+
+  - name: u16cppall_aarch64_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    pointer:
+      sourceName: "dry-dock/aarch64_u16cppall"
+      branch: master
+
+  - name: u16cppall_aarch64_dd_img
+    type: image
+    integration: shipDH
+    pointer:
+      sourceName: "drydock/aarch64_u16cppall"
+    seed:
+      versionName: master
+
+jobs:
+  - name: u16_aarch64_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u16_aarch64_dd_repo
+      - TASK:
+          name: u16_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+                - IMG_OUT: "u16_aarch64_dd_img"
+                - RES_REPO: "u16_aarch64_dd_repo"
+          script:
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
+            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
+            - sudo docker push $IMG_NAME:$REL_VER
+      - OUT: u16_aarch64_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: u16all_aarch64_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u16all_aarch64_dd_repo
+      - IN: u16_aarch64_dd_img
+      - TASK:
+          name: u16all_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+                - IMG_OUT: "u16all_aarch64_dd_img"
+                - RES_REPO: "u16all_aarch64_dd_repo"
+          script:
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
+            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
+            - sudo docker push $IMG_NAME:$REL_VER
+      - OUT: u16all_aarch64_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: u16nodall_aarch64_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u16nodall_aarch64_dd_repo
+      - IN: u16all_aarch64_dd_img
+      - TASK:
+          name: u16nodall_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+                - IMG_OUT: "u16nodall_aarch64_dd_img"
+                - RES_REPO: "u16nodall_aarch64_dd_repo"
+          script:
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
+            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
+            - sudo docker push $IMG_NAME:$REL_VER
+      - OUT: u16nodall_aarch64_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: u16pytall_aarch64_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u16pytall_aarch64_dd_repo
+      - IN: u16all_aarch64_dd_img
+      - TASK:
+          name: u16pytall_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+                - IMG_OUT: "u16pytall_aarch64_dd_img"
+                - RES_REPO: "u16pytall_aarch64_dd_repo"
+          script:
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
+            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
+            - sudo docker push $IMG_NAME:$REL_VER
+      - OUT: u16pytall_aarch64_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: u16javall_aarch64_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u16javall_aarch64_dd_repo
+      - IN: u16all_aarch64_dd_img
+      - TASK:
+          name: u16pytall_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+                - IMG_OUT: "u16javall_aarch64_dd_img"
+                - RES_REPO: "u16javall_aarch64_dd_repo"
+          script:
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
+            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
+            - sudo docker push $IMG_NAME:$REL_VER
+      - OUT: u16javall_aarch64_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: u16cppall_aarch64_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u16cppall_aarch64_dd_repo
+      - IN: u16all_aarch64_dd_img
+      - TASK:
+          name: u16cppall_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+                - IMG_OUT: "u16cppall_aarch64_dd_img"
+                - RES_REPO: "u16cppall_aarch64_dd_repo"
+          script:
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - export IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
+            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
+            - sudo docker push $IMG_NAME:$REL_VER
+      - OUT: u16cppall_aarch64_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
