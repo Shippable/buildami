@@ -94,14 +94,14 @@ jobs:
                 - RES_REPO: "w2k16dotnetcore_dd_repo"
           script:
             - $script:REL_VER=$(shipctl get_resource_version_key "$env:IMG_BASE" "versionName")
-            - $script:RES_REPO_COMMIT = $(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
+            - $script:RES_REPO_COMMIT=$(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
             - $script:IMG_NAME=$(shipctl get_resource_version_key "$env:IMG_OUT" "sourceName")
             - $script:DH_USR_NAME=$(shipctl get_integration_resource_field "$env:IMG_OUT" "userName")
             - $script:DH_PASS=$(shipctl get_integration_resource_field "$env:IMG_OUT" "password")
             - pushd $(shipctl get_resource_state "$env:RES_REPO")
-            - docker build -t="${IMG_NAME}:master" --pull .
-#            - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
-#            - docker push drydock/w16dotnetcore:master
+            - docker build -t="${IMG_NAME}:${REL_VER}" --pull .
+            - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
+            - docker push "${IMG_NAME}:${REL_VER}"
       - OUT: w2k16dotnetcore_dd_img
     on_success:
       script:
@@ -128,7 +128,7 @@ jobs:
                 - RES_REPO: "w2k16aspnetcore_dd_repo"
           script:
             - $script:REL_VER=$(shipctl get_resource_version_key "$env:IMG_BASE" "versionName")
-            - $script:RES_REPO_COMMIT = $(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
+            - $script:RES_REPO_COMMIT=$(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
             - $script:IMG_NAME=$(shipctl get_resource_version_key "$env:IMG_OUT" "sourceName")
             - $script:DH_USR_NAME=$(shipctl get_integration_resource_field "$env:IMG_OUT" "userName")
             - $script:DH_PASS=$(shipctl get_integration_resource_field "$env:IMG_OUT" "password")
