@@ -50,7 +50,7 @@ jobs:
       nodePool: x86_w16_cus_01
       container: false
     steps:
-      - IN: w16_repo
+      - IN: w2k16_dd_repo
       - TASK:
           name: w2k16_build
           runtime:
@@ -58,12 +58,16 @@ jobs:
               env:
                 - REL_VER: "master"
                 - IMG_OUT: "w16"
-                - RES_REPO: "w16_repo"
+                - RES_REPO: "w2k16_dd_repo"
           script:
             - $env:RES_REPO
             - $env:IMG_OUT
-            - $REPO_COMMIT=$(shipctl get_resource_version_key "w16_repo" "shaData.commitSha")
+            - $REPO_COMMIT=$(shipctl get_resource_version_key "w2k16_dd_repo" "shaData.commitSha")
             - echo $REPO_COMMIT
+            - $script:RES_REPO_COMMIT1 = $(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
+            - echo $REPO_COMMIT1
+            - $script:RES_REPO_FLD = $(shipctl get_resource_state "$env:RES_REPO")
+            - echo $RES_REPO_FLD
 #            - IMG_NAME=$(shipctl get_resource_version_key "$IMG_OUT" "sourceName")
 #            - DH_USR_NAME=$(shipctl get_integration_resource_field "$IMG_OUT" "userName")
 #            - DH_PASS=$(shipctl get_integration_resource_field "$IMG_OUT" "password")
