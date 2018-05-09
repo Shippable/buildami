@@ -106,13 +106,6 @@ jobs:
           script:
             - ls -al
 
-
-
-
-
-
-
-
 ######################### GCP Win 2016 Image ##################################
   - name: w2k16_x86_64_gcp_img_prep
     type: runSh
