@@ -147,9 +147,9 @@ jobs:
             - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
             - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
             - pushd $(shipctl get_resource_state "$RES_REPO")
-            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
-            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
-            - sudo docker push $IMG_NAME:$REL_VER
+            - docker build -t=$IMG_NAME:$REL_VER --pull .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
       - OUT: u16all_aarch64_dd_img
     on_success:
       script:
@@ -181,9 +181,9 @@ jobs:
             - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
             - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
             - pushd $(shipctl get_resource_state "$RES_REPO")
-            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
-            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
-            - sudo docker push $IMG_NAME:$REL_VER
+            - docker build -t=$IMG_NAME:$REL_VER --pull .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
       - OUT: u16nodall_aarch64_dd_img
     on_success:
       script:
@@ -215,9 +215,9 @@ jobs:
             - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
             - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
             - pushd $(shipctl get_resource_state "$RES_REPO")
-            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
-            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
-            - sudo docker push $IMG_NAME:$REL_VER
+            - docker build -t=$IMG_NAME:$REL_VER --pull .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
       - OUT: u16pytall_aarch64_dd_img
     on_success:
       script:
@@ -249,9 +249,9 @@ jobs:
             - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
             - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
             - pushd $(shipctl get_resource_state "$RES_REPO")
-            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
-            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
-            - sudo docker push $IMG_NAME:$REL_VER
+            - docker build -t=$IMG_NAME:$REL_VER --pull .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
       - OUT: u16javall_aarch64_dd_img
     on_success:
       script:
@@ -283,9 +283,9 @@ jobs:
             - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
             - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
             - pushd $(shipctl get_resource_state "$RES_REPO")
-            - sudo docker build -t=$IMG_NAME:$REL_VER --pull .
-            - sudo docker login -u $DH_USR_NAME -p $DH_PASS
-            - sudo docker push $IMG_NAME:$REL_VER
+            - docker build -t=$IMG_NAME:$REL_VER --pull .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
       - OUT: u16cppall_aarch64_dd_img
     on_success:
       script:
