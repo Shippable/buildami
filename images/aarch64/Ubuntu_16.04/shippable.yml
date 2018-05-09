@@ -94,6 +94,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: aarch64_u1604_cus_01
+      container: false
     steps:
       - IN: u16_aarch64_dd_repo
       - TASK:
@@ -123,6 +126,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: aarch64_u1604_cus_01
+      container: false
     steps:
       - IN: u16all_aarch64_dd_repo
       - IN: u16_aarch64_dd_img
@@ -153,6 +159,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: aarch64_u1604_cus_01
+      container: false
     steps:
       - IN: u16nodall_aarch64_dd_repo
       - IN: u16all_aarch64_dd_img
@@ -183,6 +192,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: aarch64_u1604_cus_01
+      container: false
     steps:
       - IN: u16pytall_aarch64_dd_repo
       - IN: u16all_aarch64_dd_img
@@ -213,6 +225,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: aarch64_u1604_cus_01
+      container: false
     steps:
       - IN: u16javall_aarch64_dd_repo
       - IN: u16all_aarch64_dd_img
@@ -243,6 +258,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: aarch64_u1604_cus_01
+      container: false
     steps:
       - IN: u16cppall_aarch64_dd_repo
       - IN: u16all_aarch64_dd_img
