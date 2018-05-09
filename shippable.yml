@@ -888,7 +888,7 @@ jobs:
         switch: off
       - IN: cexec_repo
       - IN: node_repo
-      - IN: reqProc_x86_64_WindowsServer_2016_prep
+      - IN: w2k16_reqProc_x86_64_build
       - IN: ami_reqKick_repo
       - IN: windowsbaseami_prep
       - TASK:
