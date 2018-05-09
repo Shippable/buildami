@@ -64,16 +64,15 @@ jobs:
             - $script:IMG_NAME=$(shipctl get_resource_version_key "$env:IMG_OUT" "sourceName")
             - $script:DH_USR_NAME=$(shipctl get_integration_resource_field "$env:IMG_OUT" "userName")
             - $script:DH_PASS=$(shipctl get_integration_resource_field "$env:IMG_OUT" "password")
-            - $script:FULL_IMG="${IMG_NAME}:${env:REL_VER}"
             - pushd $(shipctl get_resource_state "$env:RES_REPO")
-            - docker build -t="$FULL_IMG" --pull .
+            - docker build -t="${IMG_NAME}:${env:REL_VER}" --pull .
             - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
-            - docker push "$FULL_IMG"
+            - docker push "${IMG_NAME}:${env:REL_VER}"
       - OUT: w2k16_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi "$env:JOB_NAME" "versionName=""$env:REL_VER" "IMG_REPO_COMMIT_SHA=""$REPO_COMMIT"
-        - shipctl put_resource_state_multi "$env:IMG_OUT" "versionName=""$env:REL_VER" "IMG_REPO_COMMIT_SHA=""$REPO_COMMIT" "BUILD_NUMBER=""$env:BUILD_NUMBER"
+        - shipctl put_resource_state_multi "$env:JOB_NAME" "versionName=${env:REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi "$env:IMG_OUT" "versionName=${env:REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=${env:BUILD_NUMBER}"
 
   - name: w2k16dotnetcore_x8664_build
     type: runSh
@@ -99,16 +98,15 @@ jobs:
             - $script:IMG_NAME=$(shipctl get_resource_version_key "$env:IMG_OUT" "sourceName")
             - $script:DH_USR_NAME=$(shipctl get_integration_resource_field "$env:IMG_OUT" "userName")
             - $script:DH_PASS=$(shipctl get_integration_resource_field "$env:IMG_OUT" "password")
-            - $script:FULL_IMG="$IMG_NAME":"$env:REL_VER"
             - pushd $(shipctl get_resource_state "$env:RES_REPO")
-            - docker build -t="$FULL_IMG" --pull .
+            - docker build -t="${IMG_NAME}:${env:REL_VER}" --pull .
             - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
-            - docker push "$FULL_IMG"
+            - docker push "${IMG_NAME}:${env:REL_VER}"
       - OUT: w2k16dotnetcore_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi "$env:JOB_NAME" "versionName=""$env:REL_VER" "IMG_REPO_COMMIT_SHA=""$REPO_COMMIT"
-        - shipctl put_resource_state_multi "$env:IMG_OUT" "versionName=""$env:REL_VER" "IMG_REPO_COMMIT_SHA=""$REPO_COMMIT" "BUILD_NUMBER=""$env:BUILD_NUMBER"
+        - shipctl put_resource_state_multi "$env:JOB_NAME" "versionName=${env:REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi "$env:IMG_OUT" "versionName=${env:REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=${env:BUILD_NUMBER}"
 
   - name: w2k16aspnetcore_x8664_build
     type: runSh
@@ -134,13 +132,12 @@ jobs:
             - $script:IMG_NAME=$(shipctl get_resource_version_key "$env:IMG_OUT" "sourceName")
             - $script:DH_USR_NAME=$(shipctl get_integration_resource_field "$env:IMG_OUT" "userName")
             - $script:DH_PASS=$(shipctl get_integration_resource_field "$env:IMG_OUT" "password")
-            - $script:FULL_IMG="$IMG_NAME":"$env:REL_VER"
             - pushd $(shipctl get_resource_state "$env:RES_REPO")
-            - docker build -t="$FULL_IMG" --pull .
+            - docker build -t="${IMG_NAME}:${env:REL_VER}" --pull .
             - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
-            - docker push "$FULL_IMG"
+            - docker push "${IMG_NAME}:${env:REL_VER}"
       - OUT: w2k16aspnetcore_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi "$env:JOB_NAME" "versionName=""$env:REL_VER" "IMG_REPO_COMMIT_SHA=""$REPO_COMMIT"
-        - shipctl put_resource_state_multi "$env:IMG_OUT" "versionName=""$env:REL_VER" "IMG_REPO_COMMIT_SHA=""$REPO_COMMIT" "BUILD_NUMBER=""$env:BUILD_NUMBER"
+        - shipctl put_resource_state_multi "$env:JOB_NAME" "versionName=${env:REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi "$env:IMG_OUT" "versionName=${env:REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=${env:BUILD_NUMBER}"
