@@ -169,6 +169,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14_dd_repo
       - TASK:
@@ -198,6 +200,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14all_dd_repo
       - IN: u14_dd_img
@@ -229,6 +233,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14nodall_dd_repo
       - IN: u14all_dd_img
@@ -260,6 +266,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14pytall_dd_repo
       - IN: u14all_dd_img
@@ -291,6 +299,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14javall_dd_repo
       - IN: u14all_dd_img
@@ -322,6 +332,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14cppall_dd_repo
       - IN: u14all_dd_img
@@ -353,6 +365,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14golall_dd_repo
       - IN: u14all_dd_img
@@ -384,6 +398,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14phpall_dd_repo
       - IN: u14all_dd_img
@@ -415,6 +431,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14cloall_dd_repo
       - IN: u14all_dd_img
@@ -446,6 +464,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14ruball_dd_repo
       - IN: u14all_dd_img
@@ -477,6 +497,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_u1404_dyn_large_01
     steps:
       - IN: u14scaall_dd_repo
       - IN: u14javall_dd_img
