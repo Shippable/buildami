@@ -525,3 +525,60 @@ jobs:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
         - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: u14_x86_64_gcp_img_prep
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: trig_gcp_img_prep
+      - IN: prepami_repo
+      - IN: u14nodall_dd_img
+      - IN: u14pytall_dd_img
+      - IN: u14cloall_dd_img
+      - IN: u14golall_dd_img
+      - IN: u14scaall_dd_img
+      - IN: u14ruball_dd_img
+      - IN: u14phpall_dd_img
+      - IN: u14cppall_dd_img
+      - IN: u16cppall_dd_img
+      - IN: u16phpall_dd_img
+      - IN: u16ruball_dd_img
+      - IN: u16scaall_dd_img
+      - IN: u16golall_dd_img
+      - IN: u16cloall_dd_img
+      - IN: u16pytall_dd_img
+      - IN: u16nodall_dd_img
+      - IN: u16javall_dd_img
+      - IN: ship_bits_gcp
+        switch: off
+      - TASK:
+          name: prep_u14_gce_image
+          runtime:
+            options:
+              env:
+                - SOURCE_IMAGE_FAMILY: "ubuntu-1404-lts"
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - REL_VER: "master"
+                - SSH_USER: "root"
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/Ubuntu_14.04/prep
+            - cp -R ../../../templates/prep/* .
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - export REL_VER_DASH=${REL_VER//./-}
+            - export FAM_NAME=$REL_VER_DASH"-prep-u14-x86-64"
+            - shipctl replace vars.json
+            - packer validate -var-file=vars.json packer.json
+            - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
+        - shipctl copy_file_to_state images.txt
+    on_failure:
+      script:
+        - cat output.txt
