@@ -155,7 +155,7 @@ jobs:
       - IN: w2k16_x86_64_gcp_img_prep
       - IN: node_repo
       - IN: cexec_repo
-      - IN: reqProc_x86_64_WindowsServer_2016_prep
+      - IN: w2k16_reqProc_x86_64_build
       - IN: ami_reqKick_repo
       - IN: prepami_repo
         switch: off
@@ -858,7 +858,7 @@ jobs:
       - IN: w2k16_dd_img
       - IN: w2k16dotnetcore_dd_img
       - IN: w2k16aspnetcore_dd_img
-      - IN: reqProc_x86_64_WindowsServer_2016_prep
+      - IN: w2k16_reqProc_x86_64_build
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
