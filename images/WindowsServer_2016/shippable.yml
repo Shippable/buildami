@@ -1,0 +1,75 @@
+resources:
+  - name: w2k16_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/w16"
+      branch: master
+
+  - name: w2k16_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/w16"
+      versionName: master
+
+  - name: w2k16dotnetcore_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/w16dotnetcore"
+      branch: master
+
+  - name: w2k16dotnetcore_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/w16dotnetcore"
+      versionName: master
+
+  - name: w2k16aspnetcore_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/w16aspnetcore"
+      branch: master
+
+  - name: w2k16aspnetcore_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/w16aspnetcore"
+      versionName: master
+
+jobs:
+  - name: w2k16_x8664_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    runtime:
+      nodePool: x86_w16_cus_01
+      container: false
+    steps:
+      - IN: w16_repo
+      - TASK:
+          name: w2k16_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+                - IMG_OUT: "w16"
+                - RES_REPO: "w16_repo"
+          script:
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
+            - IMG_NAME=$(shipctl get_resource_version_key $env:IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $env:IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $env:IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$env:RES_REPO")
+            - docker build -t=$env:IMG_NAME:$env:REL_VER --pull .
+            - docker login -u $env:DH_USR_NAME -p $env:DH_PASS
+            - docker push $env:IMG_NAME:$env:REL_VER
+      - OUT: w16_img
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+#        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$env:BUILD_NUMBER"
