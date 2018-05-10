@@ -336,7 +336,8 @@ jobs:
         switch: off
       - IN: admiralami_params
         switch: off
-      - IN: genexec_tag_push
+      - IN: genexec_dd_tag
+      - IN: genexec_sh_tag
       - IN: execTemplates_repo_tag
       - IN: node_repo_tag
       - IN: cexec_repo_tag
