@@ -342,7 +342,17 @@ jobs:
       - IN: cexec_repo_tag
       - IN: reqExec_repo_tag
       - IN: reqProc_repo_tag
-      - IN: ship_ecr_x86_64_Ubuntu_tag_push
+      - IN: reqKick_repo_tag
+      - IN: redis_dd_tag
+      - IN: vault_dd_tag
+      - IN: rabbitmq_dd_tag
+      - IN: gitlab_dd_tag
+      - IN: postgres_dd_tag
+      - IN: api_sh_tag
+      - IN: www_sh_tag
+      - IN: mktg_sh_tag
+      - IN: micro_sh_tag
+      - IN: nexec_sh_tag
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
