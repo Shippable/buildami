@@ -416,7 +416,18 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: dry_dh_x86_64_Ubuntu_tag_push
+      - IN: u14_x8664_tag
+      - IN: u14all_x8664_tag
+      - IN: u14nodall_x8664_tag
+      - IN: u14pytall_x8664_tag
+      - IN: u14javall_x8664_tag
+      - IN: u14cppall_x8664_tag
+      - IN: u14cloall_x8664_tag
+      - IN: u14golall_x8664_tag
+      - IN: u14scaall_x8664_tag
+      - IN: u14ruball_x8664_tag
+      - IN: u14phpall_x8664_tag
+      - IN: u14microbase_x8664_tag
       - IN: u16_x8664_tag
       - IN: u16all_x8664_tag
       - IN: u16nodall_x8664_tag
