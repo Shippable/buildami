@@ -1040,6 +1040,14 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
+      - IN: c7_x8664_tag
+      - IN: c7all_x8664_tag
+      - IN: c7nodall_x8664_tag
+      - IN: c7pytall_x8664_tag
+      - IN: c7javall_x8664_tag
+      - IN: c7cppall_x8664_tag
+      - IN: gh_ship_repos_tag_push
+      - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
       - IN: c7baseami_patch
@@ -1050,9 +1058,7 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: dry_dh_x86_64_c7_tag_push
-      - IN: gh_ship_repos_tag_push
-      - IN: reports_tag_push
+
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
