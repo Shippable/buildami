@@ -197,7 +197,9 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: dry_dh_x86_64_Windows_tag_push
+      - IN: w2k16_x8664_tag
+      - IN: w2k16dotnetcore_x8664_tag
+      - IN: w2k16aspnetcore_x8664_tag
       - IN: gh_ship_repos_tag_push
       - IN: reports_tag_push
       - IN: prepami_repo
@@ -950,6 +952,11 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
+      - IN: w2k16_x8664_tag
+      - IN: w2k16dotnetcore_x8664_tag
+      - IN: w2k16aspnetcore_x8664_tag
+      - IN: gh_ship_repos_tag_push
+      - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
       - IN: ami_bits_access
@@ -962,9 +969,6 @@ jobs:
         switch: off
       - IN: prod_release
         switch: off
-      - IN: dry_dh_x86_64_Windows_tag_push
-      - IN: gh_ship_repos_tag_push
-      - IN: reports_tag_push
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "prepami_repo")
