@@ -389,7 +389,11 @@ jobs:
       - IN: c7pytall_x8664_tag
       - IN: c7javall_x8664_tag
       - IN: c7cppall_x8664_tag
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
@@ -437,7 +441,11 @@ jobs:
     dependencyMode: strict
     triggerMode: parallel
     steps:
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - IN: prepami_repo
         switch: off

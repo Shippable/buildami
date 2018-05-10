@@ -200,7 +200,11 @@ jobs:
       - IN: w2k16_x8664_tag
       - IN: w2k16dotnetcore_x8664_tag
       - IN: w2k16aspnetcore_x8664_tag
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
@@ -247,7 +251,11 @@ jobs:
     dependencyMode: strict
     triggerMode: parallel
     steps:
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
@@ -329,7 +337,11 @@ jobs:
       - IN: admiralami_params
         switch: off
       - IN: genexec_tag_push
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: ship_ecr_x86_64_Ubuntu_tag_push
       - TASK:
           script:
@@ -442,7 +454,11 @@ jobs:
       - IN: u16ruball_x8664_tag
       - IN: u16phpall_x8664_tag
       - IN: u16microbase_x8664_tag
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
@@ -476,7 +492,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -500,7 +520,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -524,7 +548,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -548,7 +576,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -572,7 +604,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -596,7 +632,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -620,7 +660,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -644,7 +688,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -668,7 +716,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -692,7 +744,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -716,7 +772,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -740,7 +800,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -829,7 +893,11 @@ jobs:
       - IN: u16ruball_x8664_tag
       - IN: u16phpall_x8664_tag
       - IN: u16microbase_x8664_tag
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
@@ -863,7 +931,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -955,7 +1027,11 @@ jobs:
       - IN: w2k16_x8664_tag
       - IN: w2k16dotnetcore_x8664_tag
       - IN: w2k16aspnetcore_x8664_tag
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
@@ -1002,7 +1078,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
@@ -1083,7 +1163,11 @@ jobs:
       - IN: c7pytall_x8664_tag
       - IN: c7javall_x8664_tag
       - IN: c7cppall_x8664_tag
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - IN: prepami_repo
         switch: off
@@ -1118,7 +1202,11 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: gh_ship_repos_tag_push
+      - IN: execTemplates_repo_tag
+      - IN: node_repo_tag
+      - IN: cexec_repo_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
       - IN: reports_tag_push
       - TASK:
           script:
