@@ -1238,3 +1238,499 @@ jobs:
     on_failure:
       script:
         - cat output.txt
+
+  - name: baseami_prep
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: ami_bits_access_cli
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: u16cppall_dd_img
+      - IN: u16phpall_dd_img
+      - IN: u16ruball_dd_img
+      - IN: u16scaall_dd_img
+      - IN: u16golall_dd_img
+      - IN: u16cloall_dd_img
+      - IN: u16pytall_dd_img
+      - IN: u16nodall_dd_img
+      - IN: u16javall_dd_img
+      - IN: u14nodall_dd_img
+      - IN: u14pytall_dd_img
+      - IN: u14cloall_dd_img
+      - IN: u14golall_dd_img
+      - IN: u14scaall_dd_img
+      - IN: u14ruball_dd_img
+      - IN: u14phpall_dd_img
+      - IN: u14cppall_dd_img
+      - IN: u14javall_dd_img
+      - IN: node_file_pack
+      - IN: cexec_file_pack
+      - IN: u14reqProc_x8664_build
+      - IN: ami_reqKick_repo
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd base
+            - ./basePack.sh baseami_prep ami_bits_access_cli
+            - popd
+    on_failure:
+      - script: cat IN/prepami_repo/gitRepo/base/output.txt #TODO change to standard syntax
+
+  - name: baseami_patch
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: ami_bits_access_cli
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: cexec_file_pack
+      - IN: node_file_pack
+      - IN: u14reqProc_x8664_build
+      - IN: ami_reqKick_repo
+      - IN: baseami_prep
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd basePatch
+            - ./basePatchPack.sh baseami_patch ami_bits_access_cli baseami_prep
+            - popd
+    on_failure:
+      - script: cat IN/prepami_repo/gitRepo/basePatch/output.txt #TODO change to standard syntax
+
+  - name: finalami_prep
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u14_x8664_tag
+      - IN: u14all_x8664_tag
+      - IN: u14nodall_x8664_tag
+      - IN: u14pytall_x8664_tag
+      - IN: u14javall_x8664_tag
+      - IN: u14cppall_x8664_tag
+      - IN: u14cloall_x8664_tag
+      - IN: u14golall_x8664_tag
+      - IN: u14scaall_x8664_tag
+      - IN: u14ruball_x8664_tag
+      - IN: u14phpall_x8664_tag
+      - IN: u14microbase_x8664_tag
+      - IN: u16_x8664_tag
+      - IN: u16all_x8664_tag
+      - IN: u16nodall_x8664_tag
+      - IN: u16pytall_x8664_tag
+      - IN: u16javall_x8664_tag
+      - IN: u16cppall_x8664_tag
+      - IN: u16cloall_x8664_tag
+      - IN: u16golall_x8664_tag
+      - IN: u16scaall_x8664_tag
+      - IN: u16ruball_x8664_tag
+      - IN: u16phpall_x8664_tag
+      - IN: u16microbase_x8664_tag
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - IN: prepami_repo
+        switch: off
+      - IN: baseami_patch
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPack.sh finalami_prep prod_release baseami_patch ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: stable_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh stable_update prod_release ami-4ae41a5c stable ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: unstable_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh unstable_update prod_release ami-90fd0286 unstable ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v532_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v532_update prod_release ami-3b972d2d v532 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v541_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v541_update prod_release ami-90813b86 v541 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v551_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v551_update prod_release ami-4b36535d v551 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v561_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v561_update prod_release ami-c0a5f5d6 v561 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v573_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v573_update prod_release ami-b9cfdeaf v573 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v582_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v582_update prod_release ami-f9d6e782 v582 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v5104_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v5104_update prod_release ami-312b8d4b v5104 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v614_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v614_update prod_release ami-874d4bfd v614 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v624_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v624_update prod_release ami-32d5274f v624 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
+
+  - name: v634_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: prepami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "prepami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v634_update prod_release ami-f156f78c v634 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/prepami_repo/gitRepo/exec/output.txt
