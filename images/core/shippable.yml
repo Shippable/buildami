@@ -1,0 +1,526 @@
+resources:
+  - name: redis_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/redis"
+      branch: master
+
+  - name: redis_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/redis"
+      versionName: master
+
+  - name: postgres_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/postgres"
+      branch: master
+
+  - name: postgres_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/postgres"
+      versionName: master
+
+  - name: rabbitmq_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/rabbitmq"
+      branch: master
+
+  - name: rabbitmq_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/rabbitmq"
+      versionName: master
+
+  - name: gitlab_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/gitlab"
+      branch: master
+
+  - name: gitlab_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/gitlab"
+      versionName: master
+
+  - name: vault_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/vault"
+      branch: master
+
+  - name: vault_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/vault"
+      versionName: master
+
+jobs:
+  - name: vault_dd_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: vault_dd_repo
+      - TASK:
+          name: vault_build
+          runtime:
+            options:
+              env:
+                - IMG_OUT: "vault_dd_img"
+                - RES_REPO: "vault_dd_repo"
+                - REL_VER: "master"
+          script:
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - docker build -t=$IMG_NAME:$REL_VER --pull --no-cache .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
+      - OUT: vault_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: gitlab_dd_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: gitlab_dd_repo
+      - TASK:
+          name: gitlab_build
+          runtime:
+            options:
+              env:
+                - IMG_OUT: "gitlab_dd_img"
+                - RES_REPO: "gitlab_dd_repo"
+                - REL_VER: "master"
+          script:
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - docker build -t=$IMG_NAME:$REL_VER --pull --no-cache .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
+      - OUT: gitlab_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: rabbitmq_dd_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: rabbitmq_dd_repo
+      - TASK:
+          name: rabbitmq_build
+          runtime:
+            options:
+              env:
+                - IMG_OUT: "rabbitmq_dd_img"
+                - RES_REPO: "rabbitmq_dd_repo"
+                - REL_VER: "master"
+          script:
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - docker build -t=$IMG_NAME:$REL_VER --pull --no-cache .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
+      - OUT: rabbitmq_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: postgres_dd_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: postgres_dd_repo
+      - TASK:
+          name: postgres_build
+          runtime:
+            options:
+              env:
+                - IMG_OUT: "postgres_dd_img"
+                - RES_REPO: "postgres_dd_repo"
+                - REL_VER: "master"
+          script:
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - docker build -t=$IMG_NAME:$REL_VER --pull --no-cache .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
+      - OUT: postgres_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: redis_dd_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: redis_dd_repo
+      - TASK:
+          name: redis_build
+          runtime:
+            options:
+              env:
+                - IMG_OUT: "redis_dd_img"
+                - RES_REPO: "redis_dd_repo"
+                - REL_VER: "master"
+          script:
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - docker build -t=$IMG_NAME:$REL_VER --pull --no-cache .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
+      - OUT: redis_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: redis_dd_tag
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prod_release
+      - IN: redis_dd_repo
+        switch: off
+      - IN: redis_dd_img
+        switch: off
+      - IN: shipit_gh_ssh
+        switch: off
+      - IN: shipit_bits_access_cli
+        switch: off
+        scopes:
+          - ecr
+      - TASK:
+          name: redis_tag
+          runtime:
+            options:
+              env:
+                - RES_VER: "prod_release"
+                - RES_IMG: "redis_dd_img"
+                - RES_REPO: "redis_dd_repo"
+                - GIT_PATH: "git@github.com:dry-dock/redis.git"
+          script:
+            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+            - |
+               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+            - |
+               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+                 chmod 600 gh_ssh.key
+                 ssh-add gh_ssh.key
+               popd
+            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+               docker push "$IMG_NAME:$REL_VER"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+               docker push "$IMG_NAME:latest"
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - |
+               git remote add up $GIT_PATH
+               git remote -v
+               git checkout master
+            - |
+               git pull --tags
+               if git tag -d $REL_VER; then
+                 git push --delete up $REL_VER
+               fi
+            - |
+               git checkout $REPO_COMMIT
+               git tag $REL_VER
+               git push up $REL_VER
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+
+  - name: vault_dd_tag
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prod_release
+      - IN: vault_dd_repo
+        switch: off
+      - IN: vault_dd_img
+        switch: off
+      - IN: shipit_gh_ssh
+        switch: off
+      - IN: shipit_bits_access_cli
+        switch: off
+        scopes:
+          - ecr
+      - TASK:
+          name: vault_tag
+          runtime:
+            options:
+              env:
+                - RES_VER: "prod_release"
+                - RES_IMG: "vault_dd_img"
+                - RES_REPO: "vault_dd_repo"
+                - GIT_PATH: "git@github.com:dry-dock/vault.git"
+          script:
+            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+            - |
+               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+            - |
+               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+                 chmod 600 gh_ssh.key
+                 ssh-add gh_ssh.key
+               popd
+            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+               docker push "$IMG_NAME:$REL_VER"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+               docker push "$IMG_NAME:latest"
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - |
+               git remote add up $GIT_PATH
+               git remote -v
+               git checkout master
+            - |
+               git pull --tags
+               if git tag -d $REL_VER; then
+                 git push --delete up $REL_VER
+               fi
+            - |
+               git checkout $REPO_COMMIT
+               git tag $REL_VER
+               git push up $REL_VER
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+
+  - name: rabbitmq_dd_tag
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prod_release
+      - IN: rabbitmq_dd_repo
+        switch: off
+      - IN: rabbitmq_dd_img
+        switch: off
+      - IN: shipit_gh_ssh
+        switch: off
+      - IN: shipit_bits_access_cli
+        switch: off
+        scopes:
+          - ecr
+      - TASK:
+          name: rabbitmq_tag
+          runtime:
+            options:
+              env:
+                - RES_VER: "prod_release"
+                - RES_IMG: "rabbitmq_dd_img"
+                - RES_REPO: "rabbitmq_dd_repo"
+                - GIT_PATH: "git@github.com:dry-dock/rabbitmq.git"
+          script:
+            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+            - |
+               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+            - |
+               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+                 chmod 600 gh_ssh.key
+                 ssh-add gh_ssh.key
+               popd
+            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+               docker push "$IMG_NAME:$REL_VER"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+               docker push "$IMG_NAME:latest"
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - |
+               git remote add up $GIT_PATH
+               git remote -v
+               git checkout master
+            - |
+               git pull --tags
+               if git tag -d $REL_VER; then
+                 git push --delete up $REL_VER
+               fi
+            - |
+               git checkout $REPO_COMMIT
+               git tag $REL_VER
+               git push up $REL_VER
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+
+  - name: gitlab_dd_tag
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prod_release
+      - IN: gitlab_dd_repo
+        switch: off
+      - IN: gitlab_dd_img
+        switch: off
+      - IN: shipit_gh_ssh
+        switch: off
+      - IN: shipit_bits_access_cli
+        switch: off
+        scopes:
+          - ecr
+      - TASK:
+          name: gitlab_tag
+          runtime:
+            options:
+              env:
+                - RES_VER: "prod_release"
+                - RES_IMG: "gitlab_dd_img"
+                - RES_REPO: "gitlab_dd_repo"
+                - GIT_PATH: "git@github.com:dry-dock/gitlab.git"
+          script:
+            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+            - |
+               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+            - |
+               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+                 chmod 600 gh_ssh.key
+                 ssh-add gh_ssh.key
+               popd
+            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+               docker push "$IMG_NAME:$REL_VER"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+               docker push "$IMG_NAME:latest"
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - |
+               git remote add up $GIT_PATH
+               git remote -v
+               git checkout master
+            - |
+               git pull --tags
+               if git tag -d $REL_VER; then
+                 git push --delete up $REL_VER
+               fi
+            - |
+               git checkout $REPO_COMMIT
+               git tag $REL_VER
+               git push up $REL_VER
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+
+  - name: postgres_dd_tag
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prod_release
+      - IN: postgres_dd_repo
+        switch: off
+      - IN: postgres_dd_img
+        switch: off
+      - IN: shipit_gh_ssh
+        switch: off
+      - IN: shipit_bits_access_cli
+        switch: off
+        scopes:
+          - ecr
+      - TASK:
+          name: postgres_tag
+          runtime:
+            options:
+              env:
+                - RES_VER: "prod_release"
+                - RES_IMG: "postgres_dd_img"
+                - RES_REPO: "postgres_dd_repo"
+                - GIT_PATH: "git@github.com:dry-dock/postgres.git"
+          script:
+            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+            - |
+               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+            - |
+               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+                 chmod 600 gh_ssh.key
+                 ssh-add gh_ssh.key
+               popd
+            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+               docker push "$IMG_NAME:$REL_VER"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+               docker push "$IMG_NAME:latest"
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - |
+               git remote add up $GIT_PATH
+               git remote -v
+               git checkout master
+            - |
+               git pull --tags
+               if git tag -d $REL_VER; then
+                 git push --delete up $REL_VER
+               fi
+            - |
+               git checkout $REPO_COMMIT
+               git tag $REL_VER
+               git push up $REL_VER
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
