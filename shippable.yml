@@ -140,7 +140,7 @@ jobs:
     steps:
       - IN: w2k16_x86_64_gcp_img_prep
       - IN: node_sh_repo
-      - IN: cexec_sh_repo1
+      - IN: cexec_file_pack
       - IN: w2k16reqProc_x8664_build
       - IN: ami_reqKick_repo
       - IN: prepami_repo
@@ -391,7 +391,7 @@ jobs:
       - IN: u14cppall_dd_img
       - IN: u14javall_dd_img
       - IN: node_sh_repo
-      - IN: cexec_sh_repo1
+      - IN: cexec_file_pack
       - IN: u14reqProc_x8664_build
       - IN: ami_reqKick_repo
       - TASK:
@@ -414,7 +414,7 @@ jobs:
         switch: off
       - IN: baseami_params
         switch: off
-      - IN: cexec_sh_repo1
+      - IN: cexec_file_pack
       - IN: node_sh_repo
       - IN: u14reqProc_x8664_build
       - IN: ami_reqKick_repo
@@ -881,7 +881,7 @@ jobs:
       - IN: u16pytall_dd_img
       - IN: u16nodall_dd_img
       - IN: node_sh_repo
-      - IN: cexec_sh_repo1
+      - IN: cexec_file_pack
       - IN: u16reqProc_x8664_build
       - IN: ami_reqKick_repo
       - TASK:
@@ -904,7 +904,7 @@ jobs:
         switch: off
       - IN: u16baseami_params
         switch: off
-      - IN: cexec_sh_repo1
+      - IN: cexec_file_pack
       - IN: node_sh_repo
       - IN: u16reqProc_x8664_build
       - IN: ami_reqKick_repo
@@ -1041,7 +1041,7 @@ jobs:
         switch: off
       - IN: windowsbaseami_winrm_keys
         switch: off
-      - IN: cexec_sh_repo1
+      - IN: cexec_file_pack
       - IN: node_sh_repo
       - IN: w2k16reqProc_x8664_build
       - IN: ami_reqKick_repo
@@ -1166,7 +1166,7 @@ jobs:
       - IN: c7pytall_dd_img
       - IN: c7javall_dd_img
       - IN: node_sh_repo
-      - IN: cexec_sh_repo1
+      - IN: cexec_file_pack
       - IN: u16reqProc_x8664_build
       - IN: ami_reqKick_repo
       - TASK:
@@ -1192,7 +1192,7 @@ jobs:
         switch: off
       - IN: c7baseami_params
         switch: off
-      - IN: cexec_sh_repo1
+      - IN: cexec_file_pack
       - IN: node_sh_repo
       - IN: u16reqProc_x8664_build
       - IN: ami_reqKick_repo
