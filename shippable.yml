@@ -330,12 +330,12 @@ jobs:
         switch: off
       - IN: genExec_dd_tag
       - IN: genExec_sh_tag
-      - IN: execTemplates_repo_tag
+#      - IN: execTemplates_repo_tag
       - IN: node_repo_file_tag
-      - IN: cexec_repo_tag
+#      - IN: cexec_repo_tag
       - IN: reqExec_repo_tag
       - IN: reqProc_repo_tag
-      - IN: reqKick_repo_tag
+#      - IN: reqKick_repo_tag
       - IN: redis_dd_tag
       - IN: vault_dd_tag
       - IN: rabbitmq_dd_tag
