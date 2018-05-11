@@ -561,7 +561,7 @@ jobs:
     dependencyMode: strict
     steps:
       - IN: u16_x86_64_gcp_img_prep
-      - IN: node_sh_repo
+      - IN: node_file_pack
       - IN: cexec_file_pack
       - IN: u16reqProc_x8664_build
       - IN: prepami_repo
