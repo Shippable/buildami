@@ -1,4 +1,18 @@
 resources:
+  - name: u16microbase_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    versionTemplate:
+      sourceName: "dry-dock/u16microbase"
+      branch: master
+
+  - name: u16microbase_dd_img
+    type: image
+    integration: shipDH
+    versionTemplate:
+      sourceName: "drydock/u16microbase"
+      versionName: master
+
   - name: u16baseami_params
     type: params
     version:
@@ -175,6 +189,99 @@ resources:
       versionName: master
 
 jobs:
+  - name: u16microbase_x8664_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: u16microbase_dd_repo
+      - IN: u16_dd_img
+      - TASK:
+          name: u16microbase_build
+          runtime:
+            options:
+              env:
+                - IMG_BASE: "u16_dd_img"
+                - IMG_OUT: "u16microbase_dd_img"
+                - RES_REPO: "u16microbase_dd_repo"
+          script:
+            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
+            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
+            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
+            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - docker build -t=$IMG_NAME:$REL_VER --pull --no-cache .
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker push $IMG_NAME:$REL_VER
+      - OUT: u16microbase_dd_img
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+
+  - name: u16microbase_x8664_tag
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prod_release
+      - IN: u16microbase_dd_repo
+        switch: off
+      - IN: u16microbase_dd_img
+        switch: off
+      - IN: shipit_gh_ssh
+        switch: off
+      - TASK:
+          name: u16microbase_tag
+          runtime:
+            options:
+              env:
+                - RES_VER: "prod_release"
+                - RES_IMG: "u16microbase_dd_img"
+                - RES_REPO: "u16microbase_dd_repo"
+                - GIT_PATH: "git@github.com:dry-dock/u16microbase.git"
+          script:
+            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+            - |
+               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+            - |
+               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+                 chmod 600 gh_ssh.key
+                 ssh-add gh_ssh.key
+               popd
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+               docker push "$IMG_NAME:$REL_VER"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+               docker push "$IMG_NAME:latest"
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - |
+               git remote add up $GIT_PATH
+               git remote -v
+               git checkout master
+            - |
+               git pull --tags
+               if git tag -d $REL_VER; then
+                 git push --delete up $REL_VER
+               fi
+            - |
+               git checkout $REPO_COMMIT
+               git tag $REL_VER
+               git push up $REL_VER
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+
   - name: u16_x8664_build
     type: runSh
     triggerMode: parallel
