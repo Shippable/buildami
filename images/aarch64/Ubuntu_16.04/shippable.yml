@@ -159,9 +159,9 @@ jobs:
     dependencyMode: strict
     steps:
       - IN: prod_release
-      - IN: u16microbase_dd_repo
+      - IN: u16microbase_aarch64_dd_repo
         switch: off
-      - IN: u16microbase_dd_img
+      - IN: u16microbase_aarch64_dd_img
         switch: off
       - IN: shipit_gh_ssh
         switch: off
@@ -171,8 +171,8 @@ jobs:
             options:
               env:
                 - RES_VER: "prod_release"
-                - RES_IMG: "u16microbase_dd_img"
-                - RES_REPO: "u16microbase_dd_repo"
+                - RES_IMG: "u16microbase_aarch64_dd_img"
+                - RES_REPO: "u16microbase_aarch64_dd_repo"
                 - GIT_PATH: "git@github.com:dry-dock/aarch64_u16microbase.git"
           script:
             - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
