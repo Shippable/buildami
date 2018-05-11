@@ -1,4 +1,14 @@
 resources:
+  - name: u16baseami_params
+    type: params
+    version:
+      params:
+        SOURCE_AMI: "ami-66506c1c"
+        VPC_ID: "vpc-266f3241"
+        SUBNET_ID: "subnet-6df12f24"
+        SECURITY_GROUP_ID: "sg-f634518c"
+        REGION: "us-east-1"
+
   - name: u16_dd_repo
     type: gitRepo
     integration: avinci_gh

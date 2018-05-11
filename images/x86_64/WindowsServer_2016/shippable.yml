@@ -1,4 +1,15 @@
 resources:
+  - name: windowsbaseami_params
+    type: params
+    version:
+      params:
+        SOURCE_AMI: "ami-603b1c1a"
+        REGION: "us-east-1"
+
+  - name: windowsbaseami_winrm_keys
+    type: integration
+    integration: winrm_creds
+
   - name: w2k16_dd_repo
     type: gitRepo
     integration: avinci_gh

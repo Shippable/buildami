@@ -33,26 +33,6 @@ resources:
     versionTemplate:
       region: "us-west1-a"
 
-  - name: baseami_params
-    type: params
-    version:
-      params:
-        SOURCE_AMI: "ami-772aa961"
-        VPC_ID: "vpc-266f3241"
-        SUBNET_ID: "subnet-6df12f24"
-        SECURITY_GROUP_ID: "sg-f634518c"
-        REGION: "us-east-1"
-
-  - name: u16baseami_params
-    type: params
-    version:
-      params:
-        SOURCE_AMI: "ami-66506c1c"
-        VPC_ID: "vpc-266f3241"
-        SUBNET_ID: "subnet-6df12f24"
-        SECURITY_GROUP_ID: "sg-f634518c"
-        REGION: "us-east-1"
-
   - name: admiralami_params
     type: params
     version:
@@ -62,27 +42,6 @@ resources:
         SUBNET_ID: "subnet-42bfef04"
         SECURITY_GROUP_ID: "sg-9df159f8"
         REGION: "us-east-1"
-
-  - name: c7baseami_params
-    type: params
-    version:
-      params:
-        SOURCE_AMI: "ami-ae7bfdb8"
-        VPC_ID: "vpc-266f3241"
-        SUBNET_ID: "subnet-6df12f24"
-        SECURITY_GROUP_ID: "sg-f634518c"
-        REGION: "us-east-1"
-
-  - name: windowsbaseami_params
-    type: params
-    version:
-      params:
-        SOURCE_AMI: "ami-603b1c1a"
-        REGION: "us-east-1"
-
-  - name: windowsbaseami_winrm_keys
-    type: integration
-    integration: winrm_creds
 
 jobs:
   - name: trig_gcp_img_prep
