@@ -513,6 +513,680 @@ jobs:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
         - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+#
+#  - name: u16_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16_dd_repo
+#        switch: off
+#      - IN: u16_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16_dd_img"
+#                - RES_REPO: "u16_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16all_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16all_dd_repo
+#        switch: off
+#      - IN: u16all_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16all_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16all_dd_img"
+#                - RES_REPO: "u16all_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16all.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16nodall_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16nodall_dd_repo
+#        switch: off
+#      - IN: u16nodall_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16nodall_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16nodall_dd_img"
+#                - RES_REPO: "u16nodall_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16nodall.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16pytall_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16pytall_dd_repo
+#        switch: off
+#      - IN: u16pytall_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16pytall_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16pytall_dd_img"
+#                - RES_REPO: "u16pytall_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16pytall.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16javall_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16javall_dd_repo
+#        switch: off
+#      - IN: u16javall_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16javall_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16javall_dd_img"
+#                - RES_REPO: "u16javall_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16javall.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16cppall_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16cppall_dd_repo
+#        switch: off
+#      - IN: u16cppall_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16cppall_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16cppall_dd_img"
+#                - RES_REPO: "u16cppall_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16cppall.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16cloall_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16cloall_dd_repo
+#        switch: off
+#      - IN: u16cloall_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16cloall_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16cloall_dd_img"
+#                - RES_REPO: "u16cloall_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16cloall.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16golall_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16golall_dd_repo
+#        switch: off
+#      - IN: u16golall_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16golall_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16golall_dd_img"
+#                - RES_REPO: "u16golall_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16golall.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16scaall_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16scaall_dd_repo
+#        switch: off
+#      - IN: u16scaall_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16scaall_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16scaall_dd_img"
+#                - RES_REPO: "u16scaall_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16scaall.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16ruball_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16ruball_dd_repo
+#        switch: off
+#      - IN: u16ruball_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16ruball_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16ruball_dd_img"
+#                - RES_REPO: "u16ruball_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16ruball.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+#  - name: u16phpall_x8664_tag
+#    type: runSh
+#    triggerMode: parallel
+#    dependencyMode: strict
+#    steps:
+#      - IN: prod_release
+#      - IN: u16phpall_dd_repo
+#        switch: off
+#      - IN: u16phpall_dd_img
+#        switch: off
+#      - IN: shipit_gh_ssh
+#        switch: off
+#      - TASK:
+#          name: u16phpall_tag
+#          runtime:
+#            options:
+#              env:
+#                - RES_VER: "prod_release"
+#                - RES_IMG: "u16phpall_dd_img"
+#                - RES_REPO: "u16phpall_dd_repo"
+#                - GIT_PATH: "git@github.com:dry-dock/u16phpall.git"
+#          script:
+#            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+#            - |
+#               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+#               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+#               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+#               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+#               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+#            - |
+#               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+#                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+#                 chmod 600 gh_ssh.key
+#                 ssh-add gh_ssh.key
+#               popd
+#            - docker login -u $DH_USR_NAME -p $DH_PASS
+#            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+#               docker push "$IMG_NAME:$REL_VER"
+#            - |
+#               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+#               docker push "$IMG_NAME:latest"
+#            - pushd $(shipctl get_resource_state "$RES_REPO")
+#            - |
+#               git remote add up $GIT_PATH
+#               git remote -v
+#               git checkout master
+#            - |
+#               git pull --tags
+#               if git tag -d $REL_VER; then
+#                 git push --delete up $REL_VER
+#               fi
+#            - |
+#               git checkout $REPO_COMMIT
+#               git tag $REL_VER
+#               git push up $REL_VER
+#    on_success:
+#      script:
+#        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+#
+
+
 
 ######################### GCP U16 Image ##################################
   - name: u16_x86_64_gcp_img_prep
@@ -615,30 +1289,30 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: u14_x8664_tag
-      - IN: u14all_x8664_tag
-      - IN: u14nodall_x8664_tag
-      - IN: u14pytall_x8664_tag
-      - IN: u14javall_x8664_tag
-      - IN: u14cppall_x8664_tag
-      - IN: u14cloall_x8664_tag
-      - IN: u14golall_x8664_tag
-      - IN: u14scaall_x8664_tag
-      - IN: u14ruball_x8664_tag
-      - IN: u14phpall_x8664_tag
-      - IN: u14microbase_x8664_tag
-      - IN: u16_x8664_tag
-      - IN: u16all_x8664_tag
-      - IN: u16nodall_x8664_tag
-      - IN: u16pytall_x8664_tag
-      - IN: u16javall_x8664_tag
-      - IN: u16cppall_x8664_tag
-      - IN: u16cloall_x8664_tag
-      - IN: u16golall_x8664_tag
-      - IN: u16scaall_x8664_tag
-      - IN: u16ruball_x8664_tag
-      - IN: u16phpall_x8664_tag
-      - IN: u16microbase_x8664_tag
+#      - IN: u14_x8664_tag
+#      - IN: u14all_x8664_tag
+#      - IN: u14nodall_x8664_tag
+#      - IN: u14pytall_x8664_tag
+#      - IN: u14javall_x8664_tag
+#      - IN: u14cppall_x8664_tag
+#      - IN: u14cloall_x8664_tag
+#      - IN: u14golall_x8664_tag
+#      - IN: u14scaall_x8664_tag
+#      - IN: u14ruball_x8664_tag
+#      - IN: u14phpall_x8664_tag
+#      - IN: u14microbase_x8664_tag
+#      - IN: u16_x8664_tag
+#      - IN: u16all_x8664_tag
+#      - IN: u16nodall_x8664_tag
+#      - IN: u16pytall_x8664_tag
+#      - IN: u16javall_x8664_tag
+#      - IN: u16cppall_x8664_tag
+#      - IN: u16cloall_x8664_tag
+#      - IN: u16golall_x8664_tag
+#      - IN: u16scaall_x8664_tag
+#      - IN: u16ruball_x8664_tag
+#      - IN: u16phpall_x8664_tag
+#      - IN: u16microbase_x8664_tag
       - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
@@ -805,18 +1479,18 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: u16_x8664_tag
-      - IN: u16all_x8664_tag
-      - IN: u16nodall_x8664_tag
-      - IN: u16pytall_x8664_tag
-      - IN: u16javall_x8664_tag
-      - IN: u16cppall_x8664_tag
-      - IN: u16cloall_x8664_tag
-      - IN: u16golall_x8664_tag
-      - IN: u16scaall_x8664_tag
-      - IN: u16ruball_x8664_tag
-      - IN: u16phpall_x8664_tag
-      - IN: u16microbase_x8664_tag
+#      - IN: u16_x8664_tag
+#      - IN: u16all_x8664_tag
+#      - IN: u16nodall_x8664_tag
+#      - IN: u16pytall_x8664_tag
+#      - IN: u16javall_x8664_tag
+#      - IN: u16cppall_x8664_tag
+#      - IN: u16cloall_x8664_tag
+#      - IN: u16golall_x8664_tag
+#      - IN: u16scaall_x8664_tag
+#      - IN: u16ruball_x8664_tag
+#      - IN: u16phpall_x8664_tag
+#      - IN: u16microbase_x8664_tag
       - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
