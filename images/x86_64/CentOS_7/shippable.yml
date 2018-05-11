@@ -389,7 +389,7 @@ jobs:
       - IN: c7pytall_x8664_tag
       - IN: c7javall_x8664_tag
       - IN: c7cppall_x8664_tag
-      - IN: execTemplates_repo_tag
+      #- IN: execTemplates_repo_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
       - IN: reqExec_repo_tag
@@ -444,7 +444,7 @@ jobs:
     dependencyMode: strict
     triggerMode: parallel
     steps:
-      - IN: execTemplates_repo_tag
+      #- IN: execTemplates_repo_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
       - IN: reqExec_repo_tag
