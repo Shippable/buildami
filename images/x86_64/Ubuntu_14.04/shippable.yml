@@ -1448,7 +1448,7 @@ jobs:
       - IN: u16scaall_x8664_tag
       - IN: u16ruball_x8664_tag
       - IN: u16phpall_x8664_tag
-#      - IN: u16microbase_x8664_tag
+      - IN: u16microbase_x8664_tag
       - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
@@ -2124,7 +2124,7 @@ jobs:
       - IN: u16scaall_x8664_tag
       - IN: u16ruball_x8664_tag
       - IN: u16phpall_x8664_tag
-#      - IN: u16microbase_x8664_tag
+      - IN: u16microbase_x8664_tag
       - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
