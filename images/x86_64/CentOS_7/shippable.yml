@@ -393,7 +393,7 @@ jobs:
       - IN: node_repo_file_tag
       - IN: cexec_repo_tag
       - IN: reqExec_repo_tag
-      #- IN: reqProc_repo_tag
+      - IN: reqProc_repo_tag
       - IN: c7_x86_64_rep_lib_tag
       - IN: u14_x86_64_rep_lib_tag
       - IN: u16_x86_64_rep_lib_tag
@@ -448,7 +448,7 @@ jobs:
       - IN: node_repo_file_tag
       - IN: cexec_repo_tag
       - IN: reqExec_repo_tag
-      #- IN: reqProc_repo_tag
+      - IN: reqProc_repo_tag
       - IN: c7_x86_64_rep_lib_tag
       - IN: u14_x86_64_rep_lib_tag
       - IN: u16_x86_64_rep_lib_tag
