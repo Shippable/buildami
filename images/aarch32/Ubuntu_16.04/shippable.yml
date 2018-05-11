@@ -46,3 +46,64 @@ jobs:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
         - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+  - name: u16_aarch32_tag
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    steps:
+      - IN: prod_release
+      - IN: u16_aarch32_dd_repo
+        switch: off
+      - IN: u16_aarch32_dd_img
+        switch: off
+      - IN: shipit_gh_ssh
+        switch: off
+      - TASK:
+          name: u16_tag
+          runtime:
+            options:
+              env:
+                - RES_VER: "prod_release"
+                - RES_IMG: "u16_aarch32_dd_img"
+                - RES_REPO: "u16_aarch32_dd_repo"
+                - GIT_PATH: "git@github.com:dry-dock/aarch32_u16.git"
+          script:
+            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
+            - |
+               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
+               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
+               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
+            - |
+               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
+                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
+                 chmod 600 gh_ssh.key
+                 ssh-add gh_ssh.key
+               popd
+            - docker login -u $DH_USR_NAME -p $DH_PASS
+            - docker pull "$IMG_NAME:$UP_IMG_TAG"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
+               docker push "$IMG_NAME:$REL_VER"
+            - |
+               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
+               docker push "$IMG_NAME:latest"
+            - pushd $(shipctl get_resource_state "$RES_REPO")
+            - |
+               git remote add up $GIT_PATH
+               git remote -v
+               git checkout master
+            - |
+               git pull --tags
+               if git tag -d $REL_VER; then
+                 git push --delete up $REL_VER
+               fi
+            - |
+               git checkout $REPO_COMMIT
+               git tag $REL_VER
+               git push up $REL_VER
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
