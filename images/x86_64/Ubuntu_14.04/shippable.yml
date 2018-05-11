@@ -592,7 +592,7 @@ jobs:
     steps:
       - IN: u14_x86_64_gcp_img_prep
       - IN: node_sh_repo
-      - IN: cexec_sh_repo
+      - IN: cexec_sh_repo1
       - IN: u14reqProc_x8664_build
       - IN: prepami_repo
         switch: off
