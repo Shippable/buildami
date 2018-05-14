@@ -42,13 +42,17 @@
       ]
     },
     {
+      "destination": "/tmp/node.tar.gz",
+      "source": "node.tar.gz",
+      "type": "file"
+    },
+    {
       "type": "shell",
       "script": "init.sh",
       "environment_vars": [
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
         "OS={{user `OS`}}",
-        "DOCKER_VER={{user `DOCKER_VER`}}",
-        "NODE_TARBALL_URL={{user `NODE_TARBALL_URL`}}"
+        "DOCKER_VER={{user `DOCKER_VER`}}"
       ],
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     },
