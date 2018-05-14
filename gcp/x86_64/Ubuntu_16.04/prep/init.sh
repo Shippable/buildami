@@ -2,21 +2,16 @@
 set -e
 set -o pipefail
 
-readonly NODE_ARCHITECTURE="x86_64"
-readonly NODE_OPERATING_SYSTEM="Ubuntu_16.04"
-readonly LEGACY_CI_CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
-readonly SHIPPABLE_RELEASE_VERSION="$REL_VER"
-readonly EXEC_IMAGE="drydock/u16reqproc:master"
-readonly REQKICK_DIR="/var/lib/shippable/reqKick"
+readonly NODE_ARCHITECTURE="$ARCHITECTURE"
+readonly NODE_OPERATING_SYSTEM="$OS"
+readonly REL_VER="$REL_VER"
+readonly NODE_TARBALL_URL="$S3_NODE_TARBALL_URL"
+readonly INIT_SCRIPT_NAME="Docker_$DOCKER_VER.sh"
+
 readonly NODE_SCRIPTS_LOCATION="/root/node"
 readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
-readonly INIT_SCRIPT_NAME="Docker_17.06.sh"
 readonly NODE_SCRIPTS_DOWNLOAD_LOCATION="/tmp/node.tar.gz"
-readonly NODE_TARBALL_URL="https://github.com/Shippable/node/archive/master.tar.gz"
-readonly REQKICK_DOWNLOAD_URL="https://github.com/Shippable/reqKick/archive/master.tar.gz"
-readonly CEXEC_DOWNLOAD_URL="https://github.com/Shippable/cexec/archive/master.tar.gz"
-readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$SHIPPABLE_RELEASE_VERSION/reports-$SHIPPABLE_RELEASE_VERSION-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
-readonly IS_SWAP_ENABLED=false
+readonly install_docker_only=true
 
 check_envs() {
   expected_envs=$1
@@ -66,14 +61,13 @@ __process_msg "adding dns settings to the node"
 exec_cmd "echo 'supersede domain-name-servers 8.8.8.8, 8.8.4.4;' >> /etc/dhcp/dhclient.conf"
 
 __process_msg "downloading node scripts tarball"
-exec_cmd "wget '$NODE_TARBALL_URL' -O $NODE_SCRIPTS_DOWNLOAD_LOCATION"
+exec_cmd "aws s3 cp $NODE_TARBALL_URL $NODE_SCRIPTS_DOWNLOAD_LOCATION"
 
 __process_msg "creating node scripts dir"
 exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
 
 __process_msg "extracting node scripts"
-exec_cmd "tar -xzvf '$NODE_SCRIPTS_DOWNLOAD_LOCATION' \
-  -C $NODE_SCRIPTS_LOCATION \
+exec_cmd "tar -xzvf '$NODE_SCRIPTS_DOWNLOAD_LOCATION' -C $NODE_SCRIPTS_LOCATION \
   --strip-components=1"
 
 __process_msg "Initializing node"

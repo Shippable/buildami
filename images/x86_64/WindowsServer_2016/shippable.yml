@@ -345,7 +345,7 @@ jobs:
     dependencyMode: strict
     steps:
       - IN: trig_gcp_img_prep
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: ship_bits_gcp
         switch: off
@@ -363,7 +363,7 @@ jobs:
                 - REL_VER: "master"
                 - WINRM_USERNAME: "packer_user"
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/prep
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/WindowsServer_2016/prep
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-w2k16-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
@@ -389,7 +389,7 @@ jobs:
       - IN: cexec_file_pack
       - IN: w2k16reqProc_x8664_build
       - IN: ami_reqKick_repo
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: ship_bits_gcp
         switch: off
@@ -405,7 +405,7 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - WINRM_USERNAME: "packer_user"
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/patch
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/WindowsServer_2016/patch
             - shipctl copy_file_from_resource_state "w2k16_x86_64_gcp_img_prep" "images.txt" .
             - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key w2k16_x86_64_gcp_img_prep IMAGE_FAM_NAME)
             - export REL_VER=$(shipctl get_resource_version_key w2k16_x86_64_gcp_img_prep REL_VER)
@@ -441,7 +441,7 @@ jobs:
       - IN: u14repLib_x8664_tag
       - IN: u16repLib_x8664_tag
       - IN: u16repLib_aarch64_tag
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: w2k16_x86_64_gcp_img_patch
         switch: off
@@ -461,7 +461,7 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - WINRM_USERNAME: "packer_user"
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/final
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/WindowsServer_2016/final
             - shipctl copy_file_from_resource_state "w2k16_x86_64_gcp_img_patch" "images.txt" .
             - export REL_VER=$(shipctl get_resource_version_key "prod_release" versionName)
             - export REL_VER_DASH=${REL_VER//./-}
@@ -495,7 +495,7 @@ jobs:
       - IN: u14repLib_x8664_tag
       - IN: u16repLib_x8664_tag
       - IN: u16repLib_aarch64_tag
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: prod_release
         switch: off
@@ -516,7 +516,7 @@ jobs:
                 - WINRM_USERNAME: "packer_user"
                 - IMG_VER: "v6.3.4"
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")/gcp/x86_64/WindowsServer_2016/final
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/WindowsServer_2016/final
             - shipctl copy_file_from_resource_state "w2k16_x86_64_gcp_img_final" "images.txt" .
             - export REL_VER=$(shipctl get_resource_version_name "prod_release")
             - export IMG_VER_DASH=${IMG_VER//./-}
@@ -538,7 +538,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: ami_bits_access_cli
         switch: off
@@ -552,14 +552,14 @@ jobs:
       - IN: w2k16reqProc_x8664_build
       - TASK:
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")
+            - pushd $(shipctl get_resource_state "buildami_repo")
             - cd windowsBase
             - sed -i "s/{{%WINRM_USERNAME%}}/$WINRM_USERNAME/g" ./bootstrap_win.txt
             - sed -i "s/{{%WINRM_PASSWORD%}}/$WINRM_PASSWORD/g" ./bootstrap_win.txt
             - ./basePack.sh windowsbaseami_prep ami_bits_access_cli
             - popd
     on_failure:
-      - script: pushd $(shipctl get_resource_state "prepami_repo")
+      - script: pushd $(shipctl get_resource_state "buildami_repo")
       - script: cd windowsBase
       - script: cat output.txt
       - script: popd
@@ -569,7 +569,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: ami_bits_access_cli
         switch: off
@@ -585,7 +585,7 @@ jobs:
       - TASK:
           name: patch_w16_aws_image
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")/windowsBasePatch
+            - pushd $(shipctl get_resource_state "buildami_repo")/windowsBasePatch
             - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
             - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
             - export AMI_ID=$(shipctl get_resource_version_key windowsbaseami_prep versionName)
@@ -620,7 +620,7 @@ jobs:
       - IN: u14repLib_x8664_tag
       - IN: u16repLib_x8664_tag
       - IN: u16repLib_aarch64_tag
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: ami_bits_access
         switch: off
@@ -634,14 +634,14 @@ jobs:
         switch: off
       - TASK:
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")
+            - pushd $(shipctl get_resource_state "buildami_repo")
             - cd windowsExec
             - sed -i "s/{{%WINRM_USERNAME%}}/$WINRM_USERNAME/g" ./bootstrap_win.txt
             - sed -i "s/{{%WINRM_PASSWORD%}}/$WINRM_PASSWORD/g" ./bootstrap_win.txt
             - ./execPack.sh windowsfinalami_prep prod_release windowsbaseami_patch ami_bits_access
             - popd
     on_failure:
-      - script: pushd $(shipctl get_resource_state "prepami_repo")
+      - script: pushd $(shipctl get_resource_state "buildami_repo")
       - script: cd windowsExec
       - script: cat output.txt
       - script: popd
@@ -651,7 +651,7 @@ jobs:
     dependencyMode: strict
     triggerMode: parallel
     steps:
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: windowsbaseami_params
         switch: off
@@ -676,9 +676,9 @@ jobs:
       - IN: u16repLib_aarch64_tag
       - TASK:
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")
+            - pushd $(shipctl get_resource_state "buildami_repo")
             - cd windowsExec
             - ./execPackUpdate.sh windows_v634_update prod_release ami-460cab3b v634 ami_bits_access
             - popd
     on_failure:
-      - script: cat /build/IN/prepami_repo/gitRepo/windowsExec/output.txt
+      - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt

@@ -1,5 +1,5 @@
 resources:
-  - name: prepami_repo
+  - name: buildami_repo
     type: gitRepo
     integration: avinci_gh
     pointer:
@@ -57,7 +57,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: ami_bits_access
         switch: off
@@ -67,7 +67,7 @@ jobs:
         switch: off
       - TASK:
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")
+            - pushd $(shipctl get_resource_state "buildami_repo")
             - cd admiral
             - ./admiralPack.sh baseadmiralami_prep ami_bits_access ami_prod_access
             - popd
@@ -80,7 +80,7 @@ jobs:
     dependencyMode: strict
     triggerMode: parallel
     steps:
-      - IN: prepami_repo
+      - IN: buildami_repo
         switch: off
       - IN: baseadmiralami_prep
         switch: off
@@ -112,12 +112,12 @@ jobs:
       - IN: nexec_sh_tag
       - TASK:
           script:
-            - pushd $(shipctl get_resource_state "prepami_repo")
+            - pushd $(shipctl get_resource_state "buildami_repo")
             - cd admiralPatch
             - ./admiralPatchPack.sh finaladmiralami_prep baseadmiralami_prep prod_release ami_bits_access ami_prod_access
             - popd
     on_success:
       - script: echo 'SUCCESS'
     on_failure:
-      - script: cat /build/IN/prepami_repo/gitRepo/admiralPatch/output.txt
+      - script: cat /build/IN/buildami_repo/gitRepo/admiralPatch/output.txt
 
