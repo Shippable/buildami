@@ -1452,7 +1452,7 @@ jobs:
       - IN: u16microbase_x8664_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
-      - IN: reqKick_repo_tag
+      - IN: reqKick_repo_file_tag
       - IN: u16reqProc_dd_tag
       - IN: u16repLib_x8664_tag
       - IN: u16reqProc_dd_img
@@ -1475,7 +1475,7 @@ jobs:
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
                 - REPORTS_RES: "u16repLib_x8664_tag"
-                - REQKICK_RES: "reqKick_repo_tag"
+                - REQKICK_RES: "reqKick_repo_file_tag"
                 - CEXEC_RES: "cexec_repo_file_tag"
                 - MACHINE_TYPE: "n1-standard-8"
                 - REGION: "us-east1"
