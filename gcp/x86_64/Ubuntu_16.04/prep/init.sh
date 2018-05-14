@@ -4,8 +4,7 @@ set -o pipefail
 
 readonly NODE_ARCHITECTURE="$ARCHITECTURE"
 readonly NODE_OPERATING_SYSTEM="$OS"
-readonly REL_VER="$REL_VER"
-readonly NODE_TARBALL_URL="$S3_NODE_TARBALL_URL"
+readonly NODE_TARBALL_URL="$NODE_TARBALL_URL"
 readonly INIT_SCRIPT_NAME="Docker_$DOCKER_VER.sh"
 
 readonly NODE_SCRIPTS_LOCATION="/root/node"
@@ -60,14 +59,8 @@ __process_error() {
 __process_msg "adding dns settings to the node"
 exec_cmd "echo 'supersede domain-name-servers 8.8.8.8, 8.8.4.4;' >> /etc/dhcp/dhclient.conf"
 
-__process_msg "installing pip"
-exec_cmd "apt-get install -q -y python-pip python-software-properties python-dev"
-
-__process_msg "installing awscli"
-exec_cmd "pip install -q awscli --upgrade"
-
 __process_msg "downloading node scripts tarball"
-exec_cmd "aws s3 cp $NODE_TARBALL_URL $NODE_SCRIPTS_DOWNLOAD_LOCATION"
+exec_cmd "wget '$NODE_TARBALL_URL' -O $NODE_SCRIPTS_DOWNLOAD_LOCATION"
 
 __process_msg "creating node scripts dir"
 exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
