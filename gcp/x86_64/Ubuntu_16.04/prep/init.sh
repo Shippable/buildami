@@ -5,7 +5,7 @@ set -o pipefail
 readonly NODE_ARCHITECTURE="$ARCHITECTURE"
 readonly NODE_OPERATING_SYSTEM="$OS"
 readonly INIT_SCRIPT_NAME="Docker_$DOCKER_VER.sh"
-readonly NODE_DOWNLOAD_PATH="$NODE_DOWNLOAD_PATH"
+readonly NODE_DOWNLOAD_URL="$NODE_DOWNLOAD_URL"
 
 readonly NODE_SCRIPTS_TMP_LOC="/tmp/node.tar.gz"
 readonly NODE_SCRIPTS_LOCATION="/root/node"
@@ -18,7 +18,7 @@ check_envs() {
     'ARCHITECTURE'
     'OS'
     'DOCKER_VER'
-    'NODE_DOWNLOAD_PATH'
+    'NODE_DOWNLOAD_URL'
   )
 
   for env in "${expected_envs[@]}"

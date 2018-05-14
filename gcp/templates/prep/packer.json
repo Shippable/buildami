@@ -12,7 +12,7 @@
     "ARCHITECTURE": "",
     "OS": "",
     "DOCKER_VER": "",
-    "NODE_DOWNLOAD_PATH": ""
+    "NODE_DOWNLOAD_URL": ""
   },
   "builders": [
     {
@@ -48,7 +48,7 @@
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
         "OS={{user `OS`}}",
         "DOCKER_VER={{user `DOCKER_VER`}}",
-        "NODE_DOWNLOAD_PATH={{user `NODE_DOWNLOAD_PATH`}}"
+        "NODE_DOWNLOAD_URL={{user `NODE_DOWNLOAD_URL`}}"
       ],
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     },

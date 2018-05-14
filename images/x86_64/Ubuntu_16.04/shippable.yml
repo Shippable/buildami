@@ -1335,11 +1335,11 @@ jobs:
                 - OS: "Ubuntu_16.04"
                 - DOCKER_VER: "17.06"
           script:
+            - TAR_FILENAME=$(shipctl get_resource_version_key "node_file_pack" "TAR_FILENAME")
+            - WEB_URL=$(shipctl get_resource_version_key "node_file_pack" "WEB_URL")
+            - export NODE_DOWNLOAD_URL="$WEB_URL/$TAR_FILENAME"
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-u16-x86-64"
-            - S3_FILENAME=$(shipctl get_resource_version_key "node_file_pack" "S3_FILENAME")
-            - HTTP_ARTIFACTS_BUCKET=$(shipctl get_resource_version_key "node_file_pack" "HTTP_ARTIFACTS_BUCKET")
-            - NODE_DOWNLOAD_PATH="$HTTP_ARTIFACTS_BUCKET/$S3_FILENAME"
             - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/prep
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - cp -R ../../../templates/prep/* .
@@ -1349,7 +1349,7 @@ jobs:
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER" "NODE_DOWNLOAD_PATH=$NODE_DOWNLOAD_PATH"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER" "NODE_WEB_URL=$WEB_URL" "NODE_TAR_FILENAME=$TAR_FILENAME"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
