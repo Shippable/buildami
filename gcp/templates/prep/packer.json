@@ -11,8 +11,7 @@
     "FAM_NAME": "",
     "ARCHITECTURE": "",
     "OS": "",
-    "DOCKER_VER": "",
-    "NODE_TARBALL_URL": ""
+    "DOCKER_VER": ""
   },
   "builders": [
     {

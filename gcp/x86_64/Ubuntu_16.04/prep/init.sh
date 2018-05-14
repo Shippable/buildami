@@ -58,7 +58,7 @@ __process_error() {
   local reset_text='\033[0m'
 
   echo -e "$bold_red_text|___ $message$reset_text"
-  echo -e "     $error"
+  echo -e "$error"
 }
 
 __process_msg "checking environment vars"
