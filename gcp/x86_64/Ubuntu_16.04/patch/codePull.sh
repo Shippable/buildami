@@ -1,4 +1,7 @@
 #!/bin/bash -e
+set -e
+set -o pipefail
+
 readonly NODE_ARCHITECTURE="$ARCHITECTURE"
 readonly NODE_OPERATING_SYSTEM="$OS"
 readonly INIT_SCRIPT_NAME="Docker_$DOCKER_VER.sh"

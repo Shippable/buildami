@@ -9,7 +9,13 @@
     "REL_VER": "",
     "IMG_VER": "",
     "SOURCE_IMAGE_FAMILY": "var",
-    "FAM_NAME": ""
+    "ARCHITECTURE": "",
+    "OS": "",
+    "NODE_DOWNLOAD_URL": "",
+    "REQPROC_IMAGE": "",
+    "REQKICK_DOWNLOAD_URL": "",
+    "CEXEC_DOWNLOAD_URL": "",
+    "REPORTS_DOWNLOAD_URL": ""
   },
   "builders": [
     {
@@ -33,7 +39,7 @@
     {
       "type": "shell",
       "inline": [
-        "sleep 30",
+        "sleep 60",
         "uname -a",
         "uptime"
       ]
@@ -45,10 +51,24 @@
     },
     {
       "type": "shell",
-      "script": "codePull.sh",
+      "script": "imagesPull.sh",
+      "environment_vars": [
+        "REL_VER={{user `REL_VER`}}"
+      ]
+    },
+    {
+      "type": "shell",
+      "script": "codeRefresh.sh",
       "environment_vars": [
         "REL_VER={{user `REL_VER`}}",
-        "IMG_VER={{user `IMG_VER`}}"
+        "IMG_VER={{user `IMG_VER`}}",
+        "ARCHITECTURE={{user `ARCHITECTURE`}}",
+        "OS={{user `OS`}}",
+        "NODE_DOWNLOAD_URL={{user `NODE_DOWNLOAD_URL`}}",
+        "REQPROC_IMAGE={{user `REQPROC_IMAGE`}}",
+        "REQKICK_DOWNLOAD_URL={{user `REQKICK_DOWNLOAD_URL`}}",
+        "CEXEC_DOWNLOAD_URL={{user `CEXEC_DOWNLOAD_URL`}}",
+        "REPORTS_DOWNLOAD_URL={{user `REPORTS_DOWNLOAD_URL`}}"
       ],
       "execute_command": "echo 'packer' | sudo -S env {{ .Vars }} {{ .Path }}"
     }
