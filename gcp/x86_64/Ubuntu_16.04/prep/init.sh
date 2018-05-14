@@ -10,7 +10,7 @@ readonly NODE_SCRIPTS_TMP_LOC="/tmp/node.tar.gz"
 readonly NODE_SCRIPTS_LOCATION="/root/node"
 readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
 
-readonly install_docker_only=true
+export install_docker_only=true
 
 check_envs() {
     local expected_envs=(
@@ -74,4 +74,9 @@ __process_msg "extracting node scripts"
 exec_cmd "tar -xzvf '$NODE_SCRIPTS_TMP_LOC' -C $NODE_SCRIPTS_LOCATION --strip-components=1"
 
 __process_msg "Initializing node"
+echo "NODE_ARCHITECTURE=$NODE_ARCHITECTURE"
+echo "NODE_OPERATING_SYSTEM=$NODE_OPERATING_SYSTEM"
+echo "NODE_SCRIPTS_LOCATION=$NODE_SCRIPTS_LOCATION"
+echo "NODE_SHIPCTL_LOCATION=$NODE_SHIPCTL_LOCATION"
+echo "install_docker_only=$install_docker_only"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
