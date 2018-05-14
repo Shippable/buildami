@@ -1316,6 +1316,8 @@ jobs:
         switch: off
       - IN: ship_bits_gcp
         switch: off
+      - IN: shipit_bits_access_cli
+        switch: off
       - TASK:
           name: prep_u16_gce_image
           runtime:
