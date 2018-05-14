@@ -9,11 +9,11 @@
     "SOURCE_IMAGE_FAMILY": "var",
     "FAM_NAME": "",
     "ARCHITECTURE": "",
-    "OS": "",,
-    "DOCKER_VER": "",,
-    "REQPROC_IMAGE": "",,
-    "REQKICK_DOWNLOAD_URL": "",,
-    "CEXEC_DOWNLOAD_URL": "",,
+    "OS": "",
+    "DOCKER_VER": "",
+    "REQPROC_IMAGE": "",
+    "REQKICK_DOWNLOAD_URL": "",
+    "CEXEC_DOWNLOAD_URL": "",
     "REPORTS_DOWNLOAD_URL": ""
   },
   "builders": [
