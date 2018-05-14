@@ -60,6 +60,12 @@ __process_error() {
 __process_msg "adding dns settings to the node"
 exec_cmd "echo 'supersede domain-name-servers 8.8.8.8, 8.8.4.4;' >> /etc/dhcp/dhclient.conf"
 
+__process_msg "installing pip"
+exec_cmd "apt-get install -q -y python-pip python-software-properties python-dev"
+
+__process_msg "installing awscli"
+exec_cmd "pip install -q awscli --upgrade"
+
 __process_msg "downloading node scripts tarball"
 exec_cmd "aws s3 cp $NODE_TARBALL_URL $NODE_SCRIPTS_DOWNLOAD_LOCATION"
 
