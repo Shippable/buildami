@@ -1,72 +1,71 @@
 #!/bin/bash -e
+readonly NODE_ARCHITECTURE="$ARCHITECTURE"
+readonly NODE_OPERATING_SYSTEM="$OS"
+readonly INIT_SCRIPT_NAME="Docker_$DOCKER_VER.sh"
+readonly EXEC_IMAGE="$REQPROC_IMAGE"
+readonly REQKICK_DOWNLOAD_URL="$REQKICK_DOWNLOAD_URL"
+readonly CEXEC_DOWNLOAD_URL="$CEXEC_DOWNLOAD_URL"
+readonly REPORTS_DOWNLOAD_URL="$REPORTS_DOWNLOAD_URL"
 
-readonly CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
 readonly NODE_SCRIPTS_LOCATION="/root/node"
-readonly BASE_DIR="/var/lib/shippable"
-readonly REQKICK_DIR="$BASE_DIR/reqKick"
-readonly REQPROC_MASTER_IMAGE="drydock/u16reqproc:master"
-readonly NODE_ARCHITECTURE="x86_64"
-readonly NODE_OPERATING_SYSTEM="Ubuntu_16.04"
-readonly SHIPPABLE_RELEASE_VERSION="$REL_VER"
-readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$SHIPPABLE_RELEASE_VERSION/reports-$SHIPPABLE_RELEASE_VERSION-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
+readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
+readonly LEGACY_CI_CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
+readonly REQKICK_DIR="/var/lib/shippable/reqKick"
+readonly IS_SWAP_ENABLED=false
+export install_docker_only=false
 
-clean_cexec() {
-  if [ -d "$CEXEC_LOCATION_ON_HOST" ]; then
-    sudo rm -rf $CEXEC_LOCATION_ON_HOST || true
-  fi
+check_envs() {
+    local expected_envs=(
+    'ARCHITECTURE'
+    'OS'
+    'DOCKER_VER'
+    'REQPROC_IMAGE'
+    'REQKICK_DOWNLOAD_URL'
+    'CEXEC_DOWNLOAD_URL'
+    'REPORTS_DOWNLOAD_URL'
+  )
+
+  for env in "${expected_envs[@]}"
+  do
+    env_value=$(eval "echo \$$env")
+    if [ -z "$env_value" ]; then
+      echo "Missing ENV: $env"
+      exit 1
+    fi
+  done
 }
 
-clone_cexec() {
-  sudo mkdir -p $CEXEC_LOCATION_ON_HOST
-  sudo git clone https://github.com/Shippable/cexec.git $CEXEC_LOCATION_ON_HOST
-
-  local reports_dir="$CEXEC_LOCATION_ON_HOST/bin"
-  local reports_tar_file="reports.tar.gz"
-  sudo rm -rf $reports_dir
-  sudo mkdir -p $reports_dir
-  pushd $reports_dir
-    sudo wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
-    sudo tar -xf $reports_tar_file
-    sudo rm -rf $reports_tar_file
-  popd
+exec_cmd() {
+  local cmd=$@
+  eval $cmd
 }
 
-clean_node_scripts() {
-  sudo rm -rf $NODE_SCRIPTS_LOCATION
+exec_grp() {
+  local group_name=$1
+  eval "$group_name"
+}
+__process_marker() {
+  local prompt="$@"
+  echo ""
+  echo "# $(date +"%T") #######################################"
+  echo "# $prompt"
+  echo "##################################################"
 }
 
-clone_node_scripts() {
-  sudo mkdir -p $NODE_SCRIPTS_LOCATION
-  sudo git clone https://github.com/Shippable/node.git $NODE_SCRIPTS_LOCATION
+__process_msg() {
+  local message="$@"
+  echo "|___ $@"
 }
 
-clean_reqKick () {
-  echo "Cleaning reqKick..."
-  sudo rm -rf $REQKICK_DIR || true
+__process_error() {
+  local message="$1"
+  local error="$2"
+  local bold_red_text='\e[91m'
+  local reset_text='\033[0m'
+
+  echo -e "$bold_red_text|___ $message$reset_text"
+  echo -e "     $error"
 }
 
-clone_reqKick () {
-  echo "Cloning reqKick..."
-  sudo git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
-
-  pushd $REQKICK_DIR
-    sudo git checkout $SHIPPABLE_RELEASE_VERSION
-    sudo npm install
-  popd
-}
-
-pull_reqProc () {
-  sudo docker pull $REQPROC_MASTER_IMAGE
-}
-
-main() {
-  clean_cexec
-  clone_cexec
-  clean_node_scripts
-  clone_node_scripts
-  clean_reqKick
-  clone_reqKick
-  pull_reqProc
-}
-
-main
+__process_msg "Initializing node"
+source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"

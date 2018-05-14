@@ -6,9 +6,15 @@
     "project_id": "var",
     "service_account_json": "var",
     "ssh_username": "",
-    "REL_VER": "",
     "SOURCE_IMAGE_FAMILY": "var",
-    "FAM_NAME": ""
+    "FAM_NAME": "",
+    "ARCHITECTURE": "",
+    "OS": "",,
+    "DOCKER_VER": "",,
+    "REQPROC_IMAGE": "",,
+    "REQKICK_DOWNLOAD_URL": "",,
+    "CEXEC_DOWNLOAD_URL": "",,
+    "REPORTS_DOWNLOAD_URL": ""
   },
   "builders": [
     {
@@ -41,7 +47,13 @@
       "type": "shell",
       "script": "codePull.sh",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}"
+        "ARCHITECTURE={{user `ARCHITECTURE`}}",
+        "OS={{user `OS`}}",
+        "DOCKER_VER={{user `DOCKER_VER`}}",
+        "REQPROC_IMAGE={{user `REQPROC_IMAGE`}}",
+        "REQKICK_DOWNLOAD_URL={{user `REQKICK_DOWNLOAD_URL`}}",
+        "CEXEC_DOWNLOAD_URL={{user `CEXEC_DOWNLOAD_URL`}}",
+        "REPORTS_DOWNLOAD_URL={{user `REPORTS_DOWNLOAD_URL`}}"
       ]
     }
   ]
