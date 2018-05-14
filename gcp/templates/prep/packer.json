@@ -33,17 +33,18 @@
   ],
   "provisioners": [
     {
+      "destination": "/tmp/node.tar.gz",
+      "source": "node.tar.gz",
+      "type": "file"
+    },
+    {
       "type": "shell",
       "inline": [
         "sleep 30",
         "uname -a",
-        "uptime"
+        "uptime",
+        "sudo apt-get update"
       ]
-    },
-    {
-      "destination": "/tmp/node.tar.gz",
-      "source": "node.tar.gz",
-      "type": "file"
     },
     {
       "type": "shell",
