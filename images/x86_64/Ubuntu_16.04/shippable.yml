@@ -1341,7 +1341,6 @@ jobs:
             - HTTP_ARTIFACTS_BUCKET=$(shipctl get_resource_version_key "node_file_pack" "HTTP_ARTIFACTS_BUCKET")
             - NODE_DOWNLOAD_PATH="$HTTP_ARTIFACTS_BUCKET/$S3_FILENAME"
             - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/prep
-            - aws s3 cp "$S3_FULL_PATH" "node.tar.gz"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - cp -R ../../../templates/prep/* .
             - shipctl replace vars.json
