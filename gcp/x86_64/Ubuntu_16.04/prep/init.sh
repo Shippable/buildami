@@ -73,7 +73,7 @@ __process_msg "creating node scripts dir"
 exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
 
 __process_msg "downloading node scripts tarball"
-exec_cmd "wget '$NODE_DOWNLOAD_PATH' -O $NODE_SCRIPTS_TMP_LOC"
+exec_cmd "wget '$NODE_DOWNLOAD_URL' -O $NODE_SCRIPTS_TMP_LOC"
 
 __process_msg "extracting node scripts"
 exec_cmd "tar -xzvf '$NODE_SCRIPTS_TMP_LOC' -C $NODE_SCRIPTS_LOCATION --strip-components=1"
