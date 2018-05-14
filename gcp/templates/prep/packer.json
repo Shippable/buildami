@@ -11,7 +11,8 @@
     "FAM_NAME": "",
     "ARCHITECTURE": "",
     "OS": "",
-    "DOCKER_VER": ""
+    "DOCKER_VER": "",
+    "NODE_DOWNLOAD_PATH": ""
   },
   "builders": [
     {
@@ -33,11 +34,6 @@
   ],
   "provisioners": [
     {
-      "destination": "/tmp/node.tar.gz",
-      "source": "node.tar.gz",
-      "type": "file"
-    },
-    {
       "type": "shell",
       "inline": [
         "sleep 60",
@@ -51,7 +47,8 @@
       "environment_vars": [
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
         "OS={{user `OS`}}",
-        "DOCKER_VER={{user `DOCKER_VER`}}"
+        "DOCKER_VER={{user `DOCKER_VER`}}",
+        "NODE_DOWNLOAD_PATH={{user `NODE_DOWNLOAD_PATH`}}"
       ],
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     },
