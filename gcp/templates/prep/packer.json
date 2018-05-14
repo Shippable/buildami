@@ -40,10 +40,9 @@
     {
       "type": "shell",
       "inline": [
-        "sleep 30",
+        "sleep 60",
         "uname -a",
-        "uptime",
-        "sudo apt-get update"
+        "uptime"
       ]
     },
     {
