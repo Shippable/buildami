@@ -1333,13 +1333,13 @@ jobs:
                 - OS: "Ubuntu_16.04"
                 - DOCKER_VER: "17.06"
           script:
-            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-prep-u16-x86-64"
-            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/prep
             - S3_BUCKET=$(shipctl get_resource_version_key node_file_pack S3_BUCKET)
             - S3_FILENAME=$(shipctl get_resource_version_key node_file_pack S3_FILENAME)
             - export S3_NODE_TARBALL_URL="$S3_BUCKET""$S3_FILENAME"
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/prep
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - cp -R ../../../templates/prep/* .
             - shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
