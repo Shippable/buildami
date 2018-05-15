@@ -1364,8 +1364,10 @@ jobs:
                 - OS: "Ubuntu_14.04"
                 - DOCKER_VER: "17.06"
           script:
-            - export REL_VER_DASH=${REL_VER//./-}
-            - export FAM_NAME=$REL_VER_DASH"-prep-u14-x86-64"
+            - |
+               export IMG_VER=$REL_VER
+               export REL_VER_DASH=${REL_VER//./-}
+               export FAM_NAME=$REL_VER_DASH"-prep-u14-x86-64"
             - |
                TAR_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "TAR_FILENAME")
                WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")

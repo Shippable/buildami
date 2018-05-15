@@ -53,15 +53,13 @@
       "type": "shell",
       "script": "imagesPull.sh",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}"
+        "IMG_VER={{user `IMG_VER`}}"
       ]
     },
     {
       "type": "shell",
       "script": "codeRefresh.sh",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}",
-        "IMG_VER={{user `IMG_VER`}}",
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
         "OS={{user `OS`}}",
         "NODE_DOWNLOAD_URL={{user `NODE_DOWNLOAD_URL`}}",

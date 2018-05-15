@@ -1294,7 +1294,6 @@ jobs:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
 
-
 ######################### GCP U16 Image ##################################
   - name: u16_x86_64_gcp_img_prep
     type: runSh
@@ -1334,8 +1333,10 @@ jobs:
                 - OS: "Ubuntu_16.04"
                 - DOCKER_VER: "17.06"
           script:
-            - export REL_VER_DASH=${REL_VER//./-}
-            - export FAM_NAME=$REL_VER_DASH"-prep-u16-x86-64"
+            - |
+               export IMG_VER=$REL_VER
+               export REL_VER_DASH=${REL_VER//./-}
+               export FAM_NAME=$REL_VER_DASH"-prep-u16-x86-64"
             - |
                TAR_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "TAR_FILENAME")
                WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
