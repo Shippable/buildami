@@ -9,7 +9,6 @@ readonly NODE_DOWNLOAD_URL="$NODE_DOWNLOAD_URL"
 
 readonly NODE_SCRIPTS_TMP_LOC="/tmp/node.tar.gz"
 readonly NODE_SCRIPTS_LOCATION="/root/node"
-readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
 
 export install_docker_only=true
 

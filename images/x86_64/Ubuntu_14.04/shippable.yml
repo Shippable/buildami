@@ -1324,7 +1324,6 @@ jobs:
     dependencyMode: strict
     steps:
       - IN: trig_gcp_img_prep
-      - IN: buildami_repo
       - IN: u14nodall_dd_img
       - IN: u14pytall_dd_img
       - IN: u14cloall_dd_img
@@ -1342,6 +1341,9 @@ jobs:
       - IN: u16pytall_dd_img
       - IN: u16nodall_dd_img
       - IN: u16javall_dd_img
+      - IN: node_file_pack
+      - IN: buildami_repo
+        switch: off
       - IN: ship_bits_gcp
         switch: off
       - TASK:
@@ -1349,6 +1351,7 @@ jobs:
           runtime:
             options:
               env:
+                - NODE_RES: "node_file_pack"
                 - SOURCE_IMAGE_FAMILY: "ubuntu-1404-lts"
                 - MACHINE_TYPE: "n1-standard-8"
                 - REGION: "us-east1"
@@ -1357,12 +1360,20 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - REL_VER: "master"
                 - SSH_USER: "root"
+                - ARCHITECTURE: "x86_64"
+                - OS: "Ubuntu_14.04"
+                - DOCKER_VER: "17.06"
           script:
-            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_14.04/prep
-            - cp -R ../../../templates/prep/* .
-            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - export REL_VER_DASH=${REL_VER//./-}
-            - export FAM_NAME=$REL_VER_DASH"-prep-u14-x86-64"
+            - export FAM_NAME=$REL_VER_DASH"-prep-u16-x86-64"
+            - |
+               TAR_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "TAR_FILENAME")
+               WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
+               export NODE_DOWNLOAD_URL="$WEB_URL/$TAR_FILENAME"
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/prep
+            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - cp -R ../../../templates/linux/* .
+            - cp -R ../../../templates/prep/* .
             - shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
@@ -1370,6 +1381,7 @@ jobs:
     on_success:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER" "NODE_WEB_URL=$WEB_URL" "NODE_TAR_FILENAME=$TAR_FILENAME"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
