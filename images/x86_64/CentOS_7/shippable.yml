@@ -728,9 +728,10 @@ jobs:
     dependencyMode: strict
     steps:
       - IN: c7_x86_64_gcp_img_prep
-      - IN: node_file_pack
+      - IN: u16reqProc_dd_img
+      - IN: c7repLib_x8664_build
+      - IN: reqKick_file_pack
       - IN: cexec_file_pack
-      - IN: u16reqProc_x8664_build
       - IN: buildami_repo
         switch: off
       - IN: ship_bits_gcp
@@ -740,6 +741,11 @@ jobs:
           runtime:
             options:
               env:
+                - BASE_IMG_RES: "c7_x86_64_gcp_img_prep"
+                - REQPROC_RES: "u16reqProc_dd_img"
+                - REPORTS_RES: "c7repLib_x8664_build"
+                - REQKICK_RES: "reqKick_file_pack"
+                - CEXEC_RES: "cexec_file_pack"
                 - MACHINE_TYPE: "n1-standard-8"
                 - REGION: "us-east1"
                 - ZONE: "us-east1-b"
@@ -747,21 +753,46 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - SSH_USER: "centos"
           script:
-            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/CentOS_7/patch
+            - |
+               REL_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "REL_VER")
+               export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
+               export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
+               export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
+               export NODE_WEB_URL=$(shipctl get_resource_version_key "$BASE_IMG_RES" "NODE_WEB_URL")
+               export NODE_TAR_FILENAME=$(shipctl get_resource_version_key "$BASE_IMG_RES" "NODE_TAR_FILENAME")
+               export REL_VER_DASH=${REL_VER//./-}
+               export FAM_NAME=$REL_VER_DASH"-patch-c7-x86-64"
+            - |
+               REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_RES" "sourceName")
+               REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
+               export REQPROC_IMAGE="$REQPROC_REG:$REQPROC_TAG"
+            - |
+               REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
+               REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+            - |
+               KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
+               KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$KICK_TAR_FILENAME"
+            - |
+               CEXEC_TAR_FILENAME=$(shipctl get_resource_version_key "$CEXEC_RES" "TAR_FILENAME")
+               CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
+               export CEXEC_DOWNLOAD_URL="$CEXEC_WEB_URL/$CEXEC_TAR_FILENAME"
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/patch
+            - cp -R ../../../templates/linux/* .
             - cp -R ../../../templates/patch/* .
-            - shipctl copy_file_from_resource_state "c7_x86_64_gcp_img_prep" "images.txt" .
-            - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key c7_x86_64_gcp_img_prep IMAGE_FAM_NAME)
-            - export REL_VER=$(shipctl get_resource_version_key c7_x86_64_gcp_img_prep REL_VER)
-            - export REL_VER_DASH=${REL_VER//./-}
-            - export FAM_NAME=$REL_VER_DASH"-patch-c7-x86-64"
-            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+            - shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
+            - echo $(shipctl get_integration_resource_field "ship_bits_gcp" "JSON_key") > $SERVICE_ACCOUNT_JSON
             - shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "NODE_WEB_URL=$NODE_WEB_URL" "NODE_TAR_FILENAME=$NODE_TAR_FILENAME"  "REPORTS_WEB_URL=$REP_WEB_URL" "REPORTS_TAR_FILENAME=$REP_TAR_FILENAME"
+        - shipctl put_resource_state_multi $JOB_NAME "REQKICK_WEB_URL=$KICK_WEB_URL" "REQKICK_TAR_FILENAME=$KICK_TAR_FILENAME" "CEXEC_WEB_URL=$CEXEC_WEB_URL" "CEXEC_TAR_FILENAME=$CEXEC_TAR_FILENAME"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
