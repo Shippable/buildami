@@ -71,6 +71,9 @@ exec_cmd "echo 'supersede domain-name-servers 8.8.8.8, 8.8.4.4;' >> /etc/dhcp/dh
 __process_msg "creating node scripts dir"
 exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
 
+__process_msg "installing wget"
+exec_cmd "sudo yum -y install wget"
+
 __process_msg "downloading node scripts tarball"
 exec_cmd "wget '$NODE_DOWNLOAD_URL' -O $NODE_SCRIPTS_TMP_LOC"
 
