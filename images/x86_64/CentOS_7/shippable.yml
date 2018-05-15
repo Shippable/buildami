@@ -809,15 +809,10 @@ jobs:
       - IN: c7pytall_x8664_tag
       - IN: c7javall_x8664_tag
       - IN: c7cppall_x8664_tag
-      - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
-      - IN: reqExec_repo_tag
       - IN: reqProc_repo_tag
       - IN: c7repLib_x8664_tag
-      - IN: u14repLib_x8664_tag
-      - IN: u16repLib_x8664_tag
-      - IN: u16repLib_aarch64_tag
       - IN: buildami_repo
         switch: off
       - IN: c7_x86_64_gcp_img_patch
