@@ -1364,9 +1364,9 @@ jobs:
     steps:
       - IN: u16_x86_64_gcp_img_prep
       - IN: u16reqProc_dd_img
+      - IN: u16repLib_x8664_build
       - IN: reqKick_file_pack
       - IN: cexec_file_pack
-      - IN: u16repLib_x8664_build
       - IN: buildami_repo
         switch: off
       - IN: ship_bits_gcp
