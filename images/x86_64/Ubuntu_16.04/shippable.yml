@@ -1340,7 +1340,7 @@ jobs:
                TAR_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "TAR_FILENAME")
                WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
                export NODE_DOWNLOAD_URL="$WEB_URL/$TAR_FILENAME"
-            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/prep
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/prep
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - cp -R ../../../templates/linux/* .
             - cp -R ../../../templates/prep/* .
@@ -1414,7 +1414,7 @@ jobs:
                CEXEC_TAR_FILENAME=$(shipctl get_resource_version_key "$CEXEC_RES" "TAR_FILENAME")
                CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
                export CEXEC_DOWNLOAD_URL="$CEXEC_WEB_URL/$CEXEC_TAR_FILENAME"
-            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/patch
+            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/patch
             - cp -R ../../../templates/linux/* .
             - cp -R ../../../templates/patch/* .
             - shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
@@ -1516,10 +1516,10 @@ jobs:
                CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
                export CEXEC_DOWNLOAD_URL="$CEXEC_WEB_URL/$CEXEC_TAR_FILENAME"
             - |
-               pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/final
+               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
                cp -R ../../../templates/linux/* .
                cp -R ../../../templates/final/* .
-               shipctl copy_file_from_resource_state "u16_x86_64_gcp_img_patch" "images.txt" .
+               shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
                echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
                shipctl replace vars.json
                packer validate -var-file=vars.json packer.json
@@ -1605,10 +1605,10 @@ jobs:
                CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
                export CEXEC_DOWNLOAD_URL="$CEXEC_WEB_URL/$CEXEC_TAR_FILENAME"
             - |
-               pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/Ubuntu_16.04/final
+               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
                cp -R ../../../templates/linux/* .
                cp -R ../../../templates/final/* .
-               shipctl copy_file_from_resource_state "u16_x86_64_gcp_img_patch" "images.txt" .
+               shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
                echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
                shipctl replace vars.json
                packer validate -var-file=vars.json packer.json
