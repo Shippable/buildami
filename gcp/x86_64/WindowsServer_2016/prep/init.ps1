@@ -7,6 +7,7 @@ $NODE_DOWNLOAD_URL = "$env:NODE_DOWNLOAD_URL"
 
 $NODE_SCRIPTS_TMP_LOC = "$env:TEMP/node.zip"
 $NODE_SCRIPTS_LOCATION = "$env:USERPROFILE/node"
+$NODE_SHIPCTL_LOCATION = "$NODE_SCRIPTS_LOCATION/shipctl"
 
 $install_docker_only = $true
 
