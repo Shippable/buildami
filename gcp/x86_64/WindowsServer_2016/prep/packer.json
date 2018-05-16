@@ -7,8 +7,13 @@
     "service_account_json": "var",
     "winrm_username": "",
     "REL_VER": "",
+    "IMG_VER": "",
     "SOURCE_IMAGE_FAMILY": "var",
-    "FAM_NAME": ""
+    "FAM_NAME": "",
+    "ARCHITECTURE": "",
+    "OS": "",
+    "DOCKER_VER": "",
+    "NODE_DOWNLOAD_URL": ""
   },
   "builders": [
     {
@@ -48,7 +53,11 @@
       "type": "powershell",
       "script": "init.ps1",
       "environment_vars": [
-        "WINRM_USERNAME={{user `winrm_username`}}"
+        "WINRM_USERNAME={{user `winrm_username`}}",
+        "ARCHITECTURE={{user `ARCHITECTURE`}}",
+        "OS={{user `OS`}}",
+        "DOCKER_VER={{user `DOCKER_VER`}}",
+        "NODE_DOWNLOAD_URL={{user `NODE_DOWNLOAD_URL`}}"
       ]
     },
     {
@@ -60,7 +69,7 @@
       "type": "powershell",
       "script": "imagesPull.ps1",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}"
+        "IMG_VER={{user `IMG_VER`}}"
       ]
     }
   ]

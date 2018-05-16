@@ -1,112 +1,143 @@
 #!/bin/bash -e
-
+set -e
 set -o pipefail
 
-readonly MESSAGE_STORE_LOCATION="/tmp/cexec"
-readonly REL_VER="$REL_VER"
-readonly IMG_VER="$IMG_VER"
-readonly KEY_STORE_LOCATION="/tmp/ssh"
-readonly NODE_TYPE_CODE=7001
-readonly SHIPPABLE_NODE_INIT=true
-readonly NODE_DATA_LOCATION="/etc/shippable"
-readonly NODE_LOGS_LOCATION="$NODE_DATA_LOCATION/logs"
-readonly EXEC_REPO="https://github.com/Shippable/cexec.git"
-readonly NODE_SCRIPTS_REPO="https://github.com/Shippable/node.git"
+readonly NODE_ARCHITECTURE="$ARCHITECTURE"
+readonly NODE_OPERATING_SYSTEM="$OS"
+readonly NODE_DOWNLOAD_URL="$NODE_DOWNLOAD_URL"
+readonly EXEC_IMAGE="$REQPROC_IMAGE"
+readonly REQKICK_DOWNLOAD_URL="$REQKICK_DOWNLOAD_URL"
+readonly CEXEC_DOWNLOAD_URL="$CEXEC_DOWNLOAD_URL"
+readonly REPORTS_DOWNLOAD_URL="$REPORTS_DOWNLOAD_URL"
 
-readonly CEXEC_LOC="/home/shippable/cexec"
-readonly NODE_SCRIPTS_LOC="/root/node"
-
-readonly REQPROC_IMG="drydock/u16reqproc"
+readonly NODE_SCRIPTS_TMP_LOC="/tmp/node.tar.gz"
+readonly NODE_SCRIPTS_LOCATION="/root/node"
+readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
+readonly LEGACY_CI_CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
 readonly REQKICK_DIR="/var/lib/shippable/reqKick"
-readonly REQKICK_REPO="https://github.com/Shippable/reqKick.git"
-readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOC/shipctl"
-readonly NODE_ARCHITECTURE="x86_64"
-readonly NODE_OPERATING_SYSTEM="CentOS_7"
-readonly REPORTS_DOWNLOAD_URL="https://s3.amazonaws.com/shippable-artifacts/reports/$REL_VER/reports-$REL_VER-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 
 #temporary zephyr build speed up....
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
 
-set_context() {
-  echo "Setting context for AMI"
-  echo "REQPROC_IMG=$REQPROC_IMG"
-  echo "CEXEC_LOC=$CEXEC_LOC"
-
-  readonly REQPROC_IMG_WITH_TAG="$REQPROC_IMG:$REL_VER"
+exec_cmd() {
+  local cmd=$@
+  eval $cmd
 }
 
-validate_envs() {
-  echo "Validating environment variables for AMI"
-
-  if [ -z "$REL_VER" ] || [ "$REL_VER" == "" ]; then
-    echo "REL_VER env not defined, exiting"
-    exit 1
-  else
-    echo "REL_VER: $REL_VER"
-  fi
-
-  if [ -z "$IMG_VER" ] || [ "$IMG_VER" == "" ]; then
-    echo "IMG_VER env not defined, exiting"
-    exit 1
-  else
-    echo "IMG_VER: $IMG_VER"
-  fi
+exec_grp() {
+  local group_name=$1
+  eval "$group_name"
+}
+__process_marker() {
+  local prompt="$@"
+  echo ""
+  echo "# $(date +"%T") #######################################"
+  echo "# $prompt"
+  echo "##################################################"
 }
 
-pull_images() {
-  export IMAGE_NAMES_SPACED=$(eval echo $(tr '\n' ' ' < /tmp/images.txt))
-  echo $IMAGE_NAMES_SPACED
+__process_msg() {
+  local message="$@"
+  echo "|___ $@"
+}
 
-  for IMAGE_NAME in $IMAGE_NAMES_SPACED; do
-    echo "Pulling -------------------> $IMAGE_NAME:$IMG_VER"
-    sudo docker pull $IMAGE_NAME:$IMG_VER
+__process_error() {
+  local message="$1"
+  local error="$2"
+  local bold_red_text='\e[91m'
+  local reset_text='\033[0m'
+
+  echo -e "$bold_red_text|___ $message$reset_text"
+  echo -e "$error"
+}
+
+check_envs() {
+    local expected_envs=(
+    'ARCHITECTURE'
+    'OS'
+    'NODE_DOWNLOAD_URL'
+    'REQPROC_IMAGE'
+    'REQKICK_DOWNLOAD_URL'
+    'CEXEC_DOWNLOAD_URL'
+    'REPORTS_DOWNLOAD_URL'
+  )
+
+  for env in "${expected_envs[@]}"
+  do
+    env_value=$(eval "echo \$$env")
+    if [ -z "$env_value" ] || [ "$env_value" == "" ]; then
+      echo "Missing ENV: $env"
+      exit 1
+    fi
   done
 }
 
-clone_cexec() {
-  if [ -d "$CEXEC_LOC" ]; then
-    sudo rm -rf $CEXEC_LOC
+fetch_cexec() {
+  __process_marker "Fetching cexec..."
+  local cexec_tar_file="cexec.tar.gz"
+
+  if [ -d "$LEGACY_CI_CEXEC_LOCATION_ON_HOST" ]; then
+    exec_cmd "rm -rf $LEGACY_CI_CEXEC_LOCATION_ON_HOST"
   fi
-  sudo git clone $EXEC_REPO $CEXEC_LOC
-}
-
-tag_cexec() {
-  pushd $CEXEC_LOC
-  sudo git checkout master
-  sudo git fetch --tags
-  sudo git checkout $REL_VER
+  rm -rf $cexec_tar_file
+  pushd /tmp
+    wget $CEXEC_DOWNLOAD_URL -O $cexec_tar_file
+    mkdir -p $LEGACY_CI_CEXEC_LOCATION_ON_HOST
+    tar -xzf $cexec_tar_file -C $LEGACY_CI_CEXEC_LOCATION_ON_HOST --strip-components=1
+    rm -rf $cexec_tar_file
   popd
-}
 
-fetch_reports() {
-  local reports_dir="$CEXEC_LOC/bin"
+  # Download and extract reports bin file into a path that cexec expects it in
+  local reports_dir="$LEGACY_CI_CEXEC_LOCATION_ON_HOST/bin"
   local reports_tar_file="reports.tar.gz"
-  sudo rm -rf $reports_dir
-  sudo mkdir -p $reports_dir
+  rm -rf $reports_dir
+  mkdir -p $reports_dir
   pushd $reports_dir
-    sudo wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
-    sudo tar -xf $reports_tar_file
-    sudo rm -rf $reports_tar_file
+    wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
+    tar -xf $reports_tar_file
+    rm -rf $reports_tar_file
   popd
 }
 
-clone_node_scripts() {
-  sudo rm -rf $NODE_SCRIPTS_LOC || true
-  echo "Downloading Shippable node init repo"
-  sudo mkdir -p $NODE_SCRIPTS_LOC
-  sudo git clone $NODE_SCRIPTS_REPO $NODE_SCRIPTS_LOC
+fetch_reqKick() {
+  __process_marker "Fetching reqKick..."
+  local reqKick_tar_file="reqKick.tar.gz"
+
+  rm -rf $REQKICK_DIR
+  rm -rf $reqKick_tar_file
+  pushd /tmp
+    wget $REQKICK_DOWNLOAD_URL -O $reqKick_tar_file
+    mkdir -p $REQKICK_DIR
+    tar -xzf $reqKick_tar_file -C $REQKICK_DIR --strip-components=1
+    rm -rf $reqKick_tar_file
+  popd
+  pushd $REQKICK_DIR
+    npm install
+  popd
 }
 
-tag_node_scripts() {
-  pushd $NODE_SCRIPTS_LOC
-  sudo git checkout master
-  sudo git fetch --tags
-  sudo git checkout $REL_VER
-  popd
+fetch_node_scripts() {
+  rm -rf $NODE_SCRIPTS_LOCATION || true
+
+  __process_msg "downloading node scripts tarball"
+  wget '$NODE_DOWNLOAD_URL' -O $NODE_SCRIPTS_TMP_LOC
+
+  __process_msg "extracting node scripts"
+  tar -xzvf '$NODE_SCRIPTS_TMP_LOC' -C $NODE_SCRIPTS_LOCATION --strip-components=1
+}
+
+install_shipctl() {
+  echo "Installing shipctl components"
+  eval "$NODE_SHIPCTL_LOCATION/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/install.sh"
+}
+
+pull_reqProc() {
+  __process_marker "Pulling reqProc..."
+  docker pull $EXEC_IMAGE
 }
 
 pull_zephyr() {
-  sudo docker pull $ZEPHYR_IMG
+  docker pull $ZEPHYR_IMG
 }
 
 before_exit() {
@@ -117,68 +148,16 @@ before_exit() {
   echo "AMI build script completed"
 }
 
-install_nodejs() {
-  pushd /tmp
-  echo "Installing node 4.8.5"
-  sudo wget https://nodejs.org/dist/v4.8.5/node-v4.8.5-linux-x64.tar.xz
-  sudo tar -xf node-v4.8.5-linux-x64.tar.xz
-  sudo cp -Rf node-v4.8.5-linux-x64/{bin,include,lib,share} /usr/local
-
-  echo "Checking node version"
-  /usr/local/bin/node -v
-  popd
-}
-
-install_shipctl() {
-  echo "Installing shipctl components"
-  eval "$NODE_SHIPCTL_LOCATION/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/install.sh"
-}
-
-clone_reqKick() {
-  echo "cloning reqKick"
-  sudo rm -rf $REQKICK_DIR || true
-  sudo git clone $REQKICK_REPO $REQKICK_DIR
-}
-
-tag_reqKick() {
-  echo "tagging reqKick"
-  pushd $REQKICK_DIR
-  sudo git checkout master
-  sudo git fetch --tags
-  sudo git checkout $REL_VER
-  sudo /usr/local/bin/npm install
-  popd
-}
-
-pull_tagged_reqproc() {
-  echo "pulling tagged reqproc image: $REQPROC_IMG_WITH_TAG"
-  sudo docker pull $REQPROC_IMG_WITH_TAG
-}
-
-clean_genexec() {
-  echo "Remove any existing genExec image and related configs..."
-  sudo docker images | grep drydock/genexec | awk '{print $3}' | xargs sudo docker rmi || true
-  sudo rm -rf /etc/shippable || true
-}
-
 main() {
-  validate_envs
-  set_context
-  pull_images
-  clone_cexec
-  tag_cexec
-  fetch_reports
-  clone_node_scripts
-  tag_node_scripts
-  pull_zephyr
-  install_nodejs
+  check_envs
+  fetch_cexec
+  fetch_reqKick
+  fetch_node_scripts
   install_shipctl
-  clone_reqKick
-  tag_reqKick
-  pull_tagged_reqproc
-  clean_genexec
+  pull_reqProc
+  pull_zephyr
 }
 
-echo "Running execPull script..."
+echo "Running execRefresh script..."
 trap before_exit EXIT
 main

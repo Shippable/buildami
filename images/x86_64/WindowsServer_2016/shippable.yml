@@ -337,23 +337,27 @@ jobs:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
 
-#####
-
-  - name: w2k16_x86_64_gcp_img_prep
+##### GCE IMAGES ########
+  - name: prep_w2k16_x8664_gce_img
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
     steps:
       - IN: trig_gcp_img_prep
+      - IN: w2k16_dd_img
+      - IN: w2k16dotnetcore_dd_img
+      - IN: w2k16aspnetcore_dd_img
+      - IN: node_file_pack
       - IN: buildami_repo
         switch: off
       - IN: ship_bits_gcp
         switch: off
       - TASK:
-          name: prep_w2k16_gce_image
+          name: build_gce_image
           runtime:
             options:
               env:
+                - NODE_RES: "node_file_pack"
                 - SOURCE_IMAGE_FAMILY: "windows-2016"
                 - MACHINE_TYPE: "n1-standard-8"
                 - REGION: "us-east1"
@@ -362,18 +366,30 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - REL_VER: "master"
                 - WINRM_USERNAME: "packer_user"
+                - ARCHITECTURE: "x86_64"
+                - OS: "WindowsServer_2016"
+                - DOCKER_VER: "17.06"
           script:
+            - |
+               export IMG_VER=$REL_VER
+               export REL_VER_DASH=${REL_VER//./-}
+               export FAM_NAME=$REL_VER_DASH"-prep-w2k16-x86-64"
+            - |
+               ZIP_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "ZIP_FILENAME")
+               WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
+               export NODE_DOWNLOAD_URL="$WEB_URL/$ZIP_FILENAME"
             - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/WindowsServer_2016/prep
-            - export REL_VER_DASH=${REL_VER//./-}
-            - export FAM_NAME=$REL_VER_DASH"-prep-w2k16-x86-64"
-            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - shipctl replace vars.json
+            - |
+               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+               cp -R ../../../templates/win/* .
+               shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER" "NODE_WEB_URL=$WEB_URL" "NODE_TAR_FILENAME=$TAR_FILENAME"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
@@ -384,7 +400,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: w2k16_x86_64_gcp_img_prep
+      - IN: prep_w2k16_x8664_gce_img
       - IN: node_file_pack
       - IN: cexec_file_pack
       - IN: w2k16reqProc_x8664_build
@@ -406,9 +422,9 @@ jobs:
                 - WINRM_USERNAME: "packer_user"
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/WindowsServer_2016/patch
-            - shipctl copy_file_from_resource_state "w2k16_x86_64_gcp_img_prep" "images.txt" .
-            - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key w2k16_x86_64_gcp_img_prep IMAGE_FAM_NAME)
-            - export REL_VER=$(shipctl get_resource_version_key w2k16_x86_64_gcp_img_prep REL_VER)
+            - shipctl copy_file_from_resource_state "prep_w2k16_x8664_gce_img" "images.txt" .
+            - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key prep_w2k16_x8664_gce_img IMAGE_FAM_NAME)
+            - export REL_VER=$(shipctl get_resource_version_key prep_w2k16_x8664_gce_img REL_VER)
             - export REL_VER_DASH=${REL_VER//./-}
             - export FAM_NAME=$REL_VER_DASH"-patch-w2k16-x86-64"
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON

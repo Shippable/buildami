@@ -8,7 +8,7 @@ readonly INIT_SCRIPT_NAME="Docker_$DOCKER_VER.sh"
 readonly NODE_DOWNLOAD_URL="$NODE_DOWNLOAD_URL"
 
 readonly NODE_SCRIPTS_TMP_LOC="/tmp/node.tar.gz"
-readonly NODE_SCRIPTS_LOCATION="$HOME/node"
+readonly NODE_SCRIPTS_LOCATION="/root/node"
 
 export install_docker_only=true
 

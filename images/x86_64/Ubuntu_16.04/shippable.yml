@@ -1316,7 +1316,7 @@ jobs:
       - IN: ship_bits_gcp
         switch: off
       - TASK:
-          name: prep_u16_gce_image
+          name: build_gce_image
           runtime:
             options:
               env:
@@ -1342,10 +1342,11 @@ jobs:
                WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
                export NODE_DOWNLOAD_URL="$WEB_URL/$TAR_FILENAME"
             - pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/prep
-            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - cp -R ../../../templates/linux/* .
-            - cp -R ../../../templates/prep/* .
-            - shipctl replace vars.json
+            - |
+               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+               cp -R ../../../templates/linux/* .
+               cp -R ../../../templates/prep/* .
+               shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
@@ -1373,7 +1374,7 @@ jobs:
       - IN: ship_bits_gcp
         switch: off
       - TASK:
-          name: patch_u16_gce_image
+          name: build_gce_image
           runtime:
             options:
               env:

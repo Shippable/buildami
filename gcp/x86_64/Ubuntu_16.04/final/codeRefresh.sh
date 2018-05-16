@@ -11,7 +11,7 @@ readonly CEXEC_DOWNLOAD_URL="$CEXEC_DOWNLOAD_URL"
 readonly REPORTS_DOWNLOAD_URL="$REPORTS_DOWNLOAD_URL"
 
 readonly NODE_SCRIPTS_TMP_LOC="/tmp/node.tar.gz"
-readonly NODE_SCRIPTS_LOCATION="$HOME/node"
+readonly NODE_SCRIPTS_LOCATION="/root/node"
 readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
 readonly LEGACY_CI_CEXEC_LOCATION_ON_HOST="/home/shippable/cexec"
 readonly REQKICK_DIR="/var/lib/shippable/reqKick"
