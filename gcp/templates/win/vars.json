@@ -5,6 +5,7 @@
   "zone": "${ZONE}",
   "project_id": "${PROJECT_ID}",
   "REL_VER": "${REL_VER}",
+  "IMG_VER": "${IMG_VER}",
   "winrm_username": "${WINRM_USERNAME}",
   "FAM_NAME": "${FAM_NAME}",
   "SOURCE_IMAGE_FAMILY":"${SOURCE_IMAGE_FAMILY}",
