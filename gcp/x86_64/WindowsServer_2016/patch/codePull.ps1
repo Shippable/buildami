@@ -1,5 +1,17 @@
 $ErrorActionPreference = "Stop"
 
+$NODE_ARCHITECTURE = "$env:ARCHITECTURE"
+$NODE_OPERATING_SYSTEM = "$env:OS"
+$INIT_SCRIPT_NAME = "Docker_$env:DOCKER_VER.ps1"
+$NODE_DOWNLOAD_URL = "$env:NODE_DOWNLOAD_URL"
+
+$NODE_SCRIPTS_TMP_LOC = "$env:TEMP/node.zip"
+$NODE_SCRIPTS_LOCATION = "$env:USERPROFILE/node"
+$NODE_SHIPCTL_LOCATION = "$env:NODE_SCRIPTS_LOCATION/shipctl"
+
+$install_docker_only = $true
+
+
 $NODE_SCRIPTS_LOCATION = "$env:USERPROFILE\node"
 $REQKICK_DIR = "$env:USERPROFILE\Shippable\reqKick"
 $REQPROC_MASTER_IMAGE = "drydock/w16reqproc:master"
