@@ -21,7 +21,7 @@ $REQKICK_REPO = "https://github.com/Shippable/reqKick.git"
 $NODE_SHIPCTL_LOCATION = "$NODE_SCRIPTS_LOC/shipctl"
 $NODE_ARCHITECTURE = "x86_64"
 $NODE_OPERATING_SYSTEM = "WindowsServer_2016"
-# $REPORTS_DOWNLOAD_URL = "https://s3.amazonaws.com/shippable-artifacts/reports/$env:REL_VER/reports-$env:REL_VER-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
+
 
 Function set_context() {
   Write-Output "Setting context for AMI"
@@ -73,23 +73,6 @@ Function tag_cexec() {
     git checkout $REL_VER
   popd
 }
-
-# CI not yet supported in windows. no need for reports package
-# Function fetch_reports() {
-#   $reports_dir = "$CEXEC_LOC/bin"
-#   $reports_tar_file = "reports.tar.gz"
-#   if (Test-Path $reports_dir) {
-#     Write-Output "Cleaning reports dir..."
-#     Remove-Item -recur -force $reports_dir
-#   }
-#   mkdir -p $reports_dir
-
-#   pushd $reports_dir
-#     wget $REPORTS_DOWNLOAD_URL -O $reports_tar_file
-#     tar -xf $reports_tar_file
-#     Remove-Item -force $reports_tar_file
-#   popd
-# }
 
 Function clone_node_scripts() {
   if (Test-Path $NODE_SCRIPTS_LOC) {

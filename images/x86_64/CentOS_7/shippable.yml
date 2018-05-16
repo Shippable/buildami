@@ -761,6 +761,7 @@ jobs:
                export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
                export NODE_WEB_URL=$(shipctl get_resource_version_key "$BASE_IMG_RES" "NODE_WEB_URL")
                export NODE_TAR_FILENAME=$(shipctl get_resource_version_key "$BASE_IMG_RES" "NODE_TAR_FILENAME")
+               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$NODE_TAR_FILENAME"
                export REL_VER_DASH=${REL_VER//./-}
                export FAM_NAME=$REL_VER_DASH"-patch-c7-x86-64"
             - |
