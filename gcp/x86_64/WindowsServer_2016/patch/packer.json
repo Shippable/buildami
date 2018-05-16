@@ -13,8 +13,7 @@
     "OS": "",
     "DOCKER_VER": "",
     "REQPROC_IMAGE": "",
-    "REQKICK_DOWNLOAD_URL": "",
-    "CEXEC_DOWNLOAD_URL": ""
+    "REQKICK_DOWNLOAD_URL": ""
   },
   "builders": [
     {
@@ -49,8 +48,7 @@
         "OS={{user `OS`}}",
         "DOCKER_VER={{user `DOCKER_VER`}}",
         "REQPROC_IMAGE={{user `REQPROC_IMAGE`}}",
-        "REQKICK_DOWNLOAD_URL={{user `REQKICK_DOWNLOAD_URL`}}",
-        "CEXEC_DOWNLOAD_URL={{user `CEXEC_DOWNLOAD_URL`}}"
+        "REQKICK_DOWNLOAD_URL={{user `REQKICK_DOWNLOAD_URL`}}"
       ]
     }
   ]
