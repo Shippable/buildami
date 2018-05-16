@@ -389,7 +389,7 @@ jobs:
     on_success:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
-        - shipctl put_resource_state_multi $JOB_NAME "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER" "NODE_WEB_URL=$WEB_URL" "NODE_TAR_FILENAME=$TAR_FILENAME"
+        - shipctl put_resource_state_multi $JOB_NAME "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER" "NODE_WEB_URL=$WEB_URL" "NODE_ZIP_FILENAME=$ZIP_FILENAME"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
@@ -401,11 +401,9 @@ jobs:
     dependencyMode: strict
     steps:
       - IN: prep_w2k16_x8664_gce_img
-      - IN: node_file_pack
+      - IN: w2k16reqProc_dd_img
       - IN: reqKick_file_pack
       - IN: cexec_file_pack
-      - IN: w2k16reqProc_x8664_build
-      - IN: ami_reqKick_repo
       - IN: buildami_repo
         switch: off
       - IN: ship_bits_gcp
@@ -415,6 +413,10 @@ jobs:
           runtime:
             options:
               env:
+                - BASE_IMG_RES: "prep_w2k16_x8664_gce_img"
+                - REQPROC_RES: "w2k16reqProc_dd_img"
+                - REQKICK_RES: "reqKick_file_pack"
+                - CEXEC_RES: "cexec_file_pack"
                 - MACHINE_TYPE: "n1-standard-8"
                 - REGION: "us-east1"
                 - ZONE: "us-east1-b"
@@ -422,20 +424,42 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - WINRM_USERNAME: "packer_user"
           script:
-            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/WindowsServer_2016/patch
-            - shipctl copy_file_from_resource_state "prep_w2k16_x8664_gce_img" "images.txt" .
-            - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key prep_w2k16_x8664_gce_img IMAGE_FAM_NAME)
-            - export REL_VER=$(shipctl get_resource_version_key prep_w2k16_x8664_gce_img REL_VER)
-            - export REL_VER_DASH=${REL_VER//./-}
-            - export FAM_NAME=$REL_VER_DASH"-patch-w2k16-x86-64"
-            - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-            - shipctl replace vars.json
+            - |
+               REL_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "REL_VER")
+               export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
+               export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
+               export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
+               export NODE_WEB_URL=$(shipctl get_resource_version_key "$BASE_IMG_RES" "NODE_WEB_URL")
+               export NODE_ZIP_FILENAME=$(shipctl get_resource_version_key "$BASE_IMG_RES" "NODE_ZIP_FILENAME")
+               export REL_VER_DASH=${REL_VER//./-}
+               export FAM_NAME=$REL_VER_DASH"-patch-w2k16-x86-64"
+            - |
+               REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_RES" "sourceName")
+               REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
+               export REQPROC_IMAGE="$REQPROC_REG:$REQPROC_TAG"
+            - |
+               KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
+               KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$KICK_ZIP_FILENAME"
+            - |
+               CEXEC_ZIP_FILENAME=$(shipctl get_resource_version_key "$CEXEC_RES" "ZIP_FILENAME")
+               CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
+               export CEXEC_DOWNLOAD_URL="$CEXEC_WEB_URL/$CEXEC_ZIP_FILENAME"
+            - |
+               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/patch
+               cp -R ../../../templates/win/* .
+               shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
+               echo $(shipctl get_integration_resource_field "ship_bits_gcp" "JSON_key") > $SERVICE_ACCOUNT_JSON
+               shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER"
+        - shipctl put_resource_state_multi $JOB_NAME "NODE_WEB_URL=$NODE_WEB_URL" "NODE_ZIP_FILENAME=$NODE_ZIP_FILENAME"
+        - shipctl put_resource_state_multi $JOB_NAME "REQKICK_WEB_URL=$KICK_WEB_URL" "REQKICK_ZIP_FILENAME=$KICK_ZIP_FILENAME" "CEXEC_WEB_URL=$CEXEC_WEB_URL" "CEXEC_ZIP_FILENAME=$CEXEC_ZIP_FILENAME"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
@@ -446,14 +470,12 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-#      - IN: w2k16_x8664_tag
-#      - IN: w2k16dotnetcore_x8664_tag
-#      - IN: w2k16aspnetcore_x8664_tag
-      - IN: execTemplates_repo_file_tag
+      - IN: w2k16_x8664_tag
+      - IN: w2k16dotnetcore_x8664_tag
+      - IN: w2k16aspnetcore_x8664_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
-      - IN: reqExec_repo_tag
-      - IN: reqProc_repo_tag
+      - IN: w2k16reqProc_dd_tag
       - IN: c7repLib_x8664_tag
       - IN: u14repLib_x8664_tag
       - IN: u16repLib_x8664_tag

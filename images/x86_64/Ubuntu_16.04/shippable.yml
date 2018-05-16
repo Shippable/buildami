@@ -1416,12 +1416,13 @@ jobs:
                CEXEC_TAR_FILENAME=$(shipctl get_resource_version_key "$CEXEC_RES" "TAR_FILENAME")
                CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
                export CEXEC_DOWNLOAD_URL="$CEXEC_WEB_URL/$CEXEC_TAR_FILENAME"
-            - pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/patch
-            - cp -R ../../../templates/linux/* .
-            - cp -R ../../../templates/patch/* .
-            - shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
-            - echo $(shipctl get_integration_resource_field "ship_bits_gcp" "JSON_key") > $SERVICE_ACCOUNT_JSON
-            - shipctl replace vars.json
+            - |
+               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/patch
+               cp -R ../../../templates/linux/* .
+               cp -R ../../../templates/patch/* .
+               shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
+               echo $(shipctl get_integration_resource_field "ship_bits_gcp" "JSON_key") > $SERVICE_ACCOUNT_JSON
+               shipctl replace vars.json
             - packer validate -var-file=vars.json packer.json
             - packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
