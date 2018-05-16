@@ -71,5 +71,5 @@ __process_error() {
 }
 
 __process_msg "Initializing node"
-sudo su
+ls -ltra
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
