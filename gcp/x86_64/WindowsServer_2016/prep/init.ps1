@@ -8,7 +8,7 @@ $NODE_DOWNLOAD_URL = "$env:NODE_DOWNLOAD_URL"
 $NODE_SCRIPTS_TMP_LOC = "$env:TEMP/node.zip"
 $NODE_SCRIPTS_LOCATION = "$env:USERPROFILE/node"
 
-$install_docker_only = true
+$install_docker_only = $true
 
 Write-Output "|___Set username and password"
 wmic useraccount where "name='$env:WINRM_USERNAME'" set PasswordExpires=FALSE
