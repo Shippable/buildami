@@ -620,7 +620,6 @@ jobs:
         - cat output.txt
 
 ### AWS
-
   - name: windowsbaseami_prep
     type: runSh
     triggerMode: parallel
@@ -673,6 +672,7 @@ jobs:
       - TASK:
           name: patch_w16_aws_image
           script:
+            - set -o pipefail
             - pushd $(shipctl get_resource_state "buildami_repo")/windowsBasePatch
             - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
             - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
@@ -696,9 +696,9 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-#      - IN: w2k16_x8664_tag
-#      - IN: w2k16dotnetcore_x8664_tag
-#      - IN: w2k16aspnetcore_x8664_tag
+      - IN: w2k16_x8664_tag
+      - IN: w2k16dotnetcore_x8664_tag
+      - IN: w2k16aspnetcore_x8664_tag
       - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
