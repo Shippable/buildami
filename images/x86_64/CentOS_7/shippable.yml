@@ -705,7 +705,7 @@ jobs:
             - |
                TAR_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "TAR_FILENAME")
                WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
-               export NODE_DOWNLOAD_URL="$WEB_URL/$TAR_FILENAME"
+               export NODE_DOWNLOAD_URL="$WEB_URL/$REL_VER/$TAR_FILENAME"
             - pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/prep
             - echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
             - cp -R ../../../templates/linux/* .
@@ -862,7 +862,7 @@ jobs:
             - |
                NODE_TAR_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "TAR_FILENAME")
                NODE_WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
-               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$NODE_TAR_FILENAME"
+               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$REL_VER/$NODE_TAR_FILENAME"
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
@@ -952,7 +952,7 @@ jobs:
             - |
                NODE_TAR_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "TAR_FILENAME")
                NODE_WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
-               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$NODE_TAR_FILENAME"
+               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$REL_VER/$NODE_TAR_FILENAME"
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")

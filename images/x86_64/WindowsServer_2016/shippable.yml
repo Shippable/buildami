@@ -378,7 +378,7 @@ jobs:
             - |
                ZIP_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "ZIP_FILENAME")
                WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
-               export NODE_DOWNLOAD_URL="$WEB_URL/$ZIP_FILENAME"
+               export NODE_DOWNLOAD_URL="$WEB_URL/$REL_VER/$ZIP_FILENAME"
             - pushd $(shipctl get_resource_state "buildami_repo")/gcp/x86_64/WindowsServer_2016/prep
             - |
                echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
@@ -518,7 +518,7 @@ jobs:
             - |
                NODE_ZIP_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "ZIP_FILENAME")
                NODE_WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
-               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$NODE_ZIP_FILENAME"
+               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$REL_VER/$NODE_ZIP_FILENAME"
             - |
                KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -595,7 +595,7 @@ jobs:
             - |
                NODE_ZIP_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "ZIP_FILENAME")
                NODE_WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
-               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$NODE_ZIP_FILENAME"
+               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$REL_VER/$NODE_ZIP_FILENAME"
             - |
                KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
