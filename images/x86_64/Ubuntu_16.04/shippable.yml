@@ -1413,7 +1413,7 @@ jobs:
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
-               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$KICK_TAR_FILENAME"
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_TAR_FILENAME"
             - |
                CEXEC_TAR_FILENAME=$(shipctl get_resource_version_key "$CEXEC_RES" "TAR_FILENAME")
                CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
@@ -1515,7 +1515,7 @@ jobs:
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
-               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$KICK_TAR_FILENAME"
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_TAR_FILENAME"
             - |
                CEXEC_TAR_FILENAME=$(shipctl get_resource_version_key "$CEXEC_RES" "TAR_FILENAME")
                CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
@@ -1605,7 +1605,7 @@ jobs:
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
-               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$KICK_TAR_FILENAME"
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_TAR_FILENAME"
             - |
                CEXEC_TAR_FILENAME=$(shipctl get_resource_version_key "$CEXEC_RES" "TAR_FILENAME")
                CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")

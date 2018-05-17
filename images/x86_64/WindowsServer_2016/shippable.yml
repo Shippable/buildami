@@ -441,7 +441,7 @@ jobs:
             - |
                KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
-               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$KICK_ZIP_FILENAME"
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_ZIP_FILENAME"
             - |
                pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/patch
                cp -R ../../../templates/win/* .
@@ -522,7 +522,7 @@ jobs:
             - |
                KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
-               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$KICK_ZIP_FILENAME"
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_ZIP_FILENAME"
             - |
                pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
                cp -R ../../../templates/win/* .
@@ -599,7 +599,7 @@ jobs:
             - |
                KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
-               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$KICK_ZIP_FILENAME"
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_ZIP_FILENAME"
             - |
                pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
                cp -R ../../../templates/win/* .
