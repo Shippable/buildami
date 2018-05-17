@@ -1369,7 +1369,7 @@ jobs:
                export IMG_VER=$REL_VER
                export REL_VER_DASH=${REL_VER//./-}
                DOC_VER_DASH=${DOCKER_VER//./-}
-               export FAM_NAME="$DOC_VER_DASH-$REL_VER_DASH-prep-u14-x86-64"
+               export FAM_NAME=$DOC_VER_DASH"-"$REL_VER_DASH"-prep-u14-x86-64"
             - |
                TAR_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "TAR_FILENAME")
                WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
@@ -1433,7 +1433,7 @@ jobs:
                export NODE_TAR_FILENAME=$(shipctl get_resource_version_key "$BASE_IMG_RES" "NODE_TAR_FILENAME")
                export REL_VER_DASH=${REL_VER//./-}
                DOC_VER_DASH=${DOCKER_VER//./-}
-               export FAM_NAME="$DOC_VER_DASH-$REL_VER_DASH-patch-u14-x86-64"
+               export FAM_NAME=$DOC_VER_DASH"-"$REL_VER_DASH"-patch-u14-x86-64"
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
