@@ -82,7 +82,7 @@ __process_error() {
 #__process_msg "extracting node scripts"
 #tar -xzvf '$NODE_SCRIPTS_TMP_LOC' -C $NODE_SCRIPTS_LOCATION --strip-components=1
 
-sudo chown -R centos $NODE_SCRIPTS_LOCATION/
+sudo chown -R centos:centos $NODE_SCRIPTS_LOCATION/
 
 sudo ls -ltra $NODE_SCRIPTS_LOCATION
 
