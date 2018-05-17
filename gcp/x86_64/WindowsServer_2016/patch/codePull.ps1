@@ -13,5 +13,11 @@ $REQKICK_DIR = "$env:USERPROFILE/Shippable/reqKick"
 
 $install_docker_only = $false
 
+Write-Output "$NODE_ARCHITECTURE"
+Write-Output "$NODE_OPERATING_SYSTEM"
+Write-Output "$INIT_SCRIPT_NAME"
+Write-Output "$REQKICK_DOWNLOAD_URL"
+Write-Output "$EXEC_IMAGE"
+
 Write-Output "|___Initializing node"
 & "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
