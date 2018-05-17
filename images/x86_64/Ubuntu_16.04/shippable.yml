@@ -1333,6 +1333,7 @@ jobs:
                 - OS: "Ubuntu_16.04"
                 - DOCKER_VER: "17.06"
           script:
+            - set -o pipefail
             - |
                export IMG_VER=$REL_VER
                export REL_VER_DASH=${REL_VER//./-}
@@ -1390,6 +1391,7 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - SSH_USER: "root"
           script:
+            - set -o pipefail
             - |
                REL_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "REL_VER")
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
@@ -1487,6 +1489,7 @@ jobs:
                 - SERVICE_ACCOUNT_JSON: "gcp_key.json"
                 - SSH_USER: "root"
           script:
+            - set -o pipefail
             - |
                export REL_VER=$(shipctl get_resource_version_name "prod_release")
                export IMG_VER=$REL_VER
@@ -1577,6 +1580,7 @@ jobs:
                 - SSH_USER: "root"
                 - IMG_VER: "v6.3.4"
           script:
+            - set -o pipefail
             - |
                export REL_VER=$(shipctl get_resource_version_name "prod_release")
                export IMG_VER_DASH=${IMG_VER//./-}
