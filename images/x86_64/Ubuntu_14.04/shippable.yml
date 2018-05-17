@@ -1441,7 +1441,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -1590,7 +1590,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -1702,7 +1702,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -1792,7 +1792,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -1882,7 +1882,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -1972,7 +1972,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -2062,7 +2062,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -2152,7 +2152,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -2242,7 +2242,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -2332,7 +2332,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -2422,7 +2422,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -2512,7 +2512,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -2602,7 +2602,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
@@ -2692,7 +2692,7 @@ jobs:
             - |
                REP_TAR_FILENAME=$(shipctl get_resource_version_key "$REPORTS_RES" "TAR_FILENAME")
                REP_WEB_URL=$(shipctl get_resource_version_key "$REPORTS_RES" "WEB_URL")
-               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REP_TAR_FILENAME"
+               export REPORTS_DOWNLOAD_URL="$REP_WEB_URL/$REL_VER/$REP_TAR_FILENAME"
             - |
                KICK_TAR_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "TAR_FILENAME")
                KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
