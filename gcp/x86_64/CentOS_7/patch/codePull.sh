@@ -85,6 +85,7 @@ __process_error() {
 sudo chown -R centos:centos $NODE_SCRIPTS_LOCATION/
 
 sudo ls -ltra $NODE_SCRIPTS_LOCATION
+sudo ls -ltra "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM"
 
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
