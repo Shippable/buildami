@@ -73,14 +73,16 @@ __process_error() {
   echo -e "     $error"
 }
 
-__process_msg "cleaning $NODE_SCRIPTS_LOCATION"
-sudo rm -rf $NODE_SCRIPTS_LOCATION
+#__process_msg "cleaning $NODE_SCRIPTS_LOCATION"
+#sudo rm -rf $NODE_SCRIPTS_LOCATION
+#
+#__process_msg "downloading node scripts tarball"
+#wget '$NODE_DOWNLOAD_URL' -O $NODE_SCRIPTS_TMP_LOC
+#
+#__process_msg "extracting node scripts"
+#tar -xzvf '$NODE_SCRIPTS_TMP_LOC' -C $NODE_SCRIPTS_LOCATION --strip-components=1
 
-__process_msg "downloading node scripts tarball"
-wget '$NODE_DOWNLOAD_URL' -O $NODE_SCRIPTS_TMP_LOC
-
-__process_msg "extracting node scripts"
-tar -xzvf '$NODE_SCRIPTS_TMP_LOC' -C $NODE_SCRIPTS_LOCATION --strip-components=1
+sudo chown -R centos $NODE_SCRIPTS_LOCATION/
 
 ls -ltra $NODE_SCRIPTS_LOCATION
 
