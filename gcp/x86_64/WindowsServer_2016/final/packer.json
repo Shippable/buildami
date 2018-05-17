@@ -9,7 +9,12 @@
     "REL_VER": "",
     "IMG_VER": "",
     "SOURCE_IMAGE_FAMILY": "var",
-    "FAM_NAME": ""
+    "FAM_NAME": "",
+    "ARCHITECTURE": "",
+    "OS": "",
+    "DOCKER_VER": "",
+    "REQPROC_IMAGE": "",
+    "REQKICK_DOWNLOAD_URL": ""
   },
   "builders": [
     {
@@ -42,10 +47,14 @@
       "destination": "images.txt"
     },
     {
-      "script": "codePull.ps1",
+      "script": "codeRefresh.ps1",
       "type": "powershell",
       "environment_vars": [
-        "REL_VER={{user `REL_VER`}}",
+        "ARCHITECTURE={{user `ARCHITECTURE`}}",
+        "OS={{user `OS`}}",
+        "NODE_DOWNLOAD_URL={{user `NODE_DOWNLOAD_URL`}}",
+        "REQPROC_IMAGE={{user `REQPROC_IMAGE`}}",
+        "REQKICK_DOWNLOAD_URL={{user `REQKICK_DOWNLOAD_URL`}}",
         "IMG_VER={{user `IMG_VER`}}"
       ]
     }
