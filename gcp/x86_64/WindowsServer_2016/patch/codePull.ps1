@@ -11,7 +11,7 @@ $NODE_SHIPCTL_LOCATION = "$NODE_SCRIPTS_LOCATION/shipctl"
 $SHIPPABLE_FIREWALL_RULE_NAME = "shippable-docker"
 $REQKICK_DIR = "$env:USERPROFILE/Shippable/reqKick"
 
-$install_docker_only = $false
+$INSTALL_DOCKER_ONLY = $false
 
 Write-Output "$NODE_ARCHITECTURE"
 Write-Output "$NODE_OPERATING_SYSTEM"

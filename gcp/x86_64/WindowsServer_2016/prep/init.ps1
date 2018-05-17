@@ -10,7 +10,7 @@ $NODE_SCRIPTS_LOCATION = "$env:USERPROFILE/node"
 $NODE_SHIPCTL_LOCATION = "$NODE_SCRIPTS_LOCATION/shipctl"
 $SHIPPABLE_FIREWALL_RULE_NAME = "shippable-docker"
 
-$install_docker_only = $true
+$INSTALL_DOCKER_ONLY = $TRUE
 
 Write-Output "|___Set username and password"
 wmic useraccount where "name='$env:WINRM_USERNAME'" set PasswordExpires=FALSE
