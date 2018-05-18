@@ -2476,7 +2476,6 @@ jobs:
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
-      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_tag
       - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
