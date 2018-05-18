@@ -20,6 +20,8 @@ readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
 readonly CPP_IMAGE="drydock/u14cppall:prod"
 
+echo $NODE_DOWNLOAD_URL
+
 exec_cmd() {
   local cmd=$@
   eval $cmd
