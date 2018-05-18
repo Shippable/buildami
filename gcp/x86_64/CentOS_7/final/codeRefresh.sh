@@ -94,14 +94,9 @@ fetch_node_scripts() {
   tar -xzvf $NODE_SCRIPTS_TMP_LOC -C $NODE_SCRIPTS_LOCATION --strip-components=1
 }
 
-pull_zephyr() {
-  docker pull $ZEPHYR_IMG
-}
-
 main() {
   check_envs
   fetch_node_scripts
-#  pull_zephyr
 }
 
 echo "Running execRefresh script..."
