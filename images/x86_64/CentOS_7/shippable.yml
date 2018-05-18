@@ -814,7 +814,7 @@ jobs:
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
       - IN: c7repLib_x8664_tag
-#      - IN: u16reqProc_dd_tag
+      - IN: u16reqProc_dd_tag
       - IN: u16reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -904,7 +904,7 @@ jobs:
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
       - IN: c7repLib_x8664_tag
-#      - IN: u16reqProc_dd_tag
+      - IN: u16reqProc_dd_tag
       - IN: u16reqProc_dd_img
         switch: off
       - IN: buildami_repo
