@@ -246,12 +246,15 @@ jobs:
                REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
                IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
                UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
             - |
                pushd $(shipctl get_resource_meta "shipit_gh_ssh")
                  shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
                  chmod 600 gh_ssh.key
                  ssh-add gh_ssh.key
                popd
+            - docker login -u $DH_USR_NAME -p $DH_PASS
             - docker pull "$IMG_NAME:$UP_IMG_TAG"
             - |
                docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
@@ -308,12 +311,15 @@ jobs:
                REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
                IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
                UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
             - |
                pushd $(shipctl get_resource_meta "shipit_gh_ssh")
                  shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
                  chmod 600 gh_ssh.key
                  ssh-add gh_ssh.key
                popd
+            - docker login -u $DH_USR_NAME -p $DH_PASS
             - docker pull "$IMG_NAME:$UP_IMG_TAG"
             - |
                docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
@@ -370,12 +376,15 @@ jobs:
                REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
                IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
                UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
             - |
                pushd $(shipctl get_resource_meta "shipit_gh_ssh")
                  shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
                  chmod 600 gh_ssh.key
                  ssh-add gh_ssh.key
                popd
+            - docker login -u $DH_USR_NAME -p $DH_PASS
             - docker pull "$IMG_NAME:$UP_IMG_TAG"
             - |
                docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
@@ -432,12 +441,15 @@ jobs:
                REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
                IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
                UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
             - |
                pushd $(shipctl get_resource_meta "shipit_gh_ssh")
                  shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
                  chmod 600 gh_ssh.key
                  ssh-add gh_ssh.key
                popd
+            - docker login -u $DH_USR_NAME -p $DH_PASS
             - docker pull "$IMG_NAME:$UP_IMG_TAG"
             - |
                docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
@@ -494,12 +506,15 @@ jobs:
                REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
                IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
                UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
+               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
+               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
             - |
                pushd $(shipctl get_resource_meta "shipit_gh_ssh")
                  shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
                  chmod 600 gh_ssh.key
                  ssh-add gh_ssh.key
                popd
+            - docker login -u $DH_USR_NAME -p $DH_PASS
             - docker pull "$IMG_NAME:$UP_IMG_TAG"
             - |
                docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
