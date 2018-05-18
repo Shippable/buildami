@@ -582,14 +582,17 @@ jobs:
                export REL_VER_DASH=${REL_VER//./-}
                export FAM_NAME=$REL_VER_DASH"-final-w2k16-x86-64"
             - |
-               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "BASE_IMG_RES" "IMAGE_FAM_NAME")
-               echo $SOURCE_IMAGE_FAMILY
-               export ARCHITECTURE=$(shipctl get_resource_version_key "BASE_IMG_RES" "ARCHITECTURE")
-               export OS=$(shipctl get_resource_version_key "BASE_IMG_RES" "OS")
-               export DOCKER_VER=$(shipctl get_resource_version_key "BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
+               export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
+               export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
+               export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+            - echo $SOURCE_IMAGE_FAMILY
+            - echo $DOCKER_VER
+            - echo $(eval $DOCKER_VER)
+            - echo $REQPROC_IMG_RES
+            - echo $(eval $REQPROC_IMG_RES)
+            - echo $(REQPROC_IMG_RES)
             - |
-               REQPROC_REG=$(shipctl get_resource_version_key "REQPROC_IMG_RES" "sourceName")
-               echo $REQPROC_REG
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
 #               REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
 #               export REQPROC_IMAGE="$REQPROC_REG:$REQPROC_TAG"
