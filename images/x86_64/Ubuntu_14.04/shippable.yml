@@ -1741,6 +1741,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -1781,6 +1782,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -1831,6 +1833,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -1871,6 +1874,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -1921,6 +1925,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -1961,6 +1966,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2011,6 +2017,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -2051,6 +2058,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2101,6 +2109,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -2141,6 +2150,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2191,6 +2201,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -2231,6 +2242,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2281,6 +2293,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -2321,6 +2334,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2371,6 +2385,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -2411,6 +2426,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2462,6 +2478,7 @@ jobs:
       - IN: u14repLib_x8664_tag
       - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -2492,12 +2509,12 @@ jobs:
                 - SSH_USER: "root"
                 - IMG_VER: "v6.2.4"
           script:
-#                              export SOURCE_IMAGE_FAMILY=$FAM_NAME
             - set -o pipefail
             - |
                export REL_VER=$(shipctl get_resource_version_name "prod_release")
                export IMG_VER_DASH=${IMG_VER//./-}
                export FAM_NAME=$IMG_VER_DASH"-final-u14-x86-64"
+               export SOURCE_IMAGE_FAMILY=$FAM_NAME
             - |
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
@@ -2553,6 +2570,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -2593,6 +2611,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2643,6 +2662,7 @@ jobs:
       - IN: cexec_repo_file_tag
       - IN: u14repLib_x8664_tag
       - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
       - IN: u14reqProc_dd_img
         switch: off
       - IN: buildami_repo
@@ -2683,6 +2703,7 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
