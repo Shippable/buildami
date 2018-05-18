@@ -1761,7 +1761,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")
             - cd u16Exec
-            - ./execPackUpdate.sh u16_v634_update prod_release ami-3e38aa41 v634 ami_bits_access
+            - ./execPackUpdate.sh u16_v634_update prod_release ami-51902e2e v634 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/u16Exec/output.txt
