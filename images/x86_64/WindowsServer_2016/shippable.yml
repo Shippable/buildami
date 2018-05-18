@@ -398,7 +398,7 @@ jobs:
             - |
                git remote add up $GIT_PATH
                git remote -v
-               git checkout $REPO_COMMIT
+               git checkout master
             - |
                git pull --tags
                if git tag -d $REL_VER; then
