@@ -136,7 +136,7 @@ jobs:
               env:
                 - IMG_BASE: "u16_aarch64_dd_img"
                 - IMG_OUT: "u16microbase_aarch64_dd_img"
-                - RES_REPO: "u16microbase_dd_repo"
+                - RES_REPO: "u16microbase_aarch64_dd_repo"
           script:
             - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
             - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
