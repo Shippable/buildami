@@ -20,8 +20,6 @@ readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
 readonly CPP_IMAGE="drydock/u14cppall:prod"
 
-echo "NODE_DOWNLOAD_URL="$NODE_DOWNLOAD_URL
-
 exec_cmd() {
   local cmd=$@
   eval $cmd
@@ -123,10 +121,10 @@ fetch_node_scripts() {
   rm -rf $NODE_SCRIPTS_LOCATION || true
 
   __process_msg "downloading node scripts tarball"
-  wget '$NODE_DOWNLOAD_URL' -O $NODE_SCRIPTS_TMP_LOC
+  wget $NODE_DOWNLOAD_URL -O $NODE_SCRIPTS_TMP_LOC
 
   __process_msg "extracting node scripts"
-  tar -xzvf '$NODE_SCRIPTS_TMP_LOC' -C $NODE_SCRIPTS_LOCATION --strip-components=1
+  tar -xzvf $NODE_SCRIPTS_TMP_LOC -C $NODE_SCRIPTS_LOCATION --strip-components=1
 }
 
 install_shipctl() {
