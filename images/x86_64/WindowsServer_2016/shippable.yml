@@ -586,8 +586,8 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "BASE_IMG_RES" "DOCKER_VER")
-#            - |
-#               REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
+            - |
+               REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
 #               REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
 #               export REQPROC_IMAGE="$REQPROC_REG:$REQPROC_TAG"
 #            - |
