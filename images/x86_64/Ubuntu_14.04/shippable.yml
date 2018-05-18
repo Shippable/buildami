@@ -1895,9 +1895,9 @@ jobs:
                CEXEC_TAR_FILENAME=$(shipctl get_resource_version_key "$CEXEC_RES" "TAR_FILENAME")
                CEXEC_WEB_URL=$(shipctl get_resource_version_key "$CEXEC_RES" "WEB_URL")
                export CEXEC_DOWNLOAD_URL="$CEXEC_WEB_URL/$REL_VER/$CEXEC_TAR_FILENAME"
-             - echo $NODE_TAR_FILENAME
-             - echo $NODE_WEB_URL
-             - echo $NODE_DOWNLOAD_URL
+            - echo $NODE_TAR_FILENAME
+            - echo $NODE_WEB_URL
+            - echo $NODE_DOWNLOAD_URL
 #            - |
 #               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
 #               cp -R ../../../templates/linux/* .
