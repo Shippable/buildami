@@ -565,8 +565,8 @@ jobs:
               env:
                 - BASE_IMG_RES: "patch_w2k16_x8664_gce_img"
                 - NODE_RES: "node_repo_file_tag"
-                - REQPROC_RES: "u16reqProc_dd_tag"
-                - REQPROC_IMG_RES: "u16reqProc_dd_img"
+                - REQPROC_RES: "w2k16reqProc_dd_tag"
+                - REQPROC_IMG_RES: "w2k16reqProc_dd_img"
                 - REQKICK_RES: "reqKick_repo_file_tag"
                 - MACHINE_TYPE: "n1-standard-8"
                 - REGION: "us-east1"
@@ -586,33 +586,27 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
-            - echo $SOURCE_IMAGE_FAMILY
-            - echo $DOCKER_VER
-            - echo $(eval $DOCKER_VER)
-            - echo $REQPROC_IMG_RES
-            - echo $(eval $REQPROC_IMG_RES)
-            - echo $(REQPROC_IMG_RES)
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
-#               REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
-#               export REQPROC_IMAGE="$REQPROC_REG:$REQPROC_TAG"
-#            - |
-#               NODE_ZIP_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "ZIP_FILENAME")
-#               NODE_WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
-#               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$REL_VER/$NODE_ZIP_FILENAME"
-#            - |
-#               KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
-#               KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
-#               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_ZIP_FILENAME"
-#            - |
-#               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
-#               cp -R ../../../templates/win/* .
-#               shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
-#               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-#               shipctl replace vars.json
-#               packer validate -var-file=vars.json packer.json
-#               packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
-#            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+               REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
+               export REQPROC_IMAGE="$REQPROC_REG:$REQPROC_TAG"
+            - |
+               NODE_ZIP_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "ZIP_FILENAME")
+               NODE_WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
+               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$REL_VER/$NODE_ZIP_FILENAME"
+            - |
+               KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
+               KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
+               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_ZIP_FILENAME"
+            - |
+               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
+               cp -R ../../../templates/win/* .
+               shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
+               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+               shipctl replace vars.json
+               packer validate -var-file=vars.json packer.json
+               packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
@@ -666,9 +660,9 @@ jobs:
                export FAM_NAME=$IMG_VER_DASH"-final-u16-x86-64"
                export SOURCE_IMAGE_FAMILY=$FAM_NAME
             - |
-               export ARCHITECTURE=$(shipctl get_resource_version_key "BASE_IMG_RES" "ARCHITECTURE")
-               export OS=$(shipctl get_resource_version_key "BASE_IMG_RES" "OS")
-               export DOCKER_VER=$(shipctl get_resource_version_key "BASE_IMG_RES" "DOCKER_VER")
+               export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES "ARCHITECTURE")
+               export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES "OS")
+               export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES "DOCKER_VER")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
