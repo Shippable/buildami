@@ -1,17 +1,17 @@
 $ErrorActionPreference = "Stop"
 
-readonly NODE_ARCHITECTURE="$env:ARCHITECTURE"
-readonly NODE_OPERATING_SYSTEM="$env:OS"
-readonly NODE_DOWNLOAD_URL="$env:NODE_DOWNLOAD_URL"
-readonly EXEC_IMAGE="$env:REQPROC_IMAGE"
-readonly REQKICK_DOWNLOAD_URL="$env:REQKICK_DOWNLOAD_URL"
+$NODE_ARCHITECTURE="$env:ARCHITECTURE"
+$NODE_OPERATING_SYSTEM="$env:OS"
+$NODE_DOWNLOAD_URL="$env:NODE_DOWNLOAD_URL"
+$EXEC_IMAGE="$env:REQPROC_IMAGE"
+$REQKICK_DOWNLOAD_URL="$env:REQKICK_DOWNLOAD_URL"
 $IMG_VER = "$env:IMG_VER"
 
-readonly NODE_SCRIPTS_TMP_LOC="$env:TEMP/node.zip"
-readonly REQKICK_TMP_LOC="$env:TEMP/reqKick.zip"
-readonly NODE_SCRIPTS_LOCATION="/root/node"
-readonly NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
-readonly REQKICK_LOCATION="/var/lib/shippable/reqKick"
+$NODE_SCRIPTS_TMP_LOC="$env:TEMP/node.zip"
+$REQKICK_TMP_LOC="$env:TEMP/reqKick.zip"
+$NODE_SCRIPTS_LOCATION="/root/node"
+$NODE_SHIPCTL_LOCATION="$NODE_SCRIPTS_LOCATION/shipctl"
+$REQKICK_LOCATION="/var/lib/shippable/reqKick"
 
 Function get_node_scripts {
   if (Test-Path $NODE_SCRIPTS_LOCATION) {
