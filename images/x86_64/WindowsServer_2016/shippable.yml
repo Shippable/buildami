@@ -158,6 +158,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_w16_cus_01
+      container: false
     steps:
       - IN: prod_release
       - IN: w2k16_dd_repo
@@ -219,6 +222,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_w16_cus_01
+      container: false
     steps:
       - IN: prod_release
       - IN: w2k16dotnetcore_dd_repo
@@ -280,6 +286,9 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_w16_cus_01
+      container: false
     steps:
       - IN: prod_release
       - IN: w2k16aspnetcore_dd_repo
