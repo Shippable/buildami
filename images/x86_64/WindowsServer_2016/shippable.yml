@@ -590,23 +590,23 @@ jobs:
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
                export REQPROC_IMAGE="$REQPROC_REG:$REQPROC_TAG"
-            - |
-               NODE_ZIP_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "ZIP_FILENAME")
-               NODE_WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
-               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$REL_VER/$NODE_ZIP_FILENAME"
-            - |
-               KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
-               KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
-               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_ZIP_FILENAME"
-            - |
-               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
-               cp -R ../../../templates/win/* .
-               shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
-               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-               shipctl replace vars.json
-               packer validate -var-file=vars.json packer.json
-               packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
-            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+#            - |
+#               NODE_ZIP_FILENAME=$(shipctl get_resource_version_key "$NODE_RES" "ZIP_FILENAME")
+#               NODE_WEB_URL=$(shipctl get_resource_version_key "$NODE_RES" "WEB_URL")
+#               export NODE_DOWNLOAD_URL="$NODE_WEB_URL/$REL_VER/$NODE_ZIP_FILENAME"
+#            - |
+#               KICK_ZIP_FILENAME=$(shipctl get_resource_version_key "$REQKICK_RES" "ZIP_FILENAME")
+#               KICK_WEB_URL=$(shipctl get_resource_version_key "$REQKICK_RES" "WEB_URL")
+#               export REQKICK_DOWNLOAD_URL="$KICK_WEB_URL/$REL_VER/$KICK_ZIP_FILENAME"
+#            - |
+#               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
+#               cp -R ../../../templates/win/* .
+#               shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
+#               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+#               shipctl replace vars.json
+#               packer validate -var-file=vars.json packer.json
+#               packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
+#            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
