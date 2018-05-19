@@ -46,5 +46,3 @@ clone_node_scripts
 clean_reqKick
 clone_reqKick
 pull_reqProc
-
-& "C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeInstance.ps1 -Schedule"

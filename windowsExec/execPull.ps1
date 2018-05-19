@@ -159,5 +159,3 @@ install_shipctl
 clone_reqKick
 tag_reqKick
 pull_tagged_reqproc
-
-& "C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeInstance.ps1 -Schedule"
