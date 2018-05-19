@@ -1782,7 +1782,6 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
-               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -1874,7 +1873,6 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
-               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -1966,7 +1964,6 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
-               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2058,7 +2055,6 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
-               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2150,7 +2146,6 @@ jobs:
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
                export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
                export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
-               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
             - |
                REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
                REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
@@ -2210,14 +2205,14 @@ jobs:
         switch: off
       - IN: ship_bits_gcp
         switch: off
-      - IN: patch_u14_x8664_d113_gce_img
+      - IN: patch_u14_x8664_gce_img
         switch: off
       - TASK:
           name: build_gce_image
           runtime:
             options:
               env:
-                - BASE_IMG_RES: "patch_u14_x8664_d113_gce_img"
+                - BASE_IMG_RES: "patch_u14_x8664_gce_img"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -2302,14 +2297,14 @@ jobs:
         switch: off
       - IN: ship_bits_gcp
         switch: off
-      - IN: patch_u14_x8664_d113_gce_img
+      - IN: patch_u14_x8664_gce_img
         switch: off
       - TASK:
           name: build_gce_image
           runtime:
             options:
               env:
-                - BASE_IMG_RES: "patch_u14_x8664_d113_gce_img"
+                - BASE_IMG_RES: "patch_u14_x8664_gce_img"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -2394,14 +2389,14 @@ jobs:
         switch: off
       - IN: ship_bits_gcp
         switch: off
-      - IN: patch_u14_x8664_d113_gce_img
+      - IN: patch_u14_x8664_gce_img
         switch: off
       - TASK:
           name: build_gce_image
           runtime:
             options:
               env:
-                - BASE_IMG_RES: "patch_u14_x8664_d113_gce_img"
+                - BASE_IMG_RES: "patch_u14_x8664_gce_img"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -2486,14 +2481,14 @@ jobs:
         switch: off
       - IN: ship_bits_gcp
         switch: off
-      - IN: patch_u14_x8664_d113_gce_img
+      - IN: patch_u14_x8664_gce_img
         switch: off
       - TASK:
           name: build_gce_image
           runtime:
             options:
               env:
-                - BASE_IMG_RES: "patch_u14_x8664_d113_gce_img"
+                - BASE_IMG_RES: "patch_u14_x8664_gce_img"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -2578,14 +2573,14 @@ jobs:
         switch: off
       - IN: ship_bits_gcp
         switch: off
-      - IN: patch_u14_x8664_d113_gce_img
+      - IN: patch_u14_x8664_gce_img
         switch: off
       - TASK:
           name: build_gce_image
           runtime:
             options:
               env:
-                - BASE_IMG_RES: "patch_u14_x8664_d113_gce_img"
+                - BASE_IMG_RES: "patch_u14_x8664_gce_img"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -2670,14 +2665,14 @@ jobs:
         switch: off
       - IN: ship_bits_gcp
         switch: off
-      - IN: patch_u14_x8664_d113_gce_img
+      - IN: patch_u14_x8664_gce_img
         switch: off
       - TASK:
           name: build_gce_image
           runtime:
             options:
               env:
-                - BASE_IMG_RES: "patch_u14_x8664_d113_gce_img"
+                - BASE_IMG_RES: "patch_u14_x8664_gce_img"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
