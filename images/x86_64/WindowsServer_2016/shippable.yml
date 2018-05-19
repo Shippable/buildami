@@ -680,10 +680,10 @@ jobs:
                pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final
                cp -R ../../../templates/win/* .
                shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
-               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
-               shipctl replace vars.json
-               packer validate -var-file=vars.json packer.json
-               packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
+#               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+#               shipctl replace vars.json
+#               packer validate -var-file=vars.json packer.json
+#               packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
