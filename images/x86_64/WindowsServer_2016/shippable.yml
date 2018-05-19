@@ -773,15 +773,9 @@ jobs:
       - IN: w2k16_x8664_tag
       - IN: w2k16dotnetcore_x8664_tag
       - IN: w2k16aspnetcore_x8664_tag
-      - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
-      - IN: reqExec_repo_tag
       - IN: reqProc_repo_tag
-      - IN: c7repLib_x8664_tag
-      - IN: u14repLib_x8664_tag
-      - IN: u16repLib_x8664_tag
-      - IN: u16repLib_aarch64_tag
       - IN: buildami_repo
         switch: off
       - IN: ami_bits_access
@@ -808,7 +802,7 @@ jobs:
       - script: cat output.txt
       - script: popd
 
-  - name: windows_v634_update
+  - name: v634_w2k16_aws
     type: runSh
     dependencyMode: strict
     triggerMode: parallel
@@ -827,20 +821,45 @@ jobs:
         switch: off
       - IN: ami_bits_access
         switch: off
-      - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
-      - IN: reqExec_repo_tag
       - IN: reqProc_repo_tag
-      - IN: c7repLib_x8664_tag
-      - IN: u14repLib_x8664_tag
-      - IN: u16repLib_x8664_tag
-      - IN: u16repLib_aarch64_tag
       - TASK:
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")
             - cd windowsExec
-            - ./execPackUpdate.sh windows_v634_update prod_release ami-460cab3b v634 ami_bits_access
+            - ./execPackUpdate.sh v644_w2k16_aws prod_release ami-460cab3b v634 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt
+
+  - name: v644_w2k16_aws
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: windowsbaseami_params
+        switch: off
+      - IN: windowsbaseami_winrm_keys
+        switch: off
+      - IN: windowsfinalami_prep
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqProc_repo_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "buildami_repo")
+            - cd windowsExec
+            - ./execPackUpdate.sh v644_w2k16_aws prod_release ami-460cab3b v644 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt

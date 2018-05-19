@@ -1,12 +1,7 @@
 $ErrorActionPreference = "Stop"
 
-$MESSAGE_STORE_LOCATION = "/tmp/cexec"
 $SHIPPABLE_RELEASE_VERSION = "$env:REL_VER"
-$KEY_STORE_LOCATION = "/tmp/ssh"
-$NODE_TYPE_CODE = 7001
 $SHIPPABLE_NODE_INIT = $TRUE
-$NODE_DATA_LOCATION = "/etc/shippable"
-$NODE_LOGS_LOCATION = "$NODE_DATA_LOCATION/logs"
 $EXEC_REPO = "https://github.com/Shippable/cexec.git"
 $NODE_SCRIPTS_REPO = "https://github.com/Shippable/node.git"
 $NODE_JS_VERSION = "4.8.5"
