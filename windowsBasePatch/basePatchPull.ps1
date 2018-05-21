@@ -32,10 +32,12 @@ Function clone_reqKick () {
   Write-Output "Cloning reqKick to $REQKICK_DIR..."
   git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
 
-  cd $REQKICK_DIR
+  Push-Location $REQKICK_DIR
   git checkout $SHIPPABLE_RELEASE_VERSION
   Write-Output "Running npm install for reqKick"
   npm install --silent
+  Pop-Location
+  Write-Output "Done with npm install for reqKick"
 }
 
 Function pull_reqProc () {
@@ -48,5 +50,5 @@ Write-Output "RES_IMG_VER_NAME=$env:RES_IMG_VER_NAME"
 pull_reqProc
 clean_node_scripts
 clone_node_scripts
-#clean_reqKick
-#clone_reqKick
+clean_reqKick
+clone_reqKick
