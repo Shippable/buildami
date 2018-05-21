@@ -45,8 +45,8 @@ Function pull_reqProc () {
 }
 
 Write-Output "RES_IMG_VER_NAME=$env:RES_IMG_VER_NAME"
-pull_reqProc
-clean_node_scripts
-clone_node_scripts
-clean_reqKick
-clone_reqKick
+#pull_reqProc
+#clean_node_scripts
+#clone_node_scripts
+#clean_reqKick
+#clone_reqKick
