@@ -753,15 +753,13 @@ jobs:
             - export AMI_ID=$(shipctl get_resource_version_key windowsbaseami_prep versionName)
             - export RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME_DASH)
             - export RES_IMG_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME)
-            - shipctl get_resource_version_key windowsbaseami_prep IMAGE_NAMES_SPACED
-            - export IMAGE_NAMES_SPACED="$(shipctl get_resource_version_key windowsbaseami_prep IMAGE_NAMES_SPACED)"
             - shipctl replace bootstrap_win.txt vars.json
             - packer validate -var-file=vars.json basePatchAMI.json
             - packer build -machine-readable -var-file=vars.json basePatchAMI.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" "IMAGE_NAMES_SPACED=\"$IMAGE_NAMES_SPACED\""
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
@@ -791,9 +789,14 @@ jobs:
       - IN: prod_release
         switch: off
       - TASK:
+          runtime:
+            options:
+              env:
+                - BASE_IMG_RES: "windowsbaseami_patch"
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")
             - cd windowsExec
+            - shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
             - sed -i "s/{{%WINRM_USERNAME%}}/$WINRM_USERNAME/g" ./bootstrap_win.txt
             - sed -i "s/{{%WINRM_PASSWORD%}}/$WINRM_PASSWORD/g" ./bootstrap_win.txt
             - ./execPack.sh windowsfinalami_prep prod_release windowsbaseami_patch ami_bits_access

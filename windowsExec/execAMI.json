@@ -36,13 +36,9 @@
   ],
   "provisioners": [
     {
-      "type": "powershell",
-      "inline": [
-        "Install-WindowsFeature containers"
-      ]
-    },
-    {
-      "type": "windows-restart"
+      "type": "file",
+      "source": "images.txt",
+      "destination": "images.txt"
     },
     {
       "script": "./execPull.ps1",

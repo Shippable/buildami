@@ -38,8 +38,9 @@ Function validate_envs() {
 
 Function pull_images() {
   if ($env:IMAGE_NAMES_SPACED) {
-    foreach ($IMAGE_NAME in $env:IMAGE_NAMES_SPACED.Split(" ")) {
-      echo "Pulling -------------------> ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}"
+    #foreach ($IMAGE_NAME in $env:IMAGE_NAMES_SPACED.Split(" ")) {
+    foreach ($IMAGE_NAME in Get-Content ".\images.txt") {
+      Write-Output "Pulling -------------------> ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}"
       docker pull ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}
       if ($LASTEXITCODE -ne 0) {
         throw "Exit code is $LASTEXITCODE"
