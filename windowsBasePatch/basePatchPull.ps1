@@ -40,7 +40,8 @@ Function clone_reqKick () {
 
 Function pull_reqProc () {
   Write-Output "Cloning reqProc image $REQPROC_MASTER_IMAGE"
-  docker pull $REQPROC_MASTER_IMAGE
+  & docker info
+  & docker pull $REQPROC_MASTER_IMAGE
 }
 
 Function reset_aws_scheduled_task () {
@@ -53,5 +54,5 @@ clean_node_scripts
 clone_node_scripts
 clean_reqKick
 clone_reqKick
-pull_reqProc
+#pull_reqProc
 reset_aws_scheduled_task
