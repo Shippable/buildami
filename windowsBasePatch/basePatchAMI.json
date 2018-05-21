@@ -35,9 +35,6 @@
   ],
   "provisioners": [
     {
-      "type": "windows-restart"
-    },
-    {
       "type": "file",
       "source": "images.txt",
       "destination": "images.txt"
@@ -48,6 +45,9 @@
       "environment_vars": [
         "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}"
       ]
+    },
+    {
+      "type": "windows-restart"
     },
     {
       "type": "powershell",
