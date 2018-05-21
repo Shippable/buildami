@@ -48,12 +48,6 @@
       "environment_vars": [
         "RES_IMG_VER_NAME={{user `RES_IMG_VER_NAME`}}"
       ]
-    },
-    {
-      "type": "powershell",
-      "inline": [
-        "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeInstance.ps1 -Schedule"
-      ]
     }
   ]
 }
