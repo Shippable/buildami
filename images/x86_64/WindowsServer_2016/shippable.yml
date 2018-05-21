@@ -577,7 +577,7 @@ jobs:
             - |
                export REL_VER=$(shipctl get_resource_version_name "prod_release")
                export IMG_VER_DASH=${IMG_VER//./-}
-               export FAM_NAME=$IMG_VER_DASH"-final-u16-x86-64"
+               export FAM_NAME=$IMG_VER_DASH"-final-w2k16-x86-64"
                export SOURCE_IMAGE_FAMILY=$FAM_NAME
             - |
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
@@ -655,7 +655,7 @@ jobs:
             - |
                export REL_VER=$(shipctl get_resource_version_name "prod_release")
                export IMG_VER_DASH=${IMG_VER//./-}
-               export FAM_NAME=$IMG_VER_DASH"-final-u16-x86-64"
+               export FAM_NAME=$IMG_VER_DASH"-final-w2k16-x86-64"
                export SOURCE_IMAGE_FAMILY=$FAM_NAME
             - |
                export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
