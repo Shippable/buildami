@@ -20,9 +20,6 @@ readonly REQKICK_DIR="/var/lib/shippable/reqKick"
 readonly IS_SWAP_ENABLED=false
 export install_docker_only=false
 
-#temporary zephyr build speed up....
-readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
-
 check_envs() {
     local expected_envs=(
     'ARCHITECTURE'
