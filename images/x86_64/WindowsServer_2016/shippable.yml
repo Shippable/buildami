@@ -753,13 +753,14 @@ jobs:
             - export AMI_ID=$(shipctl get_resource_version_key windowsbaseami_prep versionName)
             - export RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME_DASH)
             - export RES_IMG_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME)
+            - export IMAGE_NAMES_SPACED=$(shipctl get_resource_version_key windowsbaseami_prep IMAGE_NAMES_SPACED)
             - shipctl replace bootstrap_win.txt vars.json
             - packer validate -var-file=vars.json basePatchAMI.json
             - packer build -machine-readable -var-file=vars.json basePatchAMI.json 2>&1 | tee output.txt
             - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
