@@ -44,15 +44,9 @@ Function pull_reqProc () {
   & docker pull $REQPROC_MASTER_IMAGE
 }
 
-Function reset_aws_scheduled_task () {
-  Write-Output "Resetting AWS scheduled task"
-  & C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeInstance.ps1 -Schedule
-}
-
 Write-Output "RES_IMG_VER_NAME=$env:RES_IMG_VER_NAME"
 pull_reqProc
 clean_node_scripts
 clone_node_scripts
-reset_aws_scheduled_task
 clean_reqKick
 clone_reqKick
