@@ -23,6 +23,7 @@ export install_docker_only=false
 #temporary zephyr build speed up....
 readonly ZEPHYR_IMG="zephyrprojectrtos/ci:v0.2"
 readonly CPP_IMAGE="drydock/u14cppall:prod"
+readonly DEF_MICROBASE_IMAGE="drydock/microbase:v6.2.4"
 
 check_envs() {
     local expected_envs=(
@@ -104,17 +105,21 @@ pull_cpp_prod_image() {
   docker pull $CPP_IMAGE
 }
 
-main() {
-  check_envs
-  fetch_node_scripts
-  pull_zephyr
-  pull_cpp_prod_image
+
+pull_def_microbase_image() {
+  __process_marker "Pulling cpp image..."
+  docker pull $DEF_MICROBASE_IMAGE
 }
 
 echo "Running execRefresh script..."
 trap before_exit EXIT
 
+check_envs
+fetch_node_scripts
+pull_zephyr
+pull_cpp_prod_image
+pull_def_microbase_image
+
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
 
-main
