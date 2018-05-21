@@ -91,15 +91,12 @@ fetch_node_scripts() {
   tar -xzvf $NODE_SCRIPTS_TMP_LOC -C $NODE_SCRIPTS_LOCATION --strip-components=1
 }
 
-main() {
-  check_envs
-  fetch_node_scripts
-}
-
 echo "Running execRefresh script..."
 trap before_exit EXIT
+
+check_envs
+fetch_node_scripts
 
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
 
-main

@@ -98,16 +98,13 @@ pull_zephyr() {
   docker pull $ZEPHYR_IMG
 }
 
-main() {
-  check_envs
-  fetch_node_scripts
-  pull_zephyr
-}
 
 echo "Running execRefresh script..."
 trap before_exit EXIT
 
+check_envs
+fetch_node_scripts
+pull_zephyr
+
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
-
-main
