@@ -6,6 +6,7 @@ $REQPROC_MASTER_IMAGE = "drydock/w16reqproc:master"
 $NODE_ARCHITECTURE = "x86_64"
 $NODE_OPERATING_SYSTEM = "WindowsServer_2016"
 $SHIPPABLE_RELEASE_VERSION = "$env:RES_IMG_VER_NAME"
+$REQKICK_DOWNLOAD_URL = "https://shippable-artifacts.s3.amazonaws.com/reqKick/${SHIPPABLE_RELEASE_VERSION}/reqKick-master.zip"
 $REPORTS_DOWNLOAD_URL = "https://s3.amazonaws.com/shippable-artifacts/reports/$SHIPPABLE_RELEASE_VERSION/reports-$SHIPPABLE_RELEASE_VERSION-$NODE_ARCHITECTURE-$NODE_OPERATING_SYSTEM.tar.gz"
 
 Function clean_node_scripts() {
@@ -40,6 +41,24 @@ Function clone_reqKick () {
   Write-Output "Done with npm install for reqKick"
 }
 
+Function fetch_reqKick() {
+  Write-Output "Fetching reqKick..."
+
+  $reqKick_zip_download_location="$env:TEMP/reqKick.zip"
+  Invoke-RestMethod "$REQKICK_DOWNLOAD_URL" `
+    -OutFile $reqKick_zip_download_location
+
+  if (Test-Path $REQKICK_DIR) {
+    Remove-Item -Recurse -Force $REQKICK_DIR
+  }
+  mkdir -p $REQKICK_DIR
+  Expand-Archive -LiteralPath $reqKick_zip_download_location -DestinationPath $REQKICK_DIR
+
+  pushd $REQKICK_DIR
+  npm install
+  popd
+}
+
 Function pull_reqProc () {
   Write-Output "Cloning reqProc image $REQPROC_MASTER_IMAGE"
   & docker info
@@ -51,4 +70,5 @@ pull_reqProc
 clean_node_scripts
 clone_node_scripts
 clean_reqKick
+fetch_reqKick
 #clone_reqKick
