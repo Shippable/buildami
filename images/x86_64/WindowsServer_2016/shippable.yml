@@ -810,7 +810,6 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")
             - cd windowsExec
-            - shipctl copy_file_from_resource_state "$BASE_IMG_RES" "images.txt" .
             - sed -i "s/{{%WINRM_USERNAME%}}/$WINRM_USERNAME/g" ./bootstrap_win.txt
             - sed -i "s/{{%WINRM_PASSWORD%}}/$WINRM_PASSWORD/g" ./bootstrap_win.txt
             - ./execPack.sh windowsfinalami_prep prod_release windowsbaseami_patch ami_bits_access
