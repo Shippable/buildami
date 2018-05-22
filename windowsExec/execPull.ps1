@@ -149,9 +149,8 @@ Function pull_tagged_reqproc() {
 
 set_context
 validate_envs
-pull_images
-clone_cexec
-tag_cexec
+#clone_cexec
+#tag_cexec
 # fetch_reports
 clone_node_scripts
 tag_node_scripts
@@ -160,3 +159,4 @@ install_shipctl
 clone_reqKick
 tag_reqKick
 pull_tagged_reqproc
+pull_images
