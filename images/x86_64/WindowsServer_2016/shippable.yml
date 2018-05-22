@@ -765,7 +765,7 @@ jobs:
             - |
               $bootstrap_content = get-content .\bootstrap_win.txt
               $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
-              [IO.File]::WriteAllLines($boostrap_path, $bootstrap_content)
+              [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" basePatchAMI.json
             - packer build -machine-readable -var-file="vars.json" basePatchAMI.json 2>&1 | tee-object output.txt
             - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
