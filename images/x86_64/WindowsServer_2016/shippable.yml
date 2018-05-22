@@ -752,8 +752,7 @@ jobs:
               imageName: drydock/w16
               imageTag: v6.4.4
           script:
-            - shipctl get_resource_state "buildami_repo"
-            - pushd $(shipctl get_resource_state "buildami_repo")/windowsBasePatch
+            - pushd "$(shipctl get_resource_state "buildami_repo")/windowsBasePatch"
             - $env:AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
             - $env:AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
             - $env:AMI_ID=$(shipctl get_resource_version_key windowsbaseami_prep versionName)
