@@ -783,6 +783,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_w16_cus_01
     steps:
       - IN: w2k16_x8664_tag
       - IN: w2k16dotnetcore_x8664_tag
@@ -792,7 +794,7 @@ jobs:
       - IN: reqProc_repo_tag
       - IN: buildami_repo
         switch: off
-      - IN: ami_bits_access
+      - IN: ami_bits_access_cli
         switch: off
       - IN: windowsbaseami_params
         switch: off
@@ -805,20 +807,37 @@ jobs:
       - TASK:
           runtime:
             options:
-              env:
-                - BASE_IMG_RES: "windowsbaseami_patch"
+              imageName: drydock/w16
+              imageTag: v6.4.4
           script:
-            - pushd $(shipctl get_resource_state "buildami_repo")
-            - cd windowsExec
-            - sed -i "s/{{%WINRM_USERNAME%}}/$WINRM_USERNAME/g" ./bootstrap_win.txt
-            - sed -i "s/{{%WINRM_PASSWORD%}}/$WINRM_PASSWORD/g" ./bootstrap_win.txt
-            - ./execPack.sh windowsfinalami_prep prod_release windowsbaseami_patch ami_bits_access
-            - popd
+            - pushd "$(shipctl get_resource_state "buildami_repo")/windowsExec"
+            - $env:AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
+            - $env:AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
+            - $env:AMI_ID=$(shipctl get_resource_version_key windowsbaseami_patch versionName)
+            - $env:RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key windowsbaseami_patch RES_IMG_VER_NAME_DASH)
+            # This is a workaround until shipctl replace on Windows is fixed in https://github.com/Shippable/heap/issues/2319
+            - $env:RES_IMG_DASH_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_patch RES_IMG_VER_NAME_DASH)
+            - $env:RES_IMG_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_patch RES_IMG_VER_NAME)
+            - $env:REL_VER=$(shipctl get_resource_version_name prod_release)
+            - $env:REL_DASH_VER=($env:REL_VER).replace(".", "-")
+            - shipctl replace bootstrap_win.txt vars.json
+            - |
+              $vars_content = Get-Content .\vars.json
+              $vars_path = (Get-ChildItem .\vars.json).FullName
+              [IO.File]::WriteAllLines($vars_path, $vars_content)
+            - |
+              $bootstrap_content = get-content .\bootstrap_win.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
+            - packer validate -var-file="vars.json" execAMI.json
+            - packer build -machine-readable -var-file="vars.json" execAMI.json 2>&1 | tee-object output.txt
+            - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $env:JOB_NAME "RES_REL_VER_NAME=$env:RES_REL_VER_NAME" "RES_REL_VER_NAME_DASH=$env:RES_REL_VER_NAME_DASH" "RES_IMG_VER_NAME=$env:RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$env:RES_IMG_VER_NAME_DASH" "IMAGE_NAMES_SPACED=$env:IMAGE_NAMES_SPACED"
     on_failure:
-      - script: pushd $(shipctl get_resource_state "buildami_repo")
-      - script: cd windowsExec
-      - script: cat output.txt
-      - script: popd
+      script:
+        - cat output.txt
 
   - name: v634_w2k16_aws
     type: runSh
