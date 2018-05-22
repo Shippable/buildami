@@ -729,6 +729,8 @@ jobs:
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    runtime:
+      nodePool: x86_w16_cus_01
     steps:
       - IN: buildami_repo
         switch: off
@@ -745,18 +747,21 @@ jobs:
       - IN: windowsbaseami_prep
       - TASK:
           name: patch_w16_aws_image
+          runtime:
+            options:
+              imageName: drydock/w16
+              imageTag: v6.4.4
           script:
-            - set -o pipefail
             - pushd $(shipctl get_resource_state "buildami_repo")/windowsBasePatch
-            - export AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
-            - export AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
-            - export AMI_ID=$(shipctl get_resource_version_key windowsbaseami_prep versionName)
-            - export RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME_DASH)
-            - export RES_IMG_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME)
+            - $env:AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
+            - $env:AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
+            - $env:AMI_ID=$(shipctl get_resource_version_key windowsbaseami_prep versionName)
+            - $env:RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME_DASH)
+            - $env:RES_IMG_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME)
             - shipctl replace bootstrap_win.txt vars.json
-            - packer validate -var-file=vars.json basePatchAMI.json
-            - packer build -machine-readable -var-file=vars.json basePatchAMI.json 2>&1 | tee output.txt
-            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+            - packer validate -var-file="vars.json" basePatchAMI.json
+            - packer build -machine-readable -var-file="vars.json" basePatchAMI.json 2>&1 | tee-object output.txt
+            - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
     on_success:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
