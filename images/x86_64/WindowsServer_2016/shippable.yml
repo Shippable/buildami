@@ -757,6 +757,8 @@ jobs:
             - $env:AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
             - $env:AMI_ID=$(shipctl get_resource_version_key windowsbaseami_prep versionName)
             - $env:RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME_DASH)
+            # This is a workaround until shipctl replace on Windows is fixed in https://github.com/Shippable/heap/issues/2319
+            - $env:RES_IMG_DASH_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME_DASH)
             - $env:RES_IMG_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME)
             - shipctl replace bootstrap_win.txt vars.json
             - |
@@ -772,7 +774,7 @@ jobs:
             - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH"
+        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME" "IMAGE_NAME=$env:IMAGE_NAME" "RES_IMG_VER_NAME=$env:RES_IMG_VER_NAME" "RES_IMG_VER_NAME_DASH=$env:RES_IMG_VER_NAME_DASH"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:
