@@ -758,8 +758,14 @@ jobs:
             - $env:RES_IMG_VER_NAME_DASH=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME_DASH)
             - $env:RES_IMG_VER_NAME=$(shipctl get_resource_version_key windowsbaseami_prep RES_IMG_VER_NAME)
             - shipctl replace bootstrap_win.txt vars.json
-            - Get-Content ./vars.json | out-file -encoding ASCII ./vars.json
-            - Get-Content ./bootstrap_win.txt | out-file -encoding ASCII ./bootstrap_win.txt
+            - |
+              $vars_content = Get-Content .\vars.json
+              $vars_path = (Get-ChildItem .\vars.json).FullName
+              [IO.File]::WriteAllLines($vars_path, $vars_content)
+            - |
+              $bootstrap_content = get-content .\bootstrap_win.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              [IO.File]::WriteAllLines($boostrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" basePatchAMI.json
             - packer build -machine-readable -var-file="vars.json" basePatchAMI.json 2>&1 | tee-object output.txt
             - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
