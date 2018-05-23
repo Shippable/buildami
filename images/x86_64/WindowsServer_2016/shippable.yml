@@ -896,7 +896,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")
             - cd windowsExec
-            - ./execPackUpdate.sh v644_w2k16_aws prod_release ami-460cab3b v644 ami_bits_access
+            - ./execPackUpdate.sh v644_w2k16_aws prod_release ami-4518a63a v644 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt

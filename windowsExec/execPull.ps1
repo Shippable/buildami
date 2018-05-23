@@ -37,12 +37,14 @@ Function validate_envs() {
 }
 
 Function pull_images() {
-  foreach ($IMAGE_NAME in Get-Content ".\images.txt") {
-    Write-Output "Pulling -------------------> ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}"
-    docker pull ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}
-    #if ($LASTEXITCODE -ne 0) {
-    #  throw "Exit code is $LASTEXITCODE"
-    #}
+  if (Test-Path ".\images.txt") {
+    foreach ($IMAGE_NAME in Get-Content ".\images.txt") {
+      Write-Output "Pulling -------------------> ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}"
+      docker pull ${IMAGE_NAME}:${SHIPPABLE_RELEASE_VERSION}
+      #if ($LASTEXITCODE -ne 0) {
+      #  throw "Exit code is $LASTEXITCODE"
+      #}
+    }
   }
 }
 
@@ -154,7 +156,7 @@ validate_envs
 # fetch_reports
 clone_node_scripts
 tag_node_scripts
-install_nodejs
+#install_nodejs
 install_shipctl
 clone_reqKick
 tag_reqKick
