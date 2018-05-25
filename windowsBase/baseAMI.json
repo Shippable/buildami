@@ -41,6 +41,12 @@
       ]
     },
     {
+      "type": "powershell",
+      "inline": [
+        "Set-MpPreference -DisableRealtimeMonitoring $true"
+      ]
+    },
+    {
       "type": "windows-restart"
     },
     {
