@@ -58,7 +58,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_w16_dyn_large_01
+      nodePool: w2k16_cache
       container: false
     steps:
       - IN: w2k16_dd_repo
@@ -90,7 +90,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_w16_dyn_large_01
+      nodePool: w2k16_cache
       container: false
     steps:
       - IN: w2k16dotnetcore_dd_repo
@@ -124,7 +124,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_w16_dyn_large_01
+      nodePool: w2k16_cache
       container: false
     steps:
       - IN: w2k16aspnetcore_dd_repo
@@ -159,7 +159,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_w16_dyn_large_01
+      nodePool: w2k16_cache
       container: false
     steps:
       - IN: prod_release
@@ -245,7 +245,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_w16_dyn_large_01
+      nodePool: w2k16_cache
       container: false
     steps:
       - IN: prod_release
@@ -331,7 +331,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_w16_dyn_large_01
+      nodePool: w2k16_cache
       container: false
     steps:
       - IN: prod_release
@@ -729,7 +729,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_w16_dyn_large_01
+      nodePool: w2k16_cache
     steps:
       - IN: buildami_repo
         switch: off
@@ -784,7 +784,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_w16_dyn_large_01
+      nodePool: w2k16_cache
     steps:
       - IN: w2k16_x8664_tag
       - IN: w2k16dotnetcore_x8664_tag
