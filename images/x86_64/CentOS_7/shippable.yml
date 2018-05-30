@@ -105,7 +105,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_c07_cus_01
+      nodePool: c7_cache
     steps:
       - IN: c7_dd_repo
       - TASK:
@@ -136,7 +136,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_c07_cus_01
+      nodePool: c7_cache
     steps:
       - IN: c7all_dd_repo
       - IN: c7_dd_img
@@ -169,7 +169,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_c07_cus_01
+      nodePool: c7_cache
     steps:
       - IN: c7nodall_dd_repo
       - IN: c7all_dd_img
@@ -202,7 +202,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_c07_cus_01
+      nodePool: c7_cache
     steps:
       - IN: c7pytall_dd_repo
       - IN: c7all_dd_img
@@ -235,7 +235,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_c07_cus_01
+      nodePool: c7_cache
     steps:
       - IN: c7javall_dd_repo
       - IN: c7all_dd_img
@@ -268,7 +268,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     runtime:
-      nodePool: x86_c07_cus_01
+      nodePool: c7_cache
     steps:
       - IN: c7cppall_dd_repo
       - IN: c7all_dd_img
