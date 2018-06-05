@@ -16,7 +16,7 @@
       "secret_key": "{{ user `aws_secret_key` }}",
       "region": "{{ user `REGION` }}",
       "instance_type": "c4.large",
-      "source_ami": "{{user `SOURCE_AMI`}}",
+      "source_ami": "{{user `AMI_ID`}}",
       "ami_name": "windowsbase-ami-{{user `RES_IMG_VER_NAME_DASH`}}-{{isotime \"2006-01-02-1504\"}}",
       "ami_groups": "all",
       "user_data_file": "./bootstrap_win.txt",
