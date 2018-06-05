@@ -56,11 +56,17 @@
     },
     {
       "script": "./execInitFresh.ps1",
-      "type": "powershell"
+      "type": "powershell",
+      "environment_vars": [
+        "REL_VER={{user `REL_VER`}}"
+      ]
     },
     {
       "script": "./execPullFresh.ps1",
-      "type": "powershell"
+      "type": "powershell",
+      "environment_vars": [
+        "REL_VER={{user `REL_VER`}}"
+      ]
     },
     {
       "type": "powershell",
