@@ -1,6 +1,6 @@
 <powershell>
 # Set username and password
-net user $WINRM_USERNAME $WINRM_PASSWORD%
+net user $WINRM_USERNAME $WINRM_PASSWORD
 wmic useraccount where "name='$WINRM_USERNAME'" set PasswordExpires=FALSE
 
 # First, make sure WinRM can't be connected to
