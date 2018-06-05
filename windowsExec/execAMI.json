@@ -38,7 +38,31 @@
     {
       "type": "powershell",
       "inline": [
-        "Start-Sleep -Seconds 600"
+        "Start-Sleep -Seconds 120"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "Start-Sleep -Seconds 120"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "Start-Sleep -Seconds 120"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "Start-Sleep -Seconds 120"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "Start-Sleep -Seconds 120"
       ]
     },
     {
