@@ -18,13 +18,13 @@ Function __process_msg([string] $msg) {
   echo "|___ $msg"
 }
 
-__process_msg "downloading node scripts zip package"
+__process_msg "downloading node scripts zip package from $NODE_DOWNLOAD_URL"
 Invoke-RestMethod "$NODE_DOWNLOAD_URL" -OutFile $NODE_SCRIPTS_DOWNLOAD_LOCATION
 
-__process_msg "creating node scripts dir"
+__process_msg "creating node scripts dir at $NODE_SCRIPTS_LOCATION"
 mkdir -p $NODE_SCRIPTS_LOCATION
 
-__process_msg "extracting node scripts"
+__process_msg "extracting node scripts to $NODE_SCRIPTS_LOCATION"
 Expand-Archive $NODE_SCRIPTS_DOWNLOAD_LOCATION -DestinationPath $NODE_SCRIPTS_LOCATION
 
 __process_msg "Initializing node"

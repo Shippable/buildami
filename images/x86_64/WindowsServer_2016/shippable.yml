@@ -813,9 +813,6 @@ jobs:
             - pushd "$(shipctl get_resource_state "buildami_repo")/windowsExec"
             - $env:AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
             - $env:AWS_SECRET_ACCESS_KEY=$(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
-            #- $env:AMI_ID=$(shipctl get_resource_version_key windowsbaseami_patch versionName)
-            - echo $env:SOURCE_AMI
-            - shipctl get_params_resource windowsbaseami_params SOURCE_AMI
             - $env:AMI_ID=$env:SOURCE_AMI
             - $env:REL_VER=$(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER=($env:REL_VER).replace(".", "-")
