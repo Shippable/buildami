@@ -790,8 +790,8 @@ jobs:
       - IN: w2k16dotnetcore_x8664_tag
       - IN: w2k16aspnetcore_x8664_tag
       - IN: node_repo_file_tag
-      - IN: cexec_repo_file_tag
-      - IN: reqProc_repo_tag
+      - IN: reqKick_repo_file_tag
+      - IN: w2k16reqProc_dd_tag
       - IN: buildami_repo
         switch: off
       - IN: ami_bits_access_cli
