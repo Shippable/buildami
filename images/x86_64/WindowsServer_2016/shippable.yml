@@ -886,7 +886,7 @@ jobs:
             - popd
     on_success:
       script:
-        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME" "RES_REL_VER_NAME=$env:RES_REL_VER_NAME" "RES_REL_VER_NAME_DASH=$env:RES_REL_VER_NAME_DASH"
+        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME"
     on_failure:
       - script: cat output.txt
 
@@ -939,5 +939,8 @@ jobs:
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
             - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
             - popd
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME"
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt
