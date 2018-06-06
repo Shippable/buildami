@@ -43,6 +43,13 @@
       ]
     },
     {
+      "script": "./execPullFresh.ps1",
+      "type": "powershell",
+      "environment_vars": [
+        "REL_VER={{user `UPDATE_AMI_VERSION`}}"
+      ]
+    },
+    {
       "type": "powershell",
       "inline": [
         "docker image ls"
