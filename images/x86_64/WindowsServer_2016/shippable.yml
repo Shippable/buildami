@@ -839,6 +839,8 @@ jobs:
     type: runSh
     dependencyMode: strict
     triggerMode: parallel
+    runtime:
+      nodePool: w2k16_cache
     steps:
       - IN: buildami_repo
         switch: off
