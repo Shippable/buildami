@@ -22,6 +22,9 @@ __process_msg "downloading node scripts zip package from $NODE_DOWNLOAD_URL"
 Invoke-RestMethod "$NODE_DOWNLOAD_URL" -OutFile $NODE_SCRIPTS_DOWNLOAD_LOCATION
 
 __process_msg "creating node scripts dir at $NODE_SCRIPTS_LOCATION"
+if (Test-Path "$NODE_SCRIPTS_LOCATION") {
+  Remove-Item -recurse -force "$NODE_SCRIPTS_LOCATION"
+}
 mkdir -p $NODE_SCRIPTS_LOCATION
 
 __process_msg "extracting node scripts to $NODE_SCRIPTS_LOCATION"
