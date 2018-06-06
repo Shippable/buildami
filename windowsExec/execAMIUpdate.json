@@ -36,10 +36,16 @@
   ],
   "provisioners": [
     {
-      "script": "./execPull.ps1",
+      "script": "./execInitFresh.ps1",
       "type": "powershell",
       "environment_vars": [
         "REL_VER={{user `REL_VER`}}"
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [
+        "docker image ls"
       ]
     },
     {
