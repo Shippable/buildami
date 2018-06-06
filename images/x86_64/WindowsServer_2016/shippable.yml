@@ -848,13 +848,9 @@ jobs:
         switch: off
       - IN: windowsbaseami_winrm_keys
         switch: off
-      - IN: windowsfinalami_prep
-        switch: off
       - IN: prod_release
         switch: off
-      - IN: baseami_params
-        switch: off
-      - IN: ami_bits_access
+      - IN: ami_bits_access_cli
         switch: off
       - IN: node_repo_file_tag
       - IN: reqKick_repo_file_tag
