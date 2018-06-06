@@ -36,6 +36,11 @@
   ],
   "provisioners": [
     {
+      "type": "file",
+      "source": "images.txt",
+      "destination": "images.txt"
+    },
+    {
       "script": "./execInitFresh.ps1",
       "type": "powershell",
       "environment_vars": [
