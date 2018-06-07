@@ -4,7 +4,7 @@ $SHIPPABLE_RELEASE_VERSION = "$env:REL_VER"
 $SHIPPABLE_NODE_INIT = $TRUE
 $EXEC_REPO = "https://github.com/Shippable/cexec.git"
 $NODE_SCRIPTS_REPO = "https://github.com/Shippable/node.git"
-$NODE_JS_VERSION = "4.8.5"
+$NODE_JS_VERSION = "8.11.2"
 
 $CEXEC_LOC = "$env:USERPROFILE\shippable\cexec"
 $NODE_SCRIPTS_LOC = "$env:USERPROFILE\node"
