@@ -49,7 +49,7 @@ clone_reqKick () {
   echo "Cloning reqKick..."
   sudo git clone https://github.com/Shippable/reqKick.git $REQKICK_DIR
 
-  sudo ln -s /usr/local/bin/node /usr/bin/node
+  sudo ln -fs /usr/local/bin/node /usr/bin/node
 
   pushd $REQKICK_DIR
     sudo git checkout $SHIPPABLE_RELEASE_VERSION
