@@ -138,7 +138,7 @@ tag_reqKick() {
   sudo git checkout master
   sudo git fetch --tags
   sudo git checkout $REL_VER
-  sudo ln -s /usr/local/bin/node /usr/bin/node
+  sudo ln -fs /usr/local/bin/node /usr/bin/node
   sudo /usr/local/bin/npm install
   popd
 }
