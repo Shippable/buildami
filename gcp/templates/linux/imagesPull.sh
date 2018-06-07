@@ -9,6 +9,11 @@ pull_images() {
     echo "Pulling -------------------> $IMAGE_NAME:$IMG_VER"
     sudo docker pull $IMAGE_NAME:$IMG_VER
   done
+
+  # Clean up master images if we are not building master.
+  if [[ $IMG_VER != "master" ]]; then
+    docker images | grep "master" | awk '{print $1 ":" $2}' | xargs docker rmi
+  fi
 }
 
 pull_images
