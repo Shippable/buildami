@@ -111,10 +111,10 @@ before_exit() {
 
 install_nodejs() {
   pushd /tmp
-  echo "Installing node 4.8.5"
-  sudo wget https://nodejs.org/dist/v4.8.5/node-v4.8.5-linux-x64.tar.xz
-  sudo tar -xf node-v4.8.5-linux-x64.tar.xz
-  sudo cp -Rf node-v4.8.5-linux-x64/{bin,include,lib,share} /usr/local
+  echo "Installing node 8.11.2"
+  sudo wget https://nodejs.org/dist/v8.11.2/node-v8.11.2-linux-x64.tar.xz
+  sudo tar -xf node-v8.11.2-linux-x64.tar.xz
+  sudo cp -Rf node-v8.11.2-linux-x64/{bin,include,lib,share} /usr/local
 
   echo "Checking node version"
   /usr/local/bin/node -v
@@ -138,6 +138,7 @@ tag_reqKick() {
   sudo git checkout master
   sudo git fetch --tags
   sudo git checkout $REL_VER
+  sudo ln -s /usr/local/bin/node /usr/bin/node
   sudo /usr/local/bin/npm install
   popd
 }
