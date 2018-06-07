@@ -12,7 +12,7 @@ pull_images() {
 
   # Clean up master images if we are not building master.
   if [[ $IMG_VER != "master" ]]; then
-    docker images | grep "master" | awk '{print $1 ":" $2}' | xargs -r docker rmi
+    sudo docker images | grep "master" | awk '{print $1 ":" $2}' | xargs -r sudo docker rmi
   fi
 }
 
