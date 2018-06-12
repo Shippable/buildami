@@ -187,7 +187,7 @@ jobs:
                docker push "${IMG_NAME}:${REL_VER}"
             - |
                docker tag "${IMG_NAME}:${UP_IMG_TAG}" "${IMG_NAME}:latest"
-               docker push "${IMG_NAME}:${REL_VER}"
+               docker push "${IMG_NAME}:latest"
     on_success:
       script:
         - shipctl put_resource_state_multi $env:JOB_NAME "versionName=${REL_VER}" "TAG_COMMIT_SHA=${REPO_COMMIT}" "TAG_IMG=${REL_VER}"
@@ -273,7 +273,7 @@ jobs:
                docker push "${IMG_NAME}:${REL_VER}"
             - |
                docker tag "${IMG_NAME}:${UP_IMG_TAG}" "${IMG_NAME}:latest"
-               docker push "${IMG_NAME}:${REL_VER}"
+               docker push "${IMG_NAME}:latest"
     on_success:
       script:
         - shipctl put_resource_state_multi $env:JOB_NAME "versionName=${REL_VER}" "TAG_COMMIT_SHA=${REPO_COMMIT}" "TAG_IMG=${REL_VER}"
@@ -359,7 +359,7 @@ jobs:
                docker push "${IMG_NAME}:${REL_VER}"
             - |
                docker tag "${IMG_NAME}:${UP_IMG_TAG}" "${IMG_NAME}:latest"
-               docker push "${IMG_NAME}:${REL_VER}"
+               docker push "${IMG_NAME}:latest"
     on_success:
       script:
         - shipctl put_resource_state_multi $env:JOB_NAME "versionName=${REL_VER}" "TAG_COMMIT_SHA=${REPO_COMMIT}" "TAG_IMG=${REL_VER}"
