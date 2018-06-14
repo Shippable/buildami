@@ -946,7 +946,7 @@ jobs:
       - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt
 
 
-- name: v654_w2k16_aws
+  - name: v654_w2k16_aws
     type: runSh
     dependencyMode: strict
     triggerMode: parallel
