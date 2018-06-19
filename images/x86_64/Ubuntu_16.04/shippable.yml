@@ -195,17 +195,15 @@ jobs:
     dependencyMode: strict
     steps:
       - IN: u16microbase_dd_repo
-      - IN: u16_dd_img
       - TASK:
           name: u16microbase_build
           runtime:
             options:
               env:
-                - IMG_BASE: "u16_dd_img"
                 - IMG_OUT: "u16microbase_dd_img"
                 - RES_REPO: "u16microbase_dd_repo"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
+            - REL_VER=master
             - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
             - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
             - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
