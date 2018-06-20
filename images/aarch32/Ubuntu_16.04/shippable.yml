@@ -38,7 +38,7 @@ jobs:
     steps:
       - IN: u16_aarch32_dd_repo
       - TASK:
-          name: u16_build
+          name: u16_aarch32_build
           runtime:
             options:
               env:
@@ -73,7 +73,7 @@ jobs:
       - IN: shipit_gh_ssh
         switch: off
       - TASK:
-          name: u16_tag
+          name: u16_aarch32_tag
           runtime:
             options:
               env:
@@ -131,7 +131,7 @@ jobs:
     steps:
       - IN: u16microbase_aarch32_dd_repo
       - TASK:
-          name: u16microbase_build
+          name: u16microbase_aarch32_build
           runtime:
             options:
               env:
@@ -166,7 +166,7 @@ jobs:
       - IN: shipit_gh_ssh
         switch: off
       - TASK:
-          name: u16microbase_tag
+          name: u16microbase_aarch32_tag
           runtime:
             options:
               env:
