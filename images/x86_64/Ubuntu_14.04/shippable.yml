@@ -2164,6 +2164,56 @@ jobs:
       script:
         - cat output.txt
 
+  # NOTE: This is a temporary job and is not meant to be complete to be used
+  # as an IN for other jobs.
+  - name: v582_u14_x8664_k313_gce_img
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: v582_u14_x8664_gce_img
+        switch: off
+      - IN: buildami_repo
+        switch: off
+      - IN: ship_bits_gcp
+        switch: off
+      - TASK:
+          runtime:
+            options:
+              env:
+                - BASE_IMG_RES: "v582_u14_x8664_gce_img"
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - SSH_USER: "root"
+                - IMG_VER: "v5.8.2"
+          script:
+            - set -o pipefail
+            - |
+               export IMG_VER_DASH=${IMG_VER//./-}
+               export FAM_NAME=$IMG_VER_DASH"-final-patch-u14-x86-64"
+               export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
+            - |
+               export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
+               export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
+            - |
+               pushd $(shipctl get_resource_state "buildami_repo")/gcp/$ARCHITECTURE/$OS/final_patch
+               cp -R ../../../templates/linux/* .
+               cp -R ../../../templates/final_patch/* .
+               echo $(shipctl get_integration_resource_field ship_bits_gcp JSON_key) > $SERVICE_ACCOUNT_JSON
+               shipctl replace vars.json
+               packer validate -var-file=vars.json packer.json
+               packer build -machine-readable -var-file=vars.json packer.json 2>&1 | tee output.txt
+            - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME"
+    on_failure:
+      script:
+        - cat output.txt
+
   - name: v5104_u14_x8664_gce_img
     type: runSh
     dependencyMode: strict
