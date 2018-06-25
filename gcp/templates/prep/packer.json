@@ -43,6 +43,15 @@
       ]
     },
     {
+      "destination": "/tmp/99-shippable.conf",
+      "source": "99-shippable.conf",
+      "type": "file"
+    },
+    {
+      "type": "shell",
+      "script": "copyConfigs.sh"
+    },
+    {
       "type": "shell",
       "script": "init.sh",
       "environment_vars": [
