@@ -1,0 +1,47 @@
+{
+    "variables": {
+      "machine_type": "var",
+      "region": "var",
+      "zone": "var",
+      "project_id": "var",
+      "service_account_json": "var",
+      "ssh_username": "",
+      "IMG_VER": "",
+      "SOURCE_IMAGE_FAMILY": "var",
+      "ARCHITECTURE": "",
+      "OS": ""
+    },
+    "builders": [
+      {
+        "type": "googlecompute",
+        "state_timeout": "15m",
+        "project_id": "{{user `project_id`}}",
+        "machine_type": "{{user `machine_type`}}",
+        "source_image_family": "{{user `SOURCE_IMAGE_FAMILY`}}",
+        "region": "{{user `region`}}",
+        "zone": "{{user `zone`}}",
+        "image_description": "Final Patch Image for {{user `FAM_NAME`}}",
+        "image_family": "{{user `FAM_NAME`}}",
+        "image_name": "{{user `FAM_NAME`}}-{{isotime \"2006-01-02-1504\"}}",
+        "disk_size": 150,
+        "disk_type": "pd-ssd",
+        "ssh_username": "{{ user `ssh_username`}}",
+        "account_file": "{{ user `service_account_json`}}"
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "shell",
+        "inline": [
+          "sleep 60",
+          "uname -a",
+          "uptime"
+        ]
+      },
+      {
+        "type": "shell",
+        "script": "downgradeKernel.sh"
+      }
+    ]
+  }
+  
