@@ -968,8 +968,8 @@ jobs:
       - IN: w2k16reqProc_dd_tag
       - TASK:
           runtime:
+              container: false
               options:
-                container: false
                 # imageName: drydock/w16
                 # imageTag: v6.5.4
                 env:
