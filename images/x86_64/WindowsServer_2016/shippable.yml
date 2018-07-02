@@ -968,17 +968,14 @@ jobs:
       - IN: w2k16reqProc_dd_tag
       - TASK:
           runtime:
-              container: false
               options:
-                # imageName: drydock/w16
-                # imageTag: v6.5.4
+                imageName: drydock/w16
+                imageTag: v6.5.4
                 env:
                   - UPDATE_AMI_ID: ami-0cd3af73
                   - UPDATE_AMI_VERSION: v6.5.4
                   - AMI_TYPE: v654
           script:
-            # Install packer on the host
-            - choco install packer
             - pushd "$(shipctl get_resource_state "buildami_repo")/windowsExec"
             - $env:AWS_ACCESS_KEY_ID = $(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
             - $env:AWS_SECRET_ACCESS_KEY = $(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
