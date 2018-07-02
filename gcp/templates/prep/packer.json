@@ -58,7 +58,7 @@
       "script": "modifyKernel.sh",
       "environment_vars": [
         "MODIFY_KERNEL={{user `MODIFY_KERNEL`}}",
-        "KERNEL_VER={{user `KERNEL_VER`}}",
+        "KERNEL_VER={{user `KERNEL_VER`}}"
       ]
     },
     {
