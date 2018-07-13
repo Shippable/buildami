@@ -257,17 +257,15 @@ jobs:
       nodePool: u14_cache_x86
     steps:
       - IN: u14microbase_dd_repo
-      - IN: u14_dd_img
       - TASK:
           name: u14microbase_build
           runtime:
             options:
               env:
-                - IMG_BASE: "u14_dd_img"
+                - REL_VER: "master"
                 - IMG_OUT: "u14microbase_dd_img"
                 - RES_REPO: "u14microbase_dd_repo"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
             - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
             - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
             - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
