@@ -1,0 +1,41 @@
+resources:
+  - name: shippable_api_token_kv
+    type: integration
+    integration: shippable_api_token_kv
+
+jobs:
+  - name: rc_setup_system_machine_images
+    type: runSh
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: shippable_api_token_kv
+        switch: off
+      - TASK:
+          script:
+            - apt-get install bsdmainutils
+            - cd $(shipctl get_resource_state buildami_repo)/updateImages
+            - export SOURCE_API_URL="https://api.shippable.com"
+            - export SOURCE_API_TOKEN="$PRODUCTION_API_TOKEN"
+            - export TARGET_API_URL="https://rcapi.shippable.com"
+            - export TARGET_API_TOKEN="$RC_API_TOKEN"
+            - export CONFIG_CSV_PATH="rc.csv"
+            - ./update_images.sh
+
+  - name: production_setup_system_machine_images
+    type: runSh
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: shippable_api_token_kv
+        switch: off
+      - TASK:
+          script:
+            - apt-get install bsdmainutils
+            - cd $(shipctl get_resource_state buildami_repo)/updateImages
+            - export SOURCE_API_URL="https://api.shippable.com"
+            - export SOURCE_API_TOKEN="$PRODUCTION_API_TOKEN"
+            - export TARGET_API_URL="https://api.shippable.com"
+            - export TARGET_API_TOKEN="$PRODUCTION_API_TOKEN"
+            - export CONFIG_CSV_PATH="production.csv"
+            - ./update_images.sh
