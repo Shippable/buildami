@@ -139,7 +139,7 @@ Function tag_reqKick() {
     git checkout master
     git pull --tags
     git checkout $SHIPPABLE_RELEASE_VERSION
-    npm install
+    npm install --unsafe-perm=true --allow-root
   popd
 }
 
