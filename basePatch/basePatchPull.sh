@@ -51,7 +51,7 @@ clone_reqKick () {
 
   pushd $REQKICK_DIR
     sudo git checkout $SHIPPABLE_RELEASE_VERSION
-    sudo npm install
+    sudo npm install --unsafe-perm=true --allow-root
   popd
 }
 

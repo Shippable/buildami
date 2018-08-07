@@ -139,7 +139,7 @@ tag_reqKick() {
   sudo git fetch --tags
   sudo git checkout $REL_VER
   sudo ln -fs /usr/local/bin/node /usr/bin/node
-  sudo /usr/local/bin/npm install
+  sudo /usr/local/bin/npm install --unsafe-perm=true --allow-root
   popd
 }
 

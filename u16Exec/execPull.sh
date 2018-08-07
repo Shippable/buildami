@@ -138,7 +138,7 @@ tag_reqKick() {
   sudo git checkout master
   sudo git pull --tags
   sudo git checkout $REL_VER
-  sudo npm install
+  sudo npm install --unsafe-perm=true --allow-root
   popd
 }
 
