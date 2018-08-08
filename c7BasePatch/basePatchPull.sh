@@ -53,7 +53,7 @@ clone_reqKick () {
 
   pushd $REQKICK_DIR
     sudo git checkout $SHIPPABLE_RELEASE_VERSION
-    sudo /usr/local/bin/npm install --unsafe-perm=true --allow-root
+    sudo /usr/local/bin/npm install
   popd
 }
 
