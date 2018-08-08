@@ -36,7 +36,7 @@ Function clone_reqKick () {
   Push-Location $REQKICK_DIR
   git checkout $SHIPPABLE_RELEASE_VERSION
   Write-Output "Running npm install for reqKick"
-  npm install --silent --unsafe-perm=true --allow-root
+  npm install --silent
   Pop-Location
   Write-Output "Done with npm install for reqKick"
 }
@@ -55,7 +55,7 @@ Function fetch_reqKick() {
   Expand-Archive -LiteralPath $reqKick_zip_download_location -DestinationPath $REQKICK_DIR
 
   pushd $REQKICK_DIR
-  npm install --unsafe-perm=true --allow-root
+  npm install
   popd
 }
 
