@@ -1990,7 +1990,7 @@ jobs:
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/u16Exec/output.txt
 
-- name: u16_v674_update
+  - name: u16_v674_update
     type: runSh
     dependencyMode: strict
     triggerMode: parallel
