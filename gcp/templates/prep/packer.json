@@ -1,19 +1,21 @@
 {
   "variables": {
-    "machine_type": "var",
-    "region": "var",
-    "zone": "var",
-    "project_id": "var",
-    "service_account_json": "var",
+    "machine_type": "",
+    "region": "",
+    "zone": "",
+    "project_id": "",
+    "service_account_json": "",
     "ssh_username": "",
     "REL_VER": "",
     "IMG_VER": "",
-    "SOURCE_IMAGE_FAMILY": "var",
+    "SOURCE_IMAGE_FAMILY": "",
     "FAM_NAME": "",
     "ARCHITECTURE": "",
     "OS": "",
     "DOCKER_VER": "",
-    "NODE_DOWNLOAD_URL": ""
+    "NODE_DOWNLOAD_URL": "",
+    "MODIFY_KERNEL": "",
+    "KERNEL_VER": ""
   },
   "builders": [
     {
@@ -50,6 +52,14 @@
     {
       "type": "shell",
       "script": "copyConfigs.sh"
+    },
+    {
+      "type": "shell",
+      "script": "modifyKernel.sh",
+      "environment_vars": [
+        "MODIFY_KERNEL={{user `MODIFY_KERNEL`}}",
+        "KERNEL_VER={{user `KERNEL_VER`}}"
+      ]
     },
     {
       "type": "shell",
