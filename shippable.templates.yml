@@ -39,7 +39,7 @@ tag_git_repo_temp: &tag_git_repo
         git checkout $REPO_COMMIT
         git tag $REL_VER
         git push up $REL_VER
-    popd
+      popd
 
 build_docker_img_temp: &build_docker_img
   - |
