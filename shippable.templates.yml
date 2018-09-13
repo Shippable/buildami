@@ -11,7 +11,9 @@ setup_ssh_key_temp: &setup_ssh_key
       pushd integrations/ship_ssh
         chmod 600 ship_ssh_key
         ssh-add ship_ssh_key
-        GIT_SOURCE=$(shipctl get_resource_version_key "$$RES_REPO" "sourceName")
+        echo "$RES_REPO"
+        GIT_SOURCE=$(shipctl get_resource_version_key "$RES_REPO" "sourceName")
+        echo "$GIT_SOURCE"
         git remote add up "git@github.com:"$GIT_SOURCE".git"
       popd
 
