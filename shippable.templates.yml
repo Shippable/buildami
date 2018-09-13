@@ -29,10 +29,12 @@ tag_docker_img_temp: &tag_docker_img
 get_git_tags_temp: &get_git_tags
   - |
       REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
-      git pull --tags
-      if git tag -d $REL_VER; then
-        git push --delete up $REL_VER
-      fi
+      pushd $(shipctl get_resource_state "$RES_REPO")
+        git pull --tags
+        if git tag -d $REL_VER; then
+          git push --delete up $REL_VER
+        fi
+      popd
 
 tag_git_repo_temp: &tag_git_repo
   - |
