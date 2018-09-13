@@ -19,6 +19,7 @@ setup_ssh_key_temp: &setup_ssh_key
 
 tag_docker_img_temp: &tag_docker_img
   - |
+      REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
       docker pull "$IMG_NAME:$IMG_TAG"
       docker tag "$IMG_NAME:$IMG_TAG" "$IMG_NAME:$REL_VER"
       docker push "$IMG_NAME:$REL_VER"
