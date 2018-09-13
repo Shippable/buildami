@@ -11,11 +11,10 @@ setup_ssh_key_temp: &setup_ssh_key
       pushd integrations/ship_ssh
         chmod 600 ship_ssh_key
         ssh-add ship_ssh_key
-        echo "$RES_REPO"
-        ls -atlh .
         GIT_SOURCE=$(shipctl get_resource_version_key "$RES_REPO" "sourceName")
-        echo "$GIT_SOURCE"
-        git remote add up "git@github.com:"$GIT_SOURCE".git"
+        pushd $(shipctl get_resource_state "$RES_REPO")
+          git remote add up "git@github.com:"$GIT_SOURCE".git"
+        popd
       popd
 
 tag_docker_img_temp: &tag_docker_img
