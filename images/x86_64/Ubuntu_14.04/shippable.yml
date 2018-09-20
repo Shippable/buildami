@@ -3255,3 +3255,34 @@ jobs:
             - popd
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/exec/output.txt
+
+  - name: v684_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "buildami_repo")
+            - cd exec
+            - ./execPackUpdate.sh v684_update prod_release ami-0e8347b57a0e6bbb4 v684 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/buildami_repo/gitRepo/exec/output.txt
