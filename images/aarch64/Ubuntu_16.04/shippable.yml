@@ -127,8 +127,7 @@ jobs:
       - OUT: u16microbase_aarch64_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: u16microbase_aarch64_tag
     type: runSh
@@ -154,7 +153,7 @@ jobs:
             - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: u16_aarch64_build
     type: runSh
@@ -178,8 +177,7 @@ jobs:
       - OUT: u16_aarch64_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: u16all_aarch64_build
     type: runSh
@@ -204,8 +202,7 @@ jobs:
       - OUT: u16all_aarch64_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: u16nodall_aarch64_build
     type: runSh
@@ -230,8 +227,7 @@ jobs:
       - OUT: u16nodall_aarch64_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: u16pytall_aarch64_build
     type: runSh
@@ -256,8 +252,7 @@ jobs:
       - OUT: u16pytall_aarch64_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: u16javall_aarch64_build
     type: runSh
@@ -282,8 +277,7 @@ jobs:
       - OUT: u16javall_aarch64_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: u16cppall_aarch64_build
     type: runSh
@@ -308,8 +302,7 @@ jobs:
       - OUT: u16cppall_aarch64_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
 #####
   - name: u16_aarch64_tag
@@ -336,7 +329,7 @@ jobs:
             - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: u16all_aarch64_tag
     type: runSh
@@ -362,7 +355,7 @@ jobs:
             - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: u16nodall_aarch64_tag
     type: runSh
@@ -388,7 +381,7 @@ jobs:
             - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: u16pytall_aarch64_tag
     type: runSh
@@ -414,7 +407,7 @@ jobs:
             - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: u16cppall_aarch64_tag
     type: runSh
@@ -440,7 +433,7 @@ jobs:
             - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: u16javall_aarch64_tag
     type: runSh
@@ -466,4 +459,4 @@ jobs:
             - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success

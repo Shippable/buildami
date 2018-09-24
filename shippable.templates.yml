@@ -65,3 +65,10 @@ tag_ship_assets_temp: &tag_ship_assets
   - *tag_docker_img
   - *get_git_tags
   - *tag_git_repo
+
+build_ship_assets_on_success_temp: &build_ship_assets_on_success
+  - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+  - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+
+tag_ship_assets_on_success_temp: &tag_ship_assets_on_success
+  - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"

@@ -176,19 +176,11 @@ jobs:
                 - IMG_OUT: "c7_dd_img"
                 - RES_REPO: "c7_dd_repo"
           script:
-            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - docker build -t=$IMG_NAME:$REL_VER --pull .
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker push $IMG_NAME:$REL_VER
+            - *build_ship_assets
       - OUT: c7_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: c7all_x8664_build
     type: runSh
@@ -204,24 +196,15 @@ jobs:
           runtime:
             options:
               env:
-                - IMG_BASE: "c7_dd_img"
-                - IMG_OUT: "c7all_dd_img"
+                - REL_VER: "master"
                 - RES_REPO: "c7all_dd_repo"
+                - IMG_OUT: "c7all_dd_img"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
-            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - docker build -t=$IMG_NAME:$REL_VER --pull .
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker push $IMG_NAME:$REL_VER
+            - *build_ship_assets
       - OUT: c7all_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: c7nodall_x8664_build
     type: runSh
@@ -237,24 +220,15 @@ jobs:
           runtime:
             options:
               env:
-                - IMG_BASE: "c7all_dd_img"
-                - IMG_OUT: "c7nodall_dd_img"
+                - REL_VER: "master"
                 - RES_REPO: "c7nodall_dd_repo"
+                - IMG_OUT: "c7nodall_dd_img"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
-            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - docker build -t=$IMG_NAME:$REL_VER --pull .
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker push $IMG_NAME:$REL_VER
+            - *build_ship_assets
       - OUT: c7nodall_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: c7pytall_x8664_build
     type: runSh
@@ -270,24 +244,15 @@ jobs:
           runtime:
             options:
               env:
-                - IMG_BASE: "c7all_dd_img"
-                - IMG_OUT: "c7pytall_dd_img"
+                - REL_VER: "master"
                 - RES_REPO: "c7pytall_dd_repo"
+                - IMG_OUT: "c7pytall_dd_img"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
-            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - docker build -t=$IMG_NAME:$REL_VER --pull .
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker push $IMG_NAME:$REL_VER
+            - *build_ship_assets
       - OUT: c7pytall_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: c7javall_x8664_build
     type: runSh
@@ -303,24 +268,15 @@ jobs:
           runtime:
             options:
               env:
-                - IMG_BASE: "c7all_dd_img"
-                - IMG_OUT: "c7javall_dd_img"
+                - REL_VER: "master"
                 - RES_REPO: "c7javall_dd_repo"
+                - IMG_OUT: "c7javall_dd_img"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
-            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - docker build -t=$IMG_NAME:$REL_VER --pull .
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker push $IMG_NAME:$REL_VER
+            - *build_ship_assets
       - OUT: c7javall_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
   - name: c7cppall_x8664_build
     type: runSh
@@ -336,37 +292,28 @@ jobs:
           runtime:
             options:
               env:
-                - IMG_BASE: "c7all_dd_img"
-                - IMG_OUT: "c7cppall_dd_img"
+                - REL_VER: "master"
                 - RES_REPO: "c7cppall_dd_repo"
+                - IMG_OUT: "c7cppall_dd_img"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$IMG_BASE" "versionName")
-            - REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
-            - IMG_NAME=$(shipctl get_resource_version_key $IMG_OUT "sourceName")
-            - DH_USR_NAME=$(shipctl get_integration_resource_field $IMG_OUT "userName")
-            - DH_PASS=$(shipctl get_integration_resource_field $IMG_OUT "password")
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - docker build -t=$IMG_NAME:$REL_VER --pull .
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker push $IMG_NAME:$REL_VER
+            - *build_ship_assets
       - OUT: c7cppall_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi $IMG_OUT "versionName=$REL_VER" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=$BUILD_NUMBER"
+        - *build_ship_assets_on_success
 
 ####
   - name: c7_x8664_tag
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    integrations:
+      - ship_ssh
     steps:
       - IN: prod_release
       - IN: c7_dd_repo
         switch: off
       - IN: c7_dd_img
-        switch: off
-      - IN: shipit_gh_ssh
         switch: off
       - TASK:
           name: c7_tag
@@ -376,58 +323,23 @@ jobs:
                 - RES_VER: "prod_release"
                 - RES_IMG: "c7_dd_img"
                 - RES_REPO: "c7_dd_repo"
-                - GIT_PATH: "git@github.com:dry-dock/c7.git"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
-            - |
-               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
-               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
-               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
-               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
-               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
-            - |
-               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
-                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
-                 chmod 600 gh_ssh.key
-                 ssh-add gh_ssh.key
-               popd
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker pull "$IMG_NAME:$UP_IMG_TAG"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
-               docker push "$IMG_NAME:$REL_VER"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
-               docker push "$IMG_NAME:latest"
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - |
-               git remote add up $GIT_PATH
-               git remote -v
-               git checkout master
-            - |
-               git pull --tags
-               if git tag -d $REL_VER; then
-                 git push --delete up $REL_VER
-               fi
-            - |
-               git checkout $REPO_COMMIT
-               git tag $REL_VER
-               git push up $REL_VER
+            - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: c7all_x8664_tag
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    integrations:
+      - ship_ssh
     steps:
       - IN: prod_release
       - IN: c7all_dd_repo
         switch: off
       - IN: c7all_dd_img
-        switch: off
-      - IN: shipit_gh_ssh
         switch: off
       - TASK:
           name: c7all_tag
@@ -437,58 +349,23 @@ jobs:
                 - RES_VER: "prod_release"
                 - RES_IMG: "c7all_dd_img"
                 - RES_REPO: "c7all_dd_repo"
-                - GIT_PATH: "git@github.com:dry-dock/c7all.git"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
-            - |
-               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
-               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
-               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
-               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
-               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
-            - |
-               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
-                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
-                 chmod 600 gh_ssh.key
-                 ssh-add gh_ssh.key
-               popd
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker pull "$IMG_NAME:$UP_IMG_TAG"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
-               docker push "$IMG_NAME:$REL_VER"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
-               docker push "$IMG_NAME:latest"
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - |
-               git remote add up $GIT_PATH
-               git remote -v
-               git checkout master
-            - |
-               git pull --tags
-               if git tag -d $REL_VER; then
-                 git push --delete up $REL_VER
-               fi
-            - |
-               git checkout $REPO_COMMIT
-               git tag $REL_VER
-               git push up $REL_VER
+            - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: c7nodall_x8664_tag
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    integrations:
+      - ship_ssh
     steps:
       - IN: prod_release
       - IN: c7nodall_dd_repo
         switch: off
       - IN: c7nodall_dd_img
-        switch: off
-      - IN: shipit_gh_ssh
         switch: off
       - TASK:
           name: c7nodall_tag
@@ -498,58 +375,23 @@ jobs:
                 - RES_VER: "prod_release"
                 - RES_IMG: "c7nodall_dd_img"
                 - RES_REPO: "c7nodall_dd_repo"
-                - GIT_PATH: "git@github.com:dry-dock/c7nodall.git"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
-            - |
-               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
-               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
-               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
-               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
-               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
-            - |
-               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
-                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
-                 chmod 600 gh_ssh.key
-                 ssh-add gh_ssh.key
-               popd
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker pull "$IMG_NAME:$UP_IMG_TAG"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
-               docker push "$IMG_NAME:$REL_VER"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
-               docker push "$IMG_NAME:latest"
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - |
-               git remote add up $GIT_PATH
-               git remote -v
-               git checkout master
-            - |
-               git pull --tags
-               if git tag -d $REL_VER; then
-                 git push --delete up $REL_VER
-               fi
-            - |
-               git checkout $REPO_COMMIT
-               git tag $REL_VER
-               git push up $REL_VER
+            - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: c7pytall_x8664_tag
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    integrations:
+      - ship_ssh
     steps:
       - IN: prod_release
       - IN: c7pytall_dd_repo
         switch: off
       - IN: c7pytall_dd_img
-        switch: off
-      - IN: shipit_gh_ssh
         switch: off
       - TASK:
           name: c7pytall_tag
@@ -559,58 +401,23 @@ jobs:
                 - RES_VER: "prod_release"
                 - RES_IMG: "c7pytall_dd_img"
                 - RES_REPO: "c7pytall_dd_repo"
-                - GIT_PATH: "git@github.com:dry-dock/c7pytall.git"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
-            - |
-               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
-               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
-               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
-               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
-               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
-            - |
-               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
-                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
-                 chmod 600 gh_ssh.key
-                 ssh-add gh_ssh.key
-               popd
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker pull "$IMG_NAME:$UP_IMG_TAG"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
-               docker push "$IMG_NAME:$REL_VER"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
-               docker push "$IMG_NAME:latest"
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - |
-               git remote add up $GIT_PATH
-               git remote -v
-               git checkout master
-            - |
-               git pull --tags
-               if git tag -d $REL_VER; then
-                 git push --delete up $REL_VER
-               fi
-            - |
-               git checkout $REPO_COMMIT
-               git tag $REL_VER
-               git push up $REL_VER
+            - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: c7javall_x8664_tag
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    integrations:
+      - ship_ssh
     steps:
       - IN: prod_release
       - IN: c7javall_dd_repo
         switch: off
       - IN: c7javall_dd_img
-        switch: off
-      - IN: shipit_gh_ssh
         switch: off
       - TASK:
           name: c7javall_tag
@@ -620,58 +427,23 @@ jobs:
                 - RES_VER: "prod_release"
                 - RES_IMG: "c7javall_dd_img"
                 - RES_REPO: "c7javall_dd_repo"
-                - GIT_PATH: "git@github.com:dry-dock/c7javall.git"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
-            - |
-               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
-               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
-               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
-               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
-               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
-            - |
-               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
-                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
-                 chmod 600 gh_ssh.key
-                 ssh-add gh_ssh.key
-               popd
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker pull "$IMG_NAME:$UP_IMG_TAG"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
-               docker push "$IMG_NAME:$REL_VER"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
-               docker push "$IMG_NAME:latest"
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - |
-               git remote add up $GIT_PATH
-               git remote -v
-               git checkout master
-            - |
-               git pull --tags
-               if git tag -d $REL_VER; then
-                 git push --delete up $REL_VER
-               fi
-            - |
-               git checkout $REPO_COMMIT
-               git tag $REL_VER
-               git push up $REL_VER
+            - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
   - name: c7cppall_x8664_tag
     type: runSh
     triggerMode: parallel
     dependencyMode: strict
+    integrations:
+      - ship_ssh
     steps:
       - IN: prod_release
       - IN: c7cppall_dd_repo
         switch: off
       - IN: c7cppall_dd_img
-        switch: off
-      - IN: shipit_gh_ssh
         switch: off
       - TASK:
           name: c7cppall_tag
@@ -681,46 +453,11 @@ jobs:
                 - RES_VER: "prod_release"
                 - RES_IMG: "c7cppall_dd_img"
                 - RES_REPO: "c7cppall_dd_repo"
-                - GIT_PATH: "git@github.com:dry-dock/c7cppall.git"
           script:
-            - REL_VER=$(shipctl get_resource_version_key "$RES_VER" "versionName")
-            - |
-               REPO_COMMIT=$(shipctl get_resource_version_key "$RES_IMG" "IMG_REPO_COMMIT_SHA")
-               IMG_NAME=$(shipctl get_resource_version_key "$RES_IMG" "sourceName")
-               UP_IMG_TAG=$(shipctl get_resource_version_key "$RES_IMG" "versionName")
-               DH_USR_NAME=$(shipctl get_integration_resource_field "$RES_IMG" "userName")
-               DH_PASS=$(shipctl get_integration_resource_field "$RES_IMG" "password")
-            - |
-               pushd $(shipctl get_resource_meta "shipit_gh_ssh")
-                 shipctl get_json_value integration.json 'privateKey' > gh_ssh.key
-                 chmod 600 gh_ssh.key
-                 ssh-add gh_ssh.key
-               popd
-            - docker login -u $DH_USR_NAME -p $DH_PASS
-            - docker pull "$IMG_NAME:$UP_IMG_TAG"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:$REL_VER"
-               docker push "$IMG_NAME:$REL_VER"
-            - |
-               docker tag "$IMG_NAME:$UP_IMG_TAG" "$IMG_NAME:latest"
-               docker push "$IMG_NAME:latest"
-            - pushd $(shipctl get_resource_state "$RES_REPO")
-            - |
-               git remote add up $GIT_PATH
-               git remote -v
-               git checkout master
-            - |
-               git pull --tags
-               if git tag -d $REL_VER; then
-                 git push --delete up $REL_VER
-               fi
-            - |
-               git checkout $REPO_COMMIT
-               git tag $REL_VER
-               git push up $REL_VER
+            - *tag_ship_assets
     on_success:
       script:
-        - shipctl put_resource_state_multi $JOB_NAME "versionName=$REL_VER" "TAG_COMMIT_SHA=$REPO_COMMIT" "TAG_IMG=$REL_VER"
+        - *tag_ship_assets_on_success
 
 ######################### GCP CentOS 7 Image ##################################
   - name: prep_c7_x8664_gce_img
