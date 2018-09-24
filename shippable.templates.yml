@@ -136,6 +136,6 @@ onetime_final_temp: &onetime_final
   - *final_task_setup_template
   - *final_task_build_template
 
-always_final_temp: &always_final
+regular_final_temp: &regular_final
   - *final_task_setup_template
   - *final_task_build_template

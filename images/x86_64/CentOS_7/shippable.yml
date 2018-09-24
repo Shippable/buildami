@@ -581,7 +581,7 @@ jobs:
                 - SSH_USER: "centos"
                 - IMG_VER: "v6.3.4"
           script:
-            - *always_final
+            - *regular_final
     on_success:
       script:
         - *final_on_success_template
@@ -629,7 +629,7 @@ jobs:
                 - SSH_USER: "centos"
                 - IMG_VER: "v6.4.4"
           script:
-            - *always_final
+            - *regular_final
     on_success:
       script:
         - *final_on_success_template
@@ -677,7 +677,7 @@ jobs:
                 - SSH_USER: "centos"
                 - IMG_VER: "v6.5.4"
           script:
-            - *always_final
+            - *regular_final
     on_success:
       script:
         - *final_on_success_template
@@ -725,7 +725,7 @@ jobs:
                 - SSH_USER: "centos"
                 - IMG_VER: "v6.6.4"
           script:
-            - *always_final
+            - *regular_final
     on_success:
       script:
         - *final_on_success_template
@@ -773,7 +773,7 @@ jobs:
                 - SSH_USER: "centos"
                 - IMG_VER: "v6.7.4"
           script:
-            - *always_final
+            - *regular_final
     on_success:
       script:
         - *final_on_success_template
