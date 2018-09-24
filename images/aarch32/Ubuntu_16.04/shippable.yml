@@ -43,8 +43,8 @@ jobs:
             options:
               env:
                 - REL_VER: "master"
-                - RES_IMG: "u16_aarch32_dd_img"
                 - RES_REPO: "u16_aarch32_dd_repo"
+                - IMG_OUT: "u16_aarch32_dd_img"
           script:
             - *build_ship_assets
       - OUT: u16_aarch32_dd_img
@@ -96,8 +96,8 @@ jobs:
             options:
               env:
                 - REL_VER: "master"
-                - RES_IMG: "u16microbase_aarch32_dd_img"
                 - RES_REPO: "u16microbase_aarch32_dd_repo"
+                - IMG_OUT: "u16microbase_aarch32_dd_img"
           script:
             - *build_ship_assets
       - OUT: u16microbase_aarch32_dd_img
@@ -126,7 +126,6 @@ jobs:
                 - RES_VER: "prod_release"
                 - RES_IMG: "u16microbase_aarch32_dd_img"
                 - RES_REPO: "u16microbase_aarch32_dd_repo"
-                - GIT_PATH: "git@github.com:dry-dock/aarch32_u16microbase.git"
           script:
             - *tag_ship_assets
     on_success:
