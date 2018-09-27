@@ -907,6 +907,7 @@ jobs:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER"
         - shipctl put_resource_state_multi $JOB_NAME "NODE_WEB_URL=$NODE_WEB_URL" "NODE_TAR_FILENAME=$NODE_TAR_FILENAME"  "REPORTS_WEB_URL=$REP_WEB_URL" "REPORTS_TAR_FILENAME=$REP_TAR_FILENAME"
         - shipctl put_resource_state_multi $JOB_NAME "REQKICK_WEB_URL=$KICK_WEB_URL" "REQKICK_TAR_FILENAME=$KICK_TAR_FILENAME" "CEXEC_WEB_URL=$CEXEC_WEB_URL" "CEXEC_TAR_FILENAME=$CEXEC_TAR_FILENAME"
+        - shipctl put_resource_state_multi $JOB_NAME "FAMILY_SUFFIX=u16-x86-64"
         - shipctl copy_file_to_state images.txt
     on_failure:
       script:

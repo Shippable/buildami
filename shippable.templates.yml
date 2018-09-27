@@ -79,10 +79,11 @@ final_task_setup_template: &final_task_setup_template
       export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
       export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
       export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+      export FAMILY_SUFFIX=$(shipctl get_resource_version_key "$BASE_IMG_RES" "FAMILY_SUFFIX")
   - |
       export REL_VER=$(shipctl get_resource_version_name "prod_release")
       export IMG_VER_DASH=${IMG_VER//./-}
-      export FAM_NAME=$IMG_VER_DASH"-final-$OS-$ARCHITECTURE"
+      export FAM_NAME=$IMG_VER_DASH"-final-$FAMILY_SUFFIX"
       export SOURCE_IMAGE_FAMILY=$FAM_NAME
   - |
       REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
