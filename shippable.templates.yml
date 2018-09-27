@@ -76,14 +76,14 @@ tag_ship_assets_on_success_temp: &tag_ship_assets_on_success
 final_task_setup_template: &final_task_setup_template
   - set -o pipefail
   - |
-      export REL_VER=$(shipctl get_resource_version_name "prod_release")
-      export IMG_VER_DASH=${IMG_VER//./-}
-      export FAM_NAME=$IMG_VER_DASH"-final-c7-x86-64"
-      export SOURCE_IMAGE_FAMILY=$FAM_NAME
-  - |
       export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
       export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
       export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
+  - |
+      export REL_VER=$(shipctl get_resource_version_name "prod_release")
+      export IMG_VER_DASH=${IMG_VER//./-}
+      export FAM_NAME=$IMG_VER_DASH"-final-$OS-$ARCHITECTURE"
+      export SOURCE_IMAGE_FAMILY=$FAM_NAME
   - |
       REQPROC_REG=$(shipctl get_resource_version_key "$REQPROC_IMG_RES" "sourceName")
       REQPROC_TAG=$(shipctl get_resource_version_key "$REQPROC_RES" "versionName")
