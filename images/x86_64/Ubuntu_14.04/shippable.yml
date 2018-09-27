@@ -1967,6 +1967,54 @@ jobs:
                 - SSH_USER: "root"
                 - IMG_VER: "v6.8.4"
           script:
+            - *regular_final
+    on_success:
+      script:
+        - *final_on_success_template
+    on_failure:
+      script:
+        - *final_on_failure_template
+
+  - name: v694_u14_x8664_gce_img
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u14reqProc_dd_tag
+      - IN: reqKick_repo_file_tag
+      - IN: u14reqProc_dd_img
+        switch: off
+      - IN: buildami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: ship_bits_gcp
+        switch: off
+      - IN: patch_u14_x8664_gce_img
+        switch: off
+      - TASK:
+          name: build_gce_image
+          runtime:
+            options:
+              env:
+                - BASE_IMG_RES: "patch_u14_x8664_gce_img"
+                - NODE_RES: "node_repo_file_tag"
+                - REQPROC_RES: "u14reqProc_dd_tag"
+                - REQPROC_IMG_RES: "u14reqProc_dd_img"
+                - REPORTS_RES: "u14repLib_x8664_tag"
+                - REQKICK_RES: "reqKick_repo_file_tag"
+                - CEXEC_RES: "cexec_repo_file_tag"
+                - MACHINE_TYPE: "n1-standard-8"
+                - REGION: "us-east1"
+                - ZONE: "us-east1-b"
+                - PROJECT_ID: "ship-bits"
+                - SERVICE_ACCOUNT_JSON: "gcp_key.json"
+                - SSH_USER: "root"
+                - IMG_VER: "v6.9.4"
+          script:
             - *onetime_final
     on_success:
       script:
