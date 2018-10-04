@@ -804,7 +804,7 @@ jobs:
                 - SSH_USER: "root"
                 - ARCHITECTURE: "x86_64"
                 - OS: "Ubuntu_16.04"
-                - DOCKER_VER: "17.06"
+                - DOCKER_VER: "18.03"
                 - MODIFY_KERNEL: "false"
           script:
             - set -o pipefail
