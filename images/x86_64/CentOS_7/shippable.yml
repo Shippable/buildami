@@ -435,7 +435,7 @@ jobs:
                 - SSH_USER: "centos"
                 - ARCHITECTURE: "x86_64"
                 - OS: "CentOS_7"
-                - DOCKER_VER: "17.06"
+                - DOCKER_VER: "18.03"
                 - MODIFY_KERNEL: "false"
           script:
             - set -o pipefail
