@@ -1150,7 +1150,7 @@ jobs:
                 - SSH_USER: "root"
                 - ARCHITECTURE: "x86_64"
                 - OS: "Ubuntu_14.04"
-                - DOCKER_VER: "17.06"
+                - DOCKER_VER: "18.03"
                 - MODIFY_KERNEL: "true"
                 - KERNEL_VER: "3.13.0-153"
           script:
