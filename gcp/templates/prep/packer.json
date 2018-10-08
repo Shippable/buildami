@@ -63,7 +63,16 @@
     },
     {
       "type": "shell",
+      "inline": [
+        "sudo reboot"
+      ],
+      "inline_shebang": "/bin/bash -e",
+      "expect_disconnect": true
+    },
+    {
+      "type": "shell",
       "script": "init.sh",
+      "pause_before": "20s",
       "environment_vars": [
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
         "OS={{user `OS`}}",
