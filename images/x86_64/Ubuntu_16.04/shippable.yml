@@ -1586,3 +1586,65 @@ jobs:
             - popd
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/u16Exec/output.txt
+
+  - name: u16_v694_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "buildami_repo")
+            - cd u16Exec
+            - ./execPackUpdate.sh u16_v694_update prod_release ami-0ebef71a35131d022 v694 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/buildami_repo/gitRepo/u16Exec/output.txt
+
+  - name: u16_v6104_update
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: baseami_params
+        switch: off
+      - IN: ami_bits_access
+        switch: off
+      - IN: execTemplates_repo_file_tag
+      - IN: node_repo_file_tag
+      - IN: cexec_repo_file_tag
+      - IN: reqExec_repo_tag
+      - IN: reqProc_repo_tag
+      - IN: c7repLib_x8664_tag
+      - IN: u14repLib_x8664_tag
+      - IN: u16repLib_x8664_tag
+      - IN: u16repLib_aarch64_tag
+      - TASK:
+          script:
+            - pushd $(shipctl get_resource_state "buildami_repo")
+            - cd u16Exec
+            - ./execPackUpdate.sh u16_v6104_update prod_release ami-0372bede6f416873f v6104 ami_bits_access
+            - popd
+    on_failure:
+      - script: cat /build/IN/buildami_repo/gitRepo/u16Exec/output.txt
