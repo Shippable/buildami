@@ -119,8 +119,8 @@ final_task_build_template: &final_task_build_template
   - export IMAGE_NAME=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' | cut -d':' -f 2)
 
 final_on_success_template: &final_on_success_template
-  - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER"
-  - shipctl put_resource_state_multi $JOB_NAME "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER" "REQPROC_REG=$REQPROC_REG"
+  - shipctl put_resource_state_multi $JOB_NAME "versionName=$IMAGE_NAME" "IMAGE_NAME=$IMAGE_NAME" "IMAGE_FAM_NAME=$FAM_NAME" "REL_VER=$REL_VER" "IMG_VER=$IMG_VER" "SOURCE_IMAGE_FAMILY=$IMAGE_NAME"
+  - shipctl put_resource_state_multi $JOB_NAME "ARCHITECTURE=$ARCHITECTURE" "OS=$OS" "DOCKER_VER=$DOCKER_VER" "REQPROC_REG=$REQPROC_REG" "FAMILY_SUFFIX=$FAMILY_SUFFIX"
   - shipctl put_resource_state_multi $JOB_NAME "REPORTS_TAR_FILENAME=$REP_TAR_FILENAME" "REPORTS_WEB_URL=$REP_WEB_URL" "REQKICK_TAR_FILENAME=$KICK_TAR_FILENAME" "REQKICK_WEB_URL=$KICK_WEB_URL"
   - shipctl put_resource_state_multi $JOB_NAME "CEXEC_TAR_FILENAME=$CEXEC_TAR_FILENAME" "CEXEC_WEB_URL=$CEXEC_WEB_URL" "NODE_TAR_FILENAME=$NODE_TAR_FILENAME" "NODE_WEB_URL=$NODE_WEB_URL"
   - shipctl copy_file_to_state images.txt
