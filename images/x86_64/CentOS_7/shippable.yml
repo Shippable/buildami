@@ -280,7 +280,7 @@ jobs:
                 - IMG_OUT: "c7golall_dd_img"
           script:
             - *build_ship_assets
-      - OUT: c7javall_dd_img
+      - OUT: c7golall_dd_img
     on_success:
       script:
         - *build_ship_assets_on_success        
