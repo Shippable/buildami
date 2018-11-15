@@ -97,9 +97,5 @@ trap before_exit EXIT
 check_envs
 fetch_node_scripts
 
-yum remove -y docker docker-common docker-selinux docker-engine
-rm -rf /etc/docker/
-rm -rf /data
-
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"

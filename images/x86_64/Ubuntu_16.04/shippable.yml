@@ -939,6 +939,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u16_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -987,6 +988,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u16_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1035,6 +1037,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u16_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1083,6 +1086,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u16_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1131,6 +1135,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u16_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1179,6 +1184,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u16_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1227,6 +1233,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u16_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1275,6 +1282,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u16_x8664_gce_img"
+                - DOCKER_VER: 18.03
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"

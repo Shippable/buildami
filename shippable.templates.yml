@@ -78,7 +78,6 @@ final_task_setup_template: &final_task_setup_template
   - |
       export ARCHITECTURE=$(shipctl get_resource_version_key "$BASE_IMG_RES" "ARCHITECTURE")
       export OS=$(shipctl get_resource_version_key "$BASE_IMG_RES" "OS")
-      export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
       export FAMILY_SUFFIX=$(shipctl get_resource_version_key "$BASE_IMG_RES" "FAMILY_SUFFIX")
   - |
       export REL_VER=$(shipctl get_resource_version_name "prod_release")
@@ -135,6 +134,7 @@ onetime_final_temp: &onetime_final
   # this line to override the behavior and build on top of patch image instead.
   - *final_task_setup_template
   - export SOURCE_IMAGE_FAMILY=$(shipctl get_resource_version_key "$BASE_IMG_RES" "IMAGE_FAM_NAME")
+  - export DOCKER_VER=$(shipctl get_resource_version_key "$BASE_IMG_RES" "DOCKER_VER")
   - *final_task_build_template
 
 regular_final_temp: &regular_final
