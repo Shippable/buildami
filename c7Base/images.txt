@@ -4,3 +4,4 @@ drydock/c7nodall
 drydock/c7cppall
 drydock/c7pytall
 drydock/c7javall
+drydock/c7golall

@@ -101,6 +101,21 @@ resources:
       sourceName: "drydock/c7cppall"
     seed:
       versionName: master
+  
+  - name: c7golall_dd_repo
+    type: gitRepo
+    integration: avinci_gh
+    pointer:
+      sourceName: dry-dock/c7golall
+      branch: master
+
+  - name: c7golall_dd_img
+    type: image
+    integration: shipDH
+    pointer:
+      sourceName: "drydock/c7golall"
+    seed:
+      versionName: master  
 
 jobs:
   - name: c7_x8664_build
@@ -208,7 +223,7 @@ jobs:
       - IN: c7javall_dd_repo
       - IN: c7all_dd_img
       - TASK:
-          name: c7pytall_build
+          name: c7javall_build
           runtime:
             options:
               env:
@@ -245,6 +260,30 @@ jobs:
     on_success:
       script:
         - *build_ship_assets_on_success
+  
+  - name: c7golall_x8664_build
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    runtime:
+      nodePool: c7_cache
+    steps:
+      - IN: c7golall_dd_repo
+      - IN: c7all_dd_img
+      - TASK:
+          name: c7golall_build
+          runtime:
+            options:
+              env:
+                - REL_VER: "master"
+                - RES_REPO: "c7golall_dd_repo"
+                - IMG_OUT: "c7golall_dd_img"
+          script:
+            - *build_ship_assets
+      - OUT: c7golall_dd_img
+    on_success:
+      script:
+        - *build_ship_assets_on_success        
 
 ####
   - name: c7_x8664_tag
@@ -403,6 +442,32 @@ jobs:
       script:
         - *tag_ship_assets_on_success
 
+  - name: c7golall_x8664_tag
+    type: runSh
+    triggerMode: parallel
+    dependencyMode: strict
+    integrations:
+      - ship_ssh
+    steps:
+      - IN: prod_release
+      - IN: c7golall_dd_repo
+        switch: off
+      - IN: c7golall_dd_img
+        switch: off
+      - TASK:
+          name: c7golall_tag
+          runtime:
+            options:
+              env:
+                - RES_VER: "prod_release"
+                - RES_IMG: "c7golall_dd_img"
+                - RES_REPO: "c7golall_dd_repo"
+          script:
+            - *tag_ship_assets
+    on_success:
+      script:
+        - *tag_ship_assets_on_success
+
 ######################### GCP CentOS 7 Image ##################################
   - name: prep_c7_x8664_gce_img
     type: runSh
@@ -414,6 +479,7 @@ jobs:
       - IN: c7javall_dd_img
       - IN: c7pytall_dd_img
       - IN: c7nodall_dd_img
+      - IN: c7golall_dd_img
       - IN: node_file_pack
       - IN: buildami_repo
         switch: off
@@ -942,6 +1008,7 @@ jobs:
       - IN: c7cppall_dd_img
       - IN: c7pytall_dd_img
       - IN: c7javall_dd_img
+      - IN: c7golall_dd_img
       - IN: node_file_pack
       - IN: cexec_file_pack
       - IN: u16reqProc_x8664_build
@@ -994,6 +1061,7 @@ jobs:
       - IN: c7pytall_x8664_tag
       - IN: c7javall_x8664_tag
       - IN: c7cppall_x8664_tag
+      - IN: c7golall_x8664_tag
       - IN: execTemplates_repo_file_tag
       - IN: node_repo_file_tag
       - IN: cexec_repo_file_tag
