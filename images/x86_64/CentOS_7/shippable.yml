@@ -101,7 +101,7 @@ resources:
       sourceName: "drydock/c7cppall"
     seed:
       versionName: master
-  
+
   - name: c7golall_dd_repo
     type: gitRepo
     integration: avinci_gh
@@ -116,7 +116,7 @@ resources:
       sourceName: "drydock/c7golall"
     seed:
       versionName: master
-  
+
   - name: c7cloall_dd_repo
     type: gitRepo
     integration: avinci_gh
@@ -131,7 +131,7 @@ resources:
       sourceName: "drydock/c7cloall"
     seed:
       versionName: master
-      
+
   - name: c7scaall_dd_repo
     type: gitRepo
     integration: avinci_gh
@@ -145,7 +145,7 @@ resources:
     pointer:
       sourceName: "drydock/c7scaall"
     seed:
-      versionName: master      
+      versionName: master
 
 jobs:
   - name: c7_x8664_build
@@ -290,7 +290,7 @@ jobs:
     on_success:
       script:
         - *build_ship_assets_on_success
-  
+
   - name: c7golall_x8664_build
     type: runSh
     triggerMode: parallel
@@ -314,7 +314,7 @@ jobs:
     on_success:
       script:
         - *build_ship_assets_on_success
-     
+
   - name: c7cloall_x8664_build
     type: runSh
     triggerMode: parallel
@@ -338,7 +338,7 @@ jobs:
     on_success:
       script:
         - *build_ship_assets_on_success
-        
+
   - name: c7scaall_x8664_build
     type: runSh
     triggerMode: parallel
@@ -361,7 +361,7 @@ jobs:
       - OUT: c7scaall_dd_img
     on_success:
       script:
-        - *build_ship_assets_on_success        
+        - *build_ship_assets_on_success
 
 ####
   - name: c7_x8664_tag
@@ -545,7 +545,7 @@ jobs:
     on_success:
       script:
         - *tag_ship_assets_on_success
-        
+
   - name: c7cloall_x8664_tag
     type: runSh
     triggerMode: parallel
@@ -571,7 +571,7 @@ jobs:
     on_success:
       script:
         - *tag_ship_assets_on_success
-        
+
   - name: c7scaall_x8664_tag
     type: runSh
     triggerMode: parallel
@@ -596,7 +596,7 @@ jobs:
             - *tag_ship_assets
     on_success:
       script:
-        - *tag_ship_assets_on_success        
+        - *tag_ship_assets_on_success
 
 ######################### GCP CentOS 7 Image ##################################
   - name: prep_c7_x8664_gce_img
@@ -766,6 +766,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_c7_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -814,6 +815,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_c7_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -862,6 +864,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_c7_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -910,6 +913,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_c7_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -958,6 +962,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_c7_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1006,6 +1011,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_c7_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1054,6 +1060,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_c7_x8664_gce_img"
+                - DOCKER_VER: 17.06
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
@@ -1102,6 +1109,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_c7_x8664_gce_img"
+                - DOCKER_VER: 18.03
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u16reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u16reqProc_dd_img"
