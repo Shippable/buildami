@@ -1297,7 +1297,7 @@ jobs:
                 - SSH_USER: "root"
                 - IMG_VER: "v6.10.4"
           script:
-            - *onetime_final
+            - *regular_final
     on_success:
       script:
         - *final_on_success_template
