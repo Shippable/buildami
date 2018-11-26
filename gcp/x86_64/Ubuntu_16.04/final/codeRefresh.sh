@@ -111,8 +111,7 @@ fetch_node_scripts
 pull_zephyr
 # wait_for_apt
 
-ps aux | grep apt
-ps aux | grep dpkg
+sudo systemctl disable apt-daily.timer
 
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
