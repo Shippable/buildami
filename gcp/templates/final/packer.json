@@ -47,9 +47,7 @@
     },
     {
       "type": "shell",
-      "inline": [
-        "time (while ps -opid= -C apt-get > /dev/null; do sleep 1m; echo 'waiting for apt-get resource to get free'; done);"
-      ]
+      "script": "waitForApt.sh"
     },
     {
       "type": "shell",
