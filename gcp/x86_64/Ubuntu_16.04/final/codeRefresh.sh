@@ -100,7 +100,7 @@ pull_zephyr() {
 
 wait_for_apt() {
   __process_msg "checking for the apt resource"
-  time (while ps -opid= -C apt > /dev/null; do sleep 1m; echo 'waiting for apt resource to get free'; done);
+  time (while ps -opid= -C apt.systemd.daily > /dev/null; do sleep 1m; echo 'waiting for apt resource to get free'; done);
 }
 
 echo "Running execRefresh script..."
