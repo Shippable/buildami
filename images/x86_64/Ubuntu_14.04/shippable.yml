@@ -1284,6 +1284,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u14_x8664_d113_k319_gce_img"
+                - DOCKER_VER: "1.13"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -1332,6 +1333,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u14_x8664_d113_k319_gce_img"
+                - DOCKER_VER: "1.13"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -1380,6 +1382,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u14_x8664_d113_k313_gce_img"
+                - DOCKER_VER: "1.13"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -1428,6 +1431,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u14_x8664_d113_k313_gce_img"
+                - DOCKER_VER: "1.13"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
@@ -1476,6 +1480,7 @@ jobs:
             options:
               env:
                 - BASE_IMG_RES: "patch_u14_x8664_d113_k313_gce_img"
+                - DOCKER_VER: "1.13"
                 - NODE_RES: "node_repo_file_tag"
                 - REQPROC_RES: "u14reqProc_dd_tag"
                 - REQPROC_IMG_RES: "u14reqProc_dd_img"
