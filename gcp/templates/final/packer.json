@@ -47,6 +47,12 @@
     },
     {
       "type": "shell",
+      "inline": [
+        "time (while ps -opid= -C apt-get > /dev/null; do sleep 1m; echo 'waiting for apt-get resource to get free'; done);"
+      ]
+    },
+    {
+      "type": "shell",
       "script": "codeRefresh.sh",
       "environment_vars": [
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
