@@ -47,10 +47,6 @@
     },
     {
       "type": "shell",
-      "script": "waitForApt.sh"
-    },
-    {
-      "type": "shell",
       "script": "codeRefresh.sh",
       "environment_vars": [
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
