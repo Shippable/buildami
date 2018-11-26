@@ -98,10 +98,10 @@ pull_zephyr() {
   docker pull $ZEPHYR_IMG
 }
 
-wait_for_apt() {
-  __process_msg "checking for the apt-get resource"
-  time (while ps -opid= -C apt-get > /dev/null; do sleep 1m; echo 'waiting for apt-get resource to get free'; done);
-}
+# wait_for_apt() {
+#   __process_msg "checking for the apt-get resource"
+#   time (while ps -opid= -C apt-get > /dev/null; do sleep 1m; echo 'waiting for apt-get resource to get free'; done);
+# }
 
 echo "Running execRefresh script..."
 trap before_exit EXIT
@@ -109,7 +109,10 @@ trap before_exit EXIT
 check_envs
 fetch_node_scripts
 pull_zephyr
-wait_for_apt
+# wait_for_apt
+
+ps aux | grep apt
+ps aux | grep dpkg
 
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
