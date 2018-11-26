@@ -47,12 +47,6 @@
     },
     {
       "type": "shell",
-      "inline": [
-        "sudo systemctl disable apt-daily.timer"
-      ]
-    },
-    {
-      "type": "shell",
       "script": "codeRefresh.sh",
       "environment_vars": [
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
