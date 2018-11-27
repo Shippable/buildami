@@ -2132,7 +2132,7 @@ jobs:
                 - SSH_USER: "root"
                 - IMG_VER: "v6.11.4"
           script:
-            - *regular_final
+            - *onetime_final
     on_success:
       script:
         - *final_on_success_template
