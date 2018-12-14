@@ -47,11 +47,6 @@
     },
     {
       "type": "shell",
-      "script": "additionalPackages.sh",
-      "execute_command": "echo 'packer' | sudo -S env {{ .Vars }} {{ .Path }}"
-    },
-    {
-      "type": "shell",
       "script": "codeRefresh.sh",
       "environment_vars": [
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
@@ -76,6 +71,11 @@
       "environment_vars": [
         "IMG_VER={{user `IMG_VER`}}"
       ]
+    },
+    {
+      "type": "shell",
+      "script": "additionalPackages.sh",
+      "execute_command": "echo 'packer' | sudo -S env {{ .Vars }} {{ .Path }}"
     }
   ]
 }
