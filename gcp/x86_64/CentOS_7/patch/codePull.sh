@@ -79,8 +79,10 @@ __add_ssh_user() {
       sudo usermod -aG $group $SSH_DEBUG_USER
     fi
   done
-  sudo mkdir -p /home/$SSH_DEBUG_USER/.ssh/authorized_keys
-  sudo chmod 600 /home/$SSH_DEBUG_USER/.ssh/authorized_keys
+  sudo su -s "/bin/bash" -c "mkdir -p /home/$SSH_DEBUG_USER/.ssh" -l $SSH_DEBUG_USER
+  sudo su -s "/bin/bash" -c "chmod 700 /home/$SSH_DEBUG_USER/.ssh" -l $SSH_DEBUG_USER
+  sudo su -s "/bin/bash" -c "touch /home/$SSH_DEBUG_USER/.ssh/authorized_keys" -l $SSH_DEBUG_USER
+  sudo su -s "/bin/bash" -c "chmod 600 /home/$SSH_DEBUG_USER/.ssh/authorized_keys" -l $SSH_DEBUG_USER
 }
 
 __process_msg "Adding ssh-user $SSH_DEBUG_USER"
