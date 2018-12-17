@@ -77,6 +77,9 @@ exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
 __process_msg "installing wget"
 exec_cmd "sudo yum -y install wget"
 
+__process_msg "installing rng-tools"
+exec_cmd "sudo yum -y install rng-tools-6.3.1-3.el7"
+
 __process_msg "downloading node scripts tarball"
 exec_cmd "wget '$NODE_DOWNLOAD_URL' -O $NODE_SCRIPTS_TMP_LOC"
 
