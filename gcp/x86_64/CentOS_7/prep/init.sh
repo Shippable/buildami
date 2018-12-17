@@ -68,10 +68,8 @@ check_envs
 __process_msg "adding dns settings to the node"
 exec_cmd "echo 'supersede domain-name-servers 8.8.8.8, 8.8.4.4;' >> /etc/dhcp/dhclient.conf"
 
-if ! groups $SSH_USERNAME | cut -d':' -f 2 | grep "google-sudoers" &> /dev/null; then
-  __process_msg "adding su perms to ssh user $SSH_USERNAME"
-  exec_cmd "sudo usermod -aG google-sudoers $SSH_USERNAME"
-fi
+__process_msg "adding su perms to ssh user $SSH_USERNAME"
+exec_cmd "sudo usermod -aG google-sudoers $SSH_USERNAME"
 
 __process_msg "creating node scripts dir"
 exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
