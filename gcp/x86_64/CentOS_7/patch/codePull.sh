@@ -71,5 +71,18 @@ __process_error() {
   echo -e "     $error"
 }
 
+export SSH_DEBUG_USER="centos-debug"
+__add_ssh_user() {
+  sudo useradd $SSH_DEBUG_USER
+  for group in `groups $SSH_USERNAME | cut -d':' -f 2`; do
+    if [ "$group" != "$SSH_USERNAME" ]; then
+      sudo usermod -aG $group $SSH_DEBUG_USER
+    fi
+  done
+}
+
+__process_msg "Adding ssh-user $SSH_DEBUG_USER"
+exec_grp "__add_ssh_user"
+
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
