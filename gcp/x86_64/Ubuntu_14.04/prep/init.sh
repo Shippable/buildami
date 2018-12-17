@@ -68,6 +68,9 @@ check_envs
 __process_msg "adding dns settings to the node"
 exec_cmd "echo 'supersede domain-name-servers 8.8.8.8, 8.8.4.4;' >> /etc/dhcp/dhclient.conf"
 
+__process_msg "installing rng-tools"
+exec_cmd "apt-get install -y rng-tools=4-0ubuntu2.1"
+
 __process_msg "creating node scripts dir"
 exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
 
