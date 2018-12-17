@@ -76,7 +76,8 @@
         "ARCHITECTURE={{user `ARCHITECTURE`}}",
         "OS={{user `OS`}}",
         "DOCKER_VER={{user `DOCKER_VER`}}",
-        "NODE_DOWNLOAD_URL={{user `NODE_DOWNLOAD_URL`}}"
+        "NODE_DOWNLOAD_URL={{user `NODE_DOWNLOAD_URL`}}",
+        "SSH_USERNAME={{ user `ssh_username`}}",
       ],
       "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'"
     },
