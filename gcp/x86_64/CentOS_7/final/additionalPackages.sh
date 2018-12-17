@@ -24,7 +24,7 @@ before_exit() {
 
 install_rngtools() {
   __process_msg "installing rng-tools for entropy"
-  apt-get install -y rng-tools=4-0ubuntu2.1
+  yum install -y rng-tools-6.3.1-3.el7
 }
 
 __process_marker "installing additional packages"
