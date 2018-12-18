@@ -74,9 +74,6 @@ exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
 __process_msg "installing wget"
 exec_cmd "sudo yum -y install wget"
 
-__process_msg "installing rng-tools"
-exec_cmd "sudo yum -y install rng-tools"
-
 __process_msg "downloading node scripts tarball"
 exec_cmd "wget '$NODE_DOWNLOAD_URL' -O $NODE_SCRIPTS_TMP_LOC"
 
@@ -85,3 +82,6 @@ exec_cmd "tar -xzvf '$NODE_SCRIPTS_TMP_LOC' -C $NODE_SCRIPTS_LOCATION --strip-co
 
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
+
+__process_msg "installing rng-tools"
+exec_cmd "sudo yum -y install rng-tools"
