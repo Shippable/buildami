@@ -68,8 +68,9 @@ check_envs
 __process_msg "adding dns settings to the node"
 exec_cmd "echo 'supersede domain-name-servers 8.8.8.8, 8.8.4.4;' >> /etc/dhcp/dhclient.conf"
 
-__process_msg "adding su perms to ssh user $SSH_USERNAME"
-exec_cmd "sudo usermod -aG google-sudoers $SSH_USERNAME"
+__process_msg "adding passwordless sudo to $SSH_USERNAME user"
+passwordless_sudo_cmd="echo \"%$SSH_USERNAME ALL=(ALL:ALL) NOPASSWD:ALL\" > /etc/sudoers.d/$SSH_USERNAME"
+sudo su -s "/bin/bash" -c "$passwordless_sudo_cmd" -
 
 __process_msg "creating node scripts dir"
 exec_cmd "mkdir -p $NODE_SCRIPTS_LOCATION"
