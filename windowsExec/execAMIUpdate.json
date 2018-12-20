@@ -36,6 +36,12 @@
   ],
   "provisioners": [
     {
+      "type": "powershell",
+      "inline": [
+        "Start-Sleep -Seconds 600"
+      ]
+    },
+    {
       "type": "file",
       "source": "images.txt",
       "destination": "images.txt"
