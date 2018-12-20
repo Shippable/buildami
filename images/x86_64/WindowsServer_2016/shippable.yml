@@ -754,3 +754,171 @@ jobs:
         - shipctl put_resource_state_multi $env:JOB_NAME "updateAmiId=$env:UPDATE_AMI_ID"
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt
+
+  - name: v694_w2k16_aws
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    runtime:
+      nodePool: w2k16_cache
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: windowsbaseami_params
+        switch: off
+      - IN: windowsbaseami_winrm_keys
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: ami_bits_access_cli
+        switch: off
+      - IN: node_repo_file_tag
+      - IN: reqKick_repo_file_tag
+      - IN: w2k16reqProc_dd_tag
+      - TASK:
+          runtime:
+              options:
+                imageName: drydock/w16
+                imageTag: v6.12.4
+                env:
+                  - UPDATE_AMI_ID: ami-083fef020e90770a4
+                  - UPDATE_AMI_VERSION: v6.9.4
+                  - AMI_TYPE: v694
+          script:
+            - pushd "$(shipctl get_resource_state "buildami_repo")/windowsExec"
+            - $env:AWS_ACCESS_KEY_ID = $(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
+            - $env:AWS_SECRET_ACCESS_KEY = $(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
+            - $env:AMI_ID = $env:UPDATE_AMI_ID
+            - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
+            - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
+            - shipctl replace bootstrap_win.txt vars.json
+            - |
+              $vars_content = Get-Content .\vars.json
+              $vars_path = (Get-ChildItem .\vars.json).FullName
+              [IO.File]::WriteAllLines($vars_path, $vars_content)
+            - |
+              $bootstrap_content = get-content .\bootstrap_win.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
+            - packer validate -var-file="vars.json" execAMIUpdate.json
+            - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
+            - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
+            - popd
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME"
+        - shipctl put_resource_state_multi $env:JOB_NAME "updateAmiId=$env:UPDATE_AMI_ID"
+    on_failure:
+      - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt
+
+  - name: v6104_w2k16_aws
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    runtime:
+      nodePool: w2k16_cache
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: windowsbaseami_params
+        switch: off
+      - IN: windowsbaseami_winrm_keys
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: ami_bits_access_cli
+        switch: off
+      - IN: node_repo_file_tag
+      - IN: reqKick_repo_file_tag
+      - IN: w2k16reqProc_dd_tag
+      - TASK:
+          runtime:
+              options:
+                imageName: drydock/w16
+                imageTag: v6.12.4
+                env:
+                  - UPDATE_AMI_ID: ami-0e82d65e0b8bbe37c
+                  - UPDATE_AMI_VERSION: v6.10.4
+                  - AMI_TYPE: v6104
+          script:
+            - pushd "$(shipctl get_resource_state "buildami_repo")/windowsExec"
+            - $env:AWS_ACCESS_KEY_ID = $(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
+            - $env:AWS_SECRET_ACCESS_KEY = $(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
+            - $env:AMI_ID = $env:UPDATE_AMI_ID
+            - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
+            - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
+            - shipctl replace bootstrap_win.txt vars.json
+            - |
+              $vars_content = Get-Content .\vars.json
+              $vars_path = (Get-ChildItem .\vars.json).FullName
+              [IO.File]::WriteAllLines($vars_path, $vars_content)
+            - |
+              $bootstrap_content = get-content .\bootstrap_win.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
+            - packer validate -var-file="vars.json" execAMIUpdate.json
+            - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
+            - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
+            - popd
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME"
+        - shipctl put_resource_state_multi $env:JOB_NAME "updateAmiId=$env:UPDATE_AMI_ID"
+    on_failure:
+      - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt
+
+  - name: v6124_w2k16_aws
+    type: runSh
+    dependencyMode: strict
+    triggerMode: parallel
+    runtime:
+      nodePool: w2k16_cache
+    steps:
+      - IN: buildami_repo
+        switch: off
+      - IN: windowsbaseami_params
+        switch: off
+      - IN: windowsbaseami_winrm_keys
+        switch: off
+      - IN: prod_release
+        switch: off
+      - IN: ami_bits_access_cli
+        switch: off
+      - IN: node_repo_file_tag
+      - IN: reqKick_repo_file_tag
+      - IN: w2k16reqProc_dd_tag
+      - TASK:
+          runtime:
+              options:
+                imageName: drydock/w16
+                imageTag: v6.12.4
+                env:
+                  - UPDATE_AMI_ID: ami-0ef9a245c5a94cb33
+                  - UPDATE_AMI_VERSION: v6.12.4
+                  - AMI_TYPE: v6124
+          script:
+            - pushd "$(shipctl get_resource_state "buildami_repo")/windowsExec"
+            - $env:AWS_ACCESS_KEY_ID = $(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
+            - $env:AWS_SECRET_ACCESS_KEY = $(shipctl get_integration_resource_field ami_bits_access_cli "secretKey")
+            - $env:AMI_ID = $env:UPDATE_AMI_ID
+            - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
+            - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
+            - shipctl replace bootstrap_win.txt vars.json
+            - |
+              $vars_content = Get-Content .\vars.json
+              $vars_path = (Get-ChildItem .\vars.json).FullName
+              [IO.File]::WriteAllLines($vars_path, $vars_content)
+            - |
+              $bootstrap_content = get-content .\bootstrap_win.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
+            - packer validate -var-file="vars.json" execAMIUpdate.json
+            - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
+            - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
+            - popd
+    on_success:
+      script:
+        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME"
+        - shipctl put_resource_state_multi $env:JOB_NAME "updateAmiId=$env:UPDATE_AMI_ID"
+    on_failure:
+      - script: cat /build/IN/buildami_repo/gitRepo/windowsExec/output.txt
