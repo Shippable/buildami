@@ -404,7 +404,7 @@ jobs:
             - $env:AMI_ID=$env:SOURCE_AMI
             - $env:REL_VER=$(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER=($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_fresh.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -459,7 +459,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -514,7 +514,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -570,7 +570,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -625,7 +625,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -680,7 +680,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -735,7 +735,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -791,7 +791,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -847,7 +847,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
@@ -903,7 +903,7 @@ jobs:
             - $env:AMI_ID = $env:UPDATE_AMI_ID
             - $env:REL_VER = $(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER = ($env:REL_VER).replace(".", "-")
-            - shipctl replace bootstrap_win.txt vars.json
+            - shipctl replace bootstrap_win_update.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
               $vars_path = (Get-ChildItem .\vars.json).FullName
