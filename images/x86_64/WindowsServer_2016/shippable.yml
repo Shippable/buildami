@@ -396,7 +396,7 @@ jobs:
           runtime:
             options:
               imageName: drydock/w16
-              imageTag: v6.5.4
+              imageTag: v6.12.4
           script:
             - pushd "$(shipctl get_resource_state "buildami_repo")/windowsExec"
             - $env:AWS_ACCESS_KEY_ID=$(shipctl get_integration_resource_field ami_bits_access_cli "accessKey")
