@@ -19,7 +19,7 @@
       "source_ami": "{{user `AMI_ID`}}",
       "ami_name": "windowsexec-ami-{{user `REL_DASH_VER`}}-{{isotime \"1504\"}}",
       "ami_groups": "all",
-      "user_data_file": "./bootstrap_win.txt",
+      "user_data_file": "./bootstrap_win_fresh.txt",
       "communicator": "winrm",
       "winrm_username": "{{ user `WINRM_USERNAME` }}",
       "winrm_password": "{{ user `WINRM_PASSWORD` }}",
