@@ -280,7 +280,7 @@ jobs:
       script:
         - shipctl put_resource_state_multi $JOB_NAME "versionName=${REL_VER}" "TAG_COMMIT_SHA=${REPO_COMMIT}" "TAG_IMG=${REL_VER}"
 
- 
+
 
 ### AWS
   - name: windowsbaseami_prep
@@ -410,8 +410,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_fresh.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_fresh.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIFresh.json
             - packer build -machine-readable -var-file="vars.json" execAMIFresh.json 2>&1 | tee-object output.txt
@@ -465,8 +465,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
@@ -520,8 +520,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
@@ -576,8 +576,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
@@ -631,8 +631,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
@@ -686,8 +686,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
@@ -741,8 +741,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
@@ -797,8 +797,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
@@ -853,8 +853,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
@@ -909,8 +909,8 @@ jobs:
               $vars_path = (Get-ChildItem .\vars.json).FullName
               [IO.File]::WriteAllLines($vars_path, $vars_content)
             - |
-              $bootstrap_content = get-content .\bootstrap_win.txt
-              $bootstrap_path = (Get-ChildItem .\bootstrap_win.txt).FullName
+              $bootstrap_content = get-content .\bootstrap_win_update.txt
+              $bootstrap_path = (Get-ChildItem .\bootstrap_win_update.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
             - packer validate -var-file="vars.json" execAMIUpdate.json
             - packer build -machine-readable -var-file="vars.json" execAMIUpdate.json 2>&1 | tee-object output.txt
