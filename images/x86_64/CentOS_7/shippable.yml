@@ -450,6 +450,7 @@ jobs:
       - ship_ssh
     steps:
       - IN: prod_release
+      - IN: drydock_release
       - IN: c7_dd_repo
         switch: off
       - IN: c7_dd_img
@@ -459,7 +460,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "c7_dd_img"
                 - RES_REPO: "c7_dd_repo"
           script:
