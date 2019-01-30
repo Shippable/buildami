@@ -2188,9 +2188,7 @@ jobs:
     on_failure:
       script:
         - *final_on_failure_template
-
-
-
+        
 #### AWS
   - name: baseami_prep
     type: runSh
