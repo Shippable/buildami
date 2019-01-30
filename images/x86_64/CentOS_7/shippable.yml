@@ -1306,7 +1306,7 @@ jobs:
                 - SSH_USER: "centos"
                 - IMG_VER: "v6.12.4"
           script:
-            - *onetime_final
+            - *regular_final
     on_success:
       script:
         - *final_on_success_template
