@@ -1363,7 +1363,6 @@ jobs:
       script:
         - *final_on_failure_template
 
-
 ### AWS
   - name: c7baseami_prep
     type: runSh
