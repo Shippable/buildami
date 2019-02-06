@@ -70,5 +70,13 @@ __process_error() {
   echo -e "     $error"
 }
 
+wait_for_apt() {
+  __process_msg "checking for the apt resource"
+  time (while ps -opid= -C apt.systemd.daily > /dev/null; do sleep 1m; echo 'waiting for apt resource to get free'; done);
+}
+
+__process_msg "Waiting for apt resource"
+wait_for_apt
+
 __process_msg "Initializing node"
 source "$NODE_SCRIPTS_LOCATION/initScripts/$NODE_ARCHITECTURE/$NODE_OPERATING_SYSTEM/$INIT_SCRIPT_NAME"
