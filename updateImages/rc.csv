@@ -1,5 +1,6 @@
 system_machine_image_name,builder_resource_name,prefix
 Google Cloud - Ubuntu 14.04 - Master,patch_u14_x8664_gce_img,ship-bits/
+Google Cloud - Ubuntu 14.04 - v7.1.4,v714_u14_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 14.04 - v6.12.4,v6124_u14_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 14.04 - v6.10.4,v6104_u14_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 14.04 - v6.9.4,v694_u14_x8664_gce_img,ship-bits/
@@ -14,6 +15,7 @@ Google Cloud - Ubuntu 14.04 - v6.1.4,v614_u14_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 14.04 - v5.10.4,v5104_u14_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 14.04 - v5.8.2,v582_u14_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 16.04 - Master,patch_u16_x8664_gce_img,ship-bits/
+Google Cloud - Ubuntu 16.04 - v7.1.4,v714_u16_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 16.04 - v6.12.4,v6124_u16_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 16.04 - v6.10.4,v6104_u16_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 16.04 - v6.9.4,v694_u16_x8664_gce_img,ship-bits/
@@ -24,6 +26,7 @@ Google Cloud - Ubuntu 16.04 - v6.5.4,v654_u16_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 16.04 - v6.4.4,v644_u16_x8664_gce_img,ship-bits/
 Google Cloud - Ubuntu 16.04 - v6.3.4,v634_u16_x8664_gce_img,ship-bits/
 Google Cloud - CentOS 7 - Master,patch_c7_x8664_gce_img,ship-bits/
+Google Cloud - CentOS 7 - v7.1.4,v714_c7_x8664_gce_img,ship-bits/
 Google Cloud - CentOS 7 - v6.12.4,v6124_c7_x8664_gce_img,ship-bits/
 Google Cloud - CentOS 7 - v6.10.4,v6104_c7_x8664_gce_img,ship-bits/
 Google Cloud - CentOS 7 - v6.9.4,v694_c7_x8664_gce_img,ship-bits/
@@ -33,6 +36,7 @@ Google Cloud - CentOS 7 - v6.6.4,v664_c7_x8664_gce_img,ship-bits/
 Google Cloud - CentOS 7 - v6.5.4,v654_c7_x8664_gce_img,ship-bits/
 Google Cloud - CentOS 7 - v6.4.4,v644_c7_x8664_gce_img,ship-bits/
 Google Cloud - CentOS 7 - v6.3.4,v634_c7_x8664_gce_img,ship-bits/
+AWS - Ubuntu 14.04 - v7.1.4,v714_update,
 AWS - Ubuntu 14.04 - v6.12.4,v6124_update,
 AWS - Ubuntu 14.04 - v6.10.4,v6104_update,
 AWS - Ubuntu 14.04 - v6.9.4,v694_update,
@@ -51,6 +55,7 @@ AWS - Ubuntu 14.04 - v5.6.1,v561_update,
 AWS - Ubuntu 14.04 - v5.5.1,v551_update,
 AWS - Ubuntu 14.04 - v5.4.1,v541_update,
 AWS - Ubuntu 14.04 - v5.3.2,v532_update,
+AWS - Ubuntu 16.04 - v7.1.4,u16_v714_update,
 AWS - Ubuntu 16.04 - v6.12.4,u16_v6124_update,
 AWS - Ubuntu 16.04 - v6.10.4,u16_v6104_update,
 AWS - Ubuntu 16.04 - v6.9.4,u16_v694_update,
@@ -60,6 +65,7 @@ AWS - Ubuntu 16.04 - v6.6.4,u16_v664_update,
 AWS - Ubuntu 16.04 - v6.5.4,u16_v654_update,
 AWS - Ubuntu 16.04 - v6.4.4,u16_v644_update,
 AWS - Ubuntu 16.04 - v6.3.4,u16_v634_update,
+AWS - CentOS 7 - v7.1.4,c7_v714_update,
 AWS - CentOS 7 - v6.12.4,c7_v6124_update,
 AWS - CentOS 7 - v6.10.4,c7_v6104_update,
 AWS - CentOS 7 - v6.9.4,c7_v694_update,
