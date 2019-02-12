@@ -1775,7 +1775,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")
             - cd c7Exec
-            - ./execPackUpdate.sh c7_v714_update prod_release ami-04618fa37f5e87eef v714 ami_bits_access
+            - ./execPackUpdate.sh c7_v714_update prod_release ami-06a2a69a4990d955f v714 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/c7Exec/output.txt

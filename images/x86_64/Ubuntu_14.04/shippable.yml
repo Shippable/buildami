@@ -2960,7 +2960,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")
             - cd exec
-            - ./execPackUpdate.sh v714_update prod_release ami-0aa246ce66fef6d9e v714 ami_bits_access
+            - ./execPackUpdate.sh v714_update prod_release ami-0e54ff1f864ee2aaa v714 ami_bits_access
             - popd
     on_failure:
       - script: cat /build/IN/buildami_repo/gitRepo/exec/output.txt
