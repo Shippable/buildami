@@ -14,6 +14,9 @@ $NODE_DOWNLOAD_URL = "http://shippable-artifacts.s3.amazonaws.com/node/${SHIPPAB
 $REQKICK_DOWNLOAD_URL = "http://shippable-artifacts.s3.amazonaws.com/reqKick/${SHIPPABLE_RELEASE_VERSION}/reqKick-${SHIPPABLE_RELEASE_VERSION}.zip"
 $SHIPPABLE_FIREWALL_RULE_NAME = "shippable-docker"
 
+Write-Output "REL_VER is $env:REL_VER"
+Write-Output "SHIPPABLE_RELEASE_VERSION is ${SHIPPABLE_RELEASE_VERSION}"
+
 Function __process_msg([string] $msg) {
   echo "|___ $msg"
 }
