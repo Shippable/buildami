@@ -3,7 +3,7 @@ resources:
     type: params
     version:
       params:
-        SOURCE_AMI: "ami-050202fb72f001b47"
+        SOURCE_AMI: "ami-07a29e78aeb420471"
         REGION: "us-east-1"
 
   - name: windowsbaseami_winrm_keys
