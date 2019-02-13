@@ -449,7 +449,6 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
       - IN: drydock_release
       - IN: c7_dd_repo
         switch: off
