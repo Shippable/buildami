@@ -59,7 +59,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16_aarch32_dd_repo
         switch: off
       - IN: u16_aarch32_dd_img
@@ -71,7 +71,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16_aarch32_dd_img"
                 - RES_REPO: "u16_aarch32_dd_repo"
           script:
@@ -111,7 +111,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16microbase_aarch32_dd_repo
         switch: off
       - IN: u16microbase_aarch32_dd_img
@@ -121,7 +121,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16microbase_aarch32_dd_img"
                 - RES_REPO: "u16microbase_aarch32_dd_repo"
           script:
