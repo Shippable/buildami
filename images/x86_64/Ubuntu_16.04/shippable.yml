@@ -1494,6 +1494,8 @@ jobs:
         switch: off
       - IN: prod_release
         switch: off
+      - IN: drydock_release
+        switch: off
       - IN: u16baseami_params
         switch: off
       - IN: ami_bits_access
@@ -1502,7 +1504,7 @@ jobs:
           script:
             - pushd $(shipctl get_resource_state "buildami_repo")
             - cd u16Exec
-            - ./execPack.sh u16finalami_prep prod_release u16baseami_patch ami_bits_access
+            - ./execPack.sh u16finalami_prep prod_release u16baseami_patch ami_bits_access drydock_release
             - popd
     on_failure:
       - script: cat $(shipctl get_resource_state buildami_repo)/u16Exec/output.txt
