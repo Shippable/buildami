@@ -136,7 +136,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16microbase_aarch64_dd_repo
         switch: off
       - IN: u16microbase_aarch64_dd_img
@@ -146,7 +146,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16microbase_aarch64_dd_img"
                 - RES_REPO: "u16microbase_aarch64_dd_repo"
           script:
@@ -312,7 +312,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16_aarch64_dd_repo
         switch: off
       - IN: u16_aarch64_dd_img
@@ -322,7 +322,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16_aarch64_dd_img"
                 - RES_REPO: "u16_aarch64_dd_repo"
           script:
@@ -338,7 +338,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16all_aarch64_dd_repo
         switch: off
       - IN: u16all_aarch64_dd_img
@@ -348,7 +348,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16all_aarch64_dd_img"
                 - RES_REPO: "u16all_aarch64_dd_repo"
           script:
@@ -364,7 +364,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16nodall_aarch64_dd_repo
         switch: off
       - IN: u16nodall_aarch64_dd_img
@@ -374,7 +374,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16nodall_aarch64_dd_img"
                 - RES_REPO: "u16nodall_aarch64_dd_repo"
           script:
@@ -390,7 +390,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16pytall_aarch64_dd_repo
         switch: off
       - IN: u16pytall_aarch64_dd_img
@@ -400,7 +400,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16pytall_aarch64_dd_img"
                 - RES_REPO: "u16pytall_aarch64_dd_repo"
           script:
@@ -416,7 +416,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16cppall_aarch64_dd_repo
         switch: off
       - IN: u16cppall_aarch64_dd_img
@@ -426,7 +426,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16cppall_aarch64_dd_img"
                 - RES_REPO: "u16cppall_aarch64_dd_repo"
           script:
@@ -442,7 +442,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u16javall_aarch64_dd_repo
         switch: off
       - IN: u16javall_aarch64_dd_img
@@ -452,7 +452,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u16javall_aarch64_dd_img"
                 - RES_REPO: "u16javall_aarch64_dd_repo"
           script:
