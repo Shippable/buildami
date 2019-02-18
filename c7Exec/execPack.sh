@@ -74,7 +74,12 @@ build_ami() {
   echo "building AMI"
   echo "-----------------------------------"
 
-  if [ "$RES_REL_VER_NAME" == "$DRYDOCK_REL_VER_NAME" ]; then
+  #if [ "$RES_REL_VER_NAME" == "$DRYDOCK_REL_VER_NAME" ]; then
+
+  ## temporary change for testing
+  if [ "$RES_REL_VER_NAME" != "$DRYDOCK_REL_VER_NAME" ]; then
+    RES_REL_VER_NAME=$DRYDOCK_REL_VER_NAME
+    RES_REL_VER_NAME_DASH=$DRYDOCK_REL_VER_NAME_DASH
     packer build -machine-readable -var aws_access_key=$aws_access_key_id \
       -var aws_secret_key=$aws_secret_access_key \
       -var REGION=$REGION \
