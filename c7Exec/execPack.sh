@@ -20,7 +20,7 @@ export DRYDOCK_REL_VER_NAME_DASH=${DRYDOCK_REL_VER_NAME//./-}
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
-export CURR_JOB_VER=$(shipctl get_resource_version_name "$CURR_JOB")
+export CURR_JOB_ENV="$JOB_STATE/$CURR_JOB.env"
 
 set_context(){
   # now get the AWS keys
@@ -91,19 +91,18 @@ build_ami() {
 
     #this is to get the ami from output
     echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
+    | cut -d':' -f 2) > "$CURR_JOB_ENV"
 
-    echo "RES_REL_VER_NAME=$RES_REL_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$JOB_STATE/$CURR_JOB.env"
-    cat "$JOB_STATE/$CURR_JOB.env"
+    echo "RES_REL_VER_NAME=$RES_REL_VER_NAME" >> "$CURR_JOB_ENV"
+    echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH" >> "$CURR_JOB_ENV"
+    echo "RES_IMG_VER_NAME=$RES_IMG_VER_NAME" >> "$CURR_JOB_ENV"
+    echo "RES_IMG_VER_NAME_DASH=$RES_IMG_VER_NAME_DASH" >> "$CURR_JOB_ENV"
+    echo "IMAGE_NAMES_SPACED=$IMAGE_NAMES_SPACED" >> "$CURR_JOB_ENV"
+    cat "$CURR_JOB_ENV"
   else
     echo "SHIPPABLE_RELEASE not same as DRYDOCK_RELEASE, skipping Machine Image creation"
-    echo versionName=$CURR_JOB_VER > "$JOB_STATE/$CURR_JOB.env"
-    echo "RES_REL_VER_NAME=$RES_REL_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
-    cat "$JOB_STATE/$CURR_JOB.env"
+    shipctl copy_file_from_previous_state "$CURR_JOB.env" "$CURR_JOB_ENV"
+    cat "$CURR_JOB_ENV"
   fi
 }
 
