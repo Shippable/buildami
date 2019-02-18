@@ -101,7 +101,7 @@ build_ami() {
     cat "$CURR_JOB_ENV"
   else
     echo "SHIPPABLE_RELEASE not same as DRYDOCK_RELEASE, skipping Machine Image creation"
-    shipctl copy_file_from_previous_state "$CURR_JOB.env" "$CURR_JOB_ENV"
+    shipctl copy_file_from_prev_state "$CURR_JOB.env" "$CURR_JOB_ENV"
     cat "$CURR_JOB_ENV"
   fi
 }
