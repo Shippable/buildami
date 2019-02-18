@@ -20,6 +20,8 @@ export DRYDOCK_REL_VER_NAME_DASH=${DRYDOCK_REL_VER_NAME//./-}
 export RES_AWS_CREDS_UP=$(echo $RES_AWS_CREDS | awk '{print toupper($0)}')
 export RES_AWS_CREDS_INT=$RES_AWS_CREDS_UP"_INTEGRATION"
 
+export CURR_JOB_VER=$(shipctl get_resource_version_name "$CURR_JOB")
+
 set_context(){
   # now get the AWS keys
   export AWS_ACCESS_KEY_ID=$(eval echo "$"$RES_AWS_CREDS_INT"_ACCESSKEY")
@@ -99,10 +101,8 @@ build_ami() {
     cat "$JOB_STATE/$CURR_JOB.env"
   else
     echo "SHIPPABLE_RELEASE not same as DRYDOCK_RELEASE, skipping Machine Image creation"
-    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
-    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
+    echo versionName=$CURR_JOB_VER > "$JOB_STATE/$CURR_JOB.env"
     echo "RES_REL_VER_NAME=$RES_REL_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
-    echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
     cat "$JOB_STATE/$CURR_JOB.env"
   fi
 }
