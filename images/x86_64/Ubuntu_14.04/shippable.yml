@@ -486,7 +486,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14microbase_dd_repo
         switch: off
       - IN: u14microbase_dd_img
@@ -496,7 +496,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14microbase_dd_img"
                 - RES_REPO: "u14microbase_dd_repo"
           script:
@@ -512,7 +512,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14_dd_repo
         switch: off
       - IN: u14_dd_img
@@ -522,7 +522,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14_dd_img"
                 - RES_REPO: "u14_dd_repo"
           script:
@@ -538,7 +538,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14all_dd_repo
         switch: off
       - IN: u14all_dd_img
@@ -548,7 +548,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14all_dd_img"
                 - RES_REPO: "u14all_dd_repo"
           script:
@@ -564,7 +564,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14nodall_dd_repo
         switch: off
       - IN: u14nodall_dd_img
@@ -574,7 +574,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14nodall_dd_img"
                 - RES_REPO: "u14nodall_dd_repo"
           script:
@@ -590,7 +590,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14pytall_dd_repo
         switch: off
       - IN: u14pytall_dd_img
@@ -600,7 +600,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14pytall_dd_img"
                 - RES_REPO: "u14pytall_dd_repo"
           script:
@@ -616,7 +616,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14javall_dd_repo
         switch: off
       - IN: u14javall_dd_img
@@ -626,7 +626,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14javall_dd_img"
                 - RES_REPO: "u14javall_dd_repo"
           script:
@@ -642,7 +642,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14cppall_dd_repo
         switch: off
       - IN: u14cppall_dd_img
@@ -652,7 +652,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14cppall_dd_img"
                 - RES_REPO: "u14cppall_dd_repo"
           script:
@@ -668,7 +668,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14cloall_dd_repo
         switch: off
       - IN: u14cloall_dd_img
@@ -678,7 +678,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14cloall_dd_img"
                 - RES_REPO: "u14cloall_dd_repo"
           script:
@@ -694,7 +694,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14golall_dd_repo
         switch: off
       - IN: u14golall_dd_img
@@ -704,7 +704,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14golall_dd_img"
                 - RES_REPO: "u14golall_dd_repo"
           script:
@@ -720,7 +720,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14scaall_dd_repo
         switch: off
       - IN: u14scaall_dd_img
@@ -730,7 +730,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14scaall_dd_img"
                 - RES_REPO: "u14scaall_dd_repo"
           script:
@@ -746,7 +746,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14ruball_dd_repo
         switch: off
       - IN: u14ruball_dd_img
@@ -756,7 +756,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14ruball_dd_img"
                 - RES_REPO: "u14ruball_dd_repo"
           script:
@@ -772,7 +772,7 @@ jobs:
     integrations:
       - ship_ssh
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: u14phpall_dd_repo
         switch: off
       - IN: u14phpall_dd_img
@@ -782,7 +782,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "u14phpall_dd_img"
                 - RES_REPO: "u14phpall_dd_repo"
           script:
