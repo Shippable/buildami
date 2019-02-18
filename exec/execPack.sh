@@ -99,6 +99,11 @@ build_ami() {
     cat "$JOB_STATE/$CURR_JOB.env"
   else
     echo "SHIPPABLE_RELEASE not same as DRYDOCK_RELEASE, skipping Machine Image creation"
+    echo versionName=$(cat output.txt | awk -F, '$0 ~/artifact,0,id/ {print $6}' \
+    | cut -d':' -f 2) > "$JOB_STATE/$CURR_JOB.env"
+    echo "RES_REL_VER_NAME=$RES_REL_VER_NAME" >> "$JOB_STATE/$CURR_JOB.env"
+    echo "RES_REL_VER_NAME_DASH=$RES_REL_VER_NAME_DASH" >> "$JOB_STATE/$CURR_JOB.env"
+    cat "$JOB_STATE/$CURR_JOB.env"
   fi
 }
 
