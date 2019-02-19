@@ -151,7 +151,7 @@ jobs:
     triggerMode: parallel
     dependencyMode: strict
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: w2k16_dd_img
         switch: off
       - IN: w2k16_dd_repo
@@ -163,7 +163,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "w2k16_dd_img"
                 - RES_REPO: "w2k16_dd_repo"
                 - GIT_PATH: "git@github.com:dry-dock/w16.git"
@@ -202,7 +202,7 @@ jobs:
       nodePool: w2k16_cache
       container: false
     steps:
-      - IN: prod_release
+      - IN: drydock_release
       - IN: w2k16dotnetcore_dd_img
         switch: off
       - TASK:
@@ -210,7 +210,7 @@ jobs:
           runtime:
             options:
               env:
-                - RES_VER: "prod_release"
+                - RES_VER: "drydock_release"
                 - RES_IMG: "w2k16dotnetcore_dd_img"
           script:
             - $script:REL_VER=$(shipctl get_resource_version_key "$env:RES_VER" "versionName")
