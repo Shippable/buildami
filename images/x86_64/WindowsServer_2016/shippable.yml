@@ -392,6 +392,8 @@ jobs:
         switch: off
       - IN: prod_release
         switch: off
+      - IN: drydock_release
+        switch: off
       - TASK:
           runtime:
             options:
@@ -404,6 +406,7 @@ jobs:
             - $env:AMI_ID=$env:SOURCE_AMI
             - $env:REL_VER=$(shipctl get_resource_version_name prod_release)
             - $env:REL_DASH_VER=($env:REL_VER).replace(".", "-")
+            - $env:DRYDOCK_VER=$(shipctl get_resource_version_name drydock_release)
             - shipctl replace bootstrap_win_fresh.txt vars.json
             - |
               $vars_content = Get-Content .\vars.json
@@ -413,12 +416,20 @@ jobs:
               $bootstrap_content = get-content .\bootstrap_win_fresh.txt
               $bootstrap_path = (Get-ChildItem .\bootstrap_win_fresh.txt).FullName
               [IO.File]::WriteAllLines($bootstrap_path, $bootstrap_content)
-            - packer validate -var-file="vars.json" execAMIFresh.json
-            - packer build -machine-readable -var-file="vars.json" execAMIFresh.json 2>&1 | tee-object output.txt
-            - $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
+            - |
+              if($REL_VER -eq $DRYDOCK_VER) {
+                packer validate -var-file="vars.json" execAMIFresh.json
+                packer build -machine-readable -var-file="vars.json" execAMIFresh.json 2>&1 | tee-object output.txt
+                $env:IMAGE_NAME=$(Get-content .\output.txt | where-object { $_ -match "artifact,0,id" } | foreach-object { (($_ -split ",")[5] -split ':')[1] })
+              }else {
+                Write-Host "SHIPPABLE_RELEASE not same as DRYDOCK_RELEASE, skipping Machine Image creation"
+                #TODO: use shipctl copy_file_from_prev_state to source previous
+                #state env's and export them so that previous job state is
+                #persisted in case AMI creation is skipped
+              }
     on_success:
       script:
-        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME" "RES_REL_VER_NAME=$env:RES_REL_VER_NAME" "RES_REL_VER_NAME_DASH=$env:RES_REL_VER_NAME_DASH"
+        - shipctl put_resource_state_multi $env:JOB_NAME "versionName=$env:IMAGE_NAME" "RES_REL_VER_NAME=$env:REL_VER" "RES_REL_VER_NAME_DASH=$env:REL_DASH_VER"
     on_failure:
       script:
         - cat output.txt
