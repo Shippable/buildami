@@ -27,16 +27,16 @@ jobs:
                 - IMG_OUT: "distrobase_dd_img"
                 - RES_REPO: "distrobase_dd_repo"
           script:
-            - $script:REPO_COMMIT=$(shipctl get_resource_version_key "$env:RES_REPO" "shaData.commitSha")
-            - $script:IMG_NAME=$(shipctl get_resource_version_key "$env:IMG_OUT" "sourceName")
-            - $script:DH_USR_NAME=$(shipctl get_integration_resource_field "$env:IMG_OUT" "userName")
-            - $script:DH_PASS=$(shipctl get_integration_resource_field "$env:IMG_OUT" "password")
-            - pushd $(shipctl get_resource_state "$env:RES_REPO")
+            - export REPO_COMMIT=$(shipctl get_resource_version_key "$RES_REPO" "shaData.commitSha")
+            - export IMG_NAME=$(shipctl get_resource_version_key "$IMG_OUT" "sourceName")
+            - export DH_USR_NAME=$(shipctl get_integration_resource_field "$IMG_OUT" "userName")
+            - export DH_PASS=$(shipctl get_integration_resource_field "$IMG_OUT" "password")
+            - pushd $(shipctl get_resource_state "$RES_REPO")
             - ./build.sh
             - docker login -u "$DH_USR_NAME" -p "$DH_PASS"
-            - docker push "${IMG_NAME}:${env:REL_VER}"
+            - docker push "${IMG_NAME}:${REL_VER}"
       - OUT: distrobase_dd_img
     on_success:
       script:
-        - shipctl put_resource_state_multi "$env:JOB_NAME" "versionName=${env:REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
-        - shipctl put_resource_state_multi "$env:IMG_OUT" "versionName=${env:REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=${env:BUILD_NUMBER}"
+        - shipctl put_resource_state_multi "$JOB_NAME" "versionName=${REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT"
+        - shipctl put_resource_state_multi "$IMG_OUT" "versionName=${REL_VER}" "IMG_REPO_COMMIT_SHA=$REPO_COMMIT" "BUILD_NUMBER=${BUILD_NUMBER}"
